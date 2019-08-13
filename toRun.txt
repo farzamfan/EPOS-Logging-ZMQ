@@ -1,0 +1,18 @@
+###
+#Start DB
+pg_ctl -D /usr/local/var/postgres start
+
+#CheckDB
+cd /tmp
+sudo -u postgres psql
+
+#Launch the daemon 
+./start.daemon.sh deployments/localhost
+
+
+java -Dlocalhost -Xmx8192m -cp bin:lib/gson.jar:lib/jeromq4.jar:lib/* ⁨agent⁩.logging⁩.DBLogging.⁩PostgresPersistenceDaemon epos 5433 localhost 1000 10
+
+java -Dlocalhost -Xmx8192m -cp target/classes:lib/gson.jar:lib/jeromq4.jar:lib/* agent.logging.DBLogging.PostgresPersistenceDaemon epos 5433 localhost 1000 10
+
+java -Dlocalhost -Xmx8192m -cp target/classes:lib/gson.jar:lib/jeromq4.jar:lib/* agent.logging.DBLogging.PostgresPersistenceDaemon epos 5433 localhost 1000 10
+

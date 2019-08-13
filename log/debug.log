@@ -1,0 +1,12 @@
+[Aug 13 11:55:22] ERROR (TimerTask.java:21) - 
+java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+	at java.util.ArrayList.rangeCheck(ArrayList.java:657)
+	at java.util.ArrayList.get(ArrayList.java:433)
+	at agent.MultiObjectiveIEPOSAgent.initIteration(MultiObjectiveIEPOSAgent.java:264)
+	at agent.IterativeTreeAgent.doIfConditionToStartNewIterationIsMet(IterativeTreeAgent.java:144)
+	at agent.IterativeTreeAgent.runIteration(IterativeTreeAgent.java:122)
+	at agent.IterativeTreeAgent.lambda$runActiveState$0(IterativeTreeAgent.java:95)
+	at protopeer.time.Timer.fireTimerExpired(Timer.java:110)
+	at protopeer.time.TimerTask.run(TimerTask.java:19)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
