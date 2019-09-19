@@ -46,12 +46,13 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     final Random 							random 				= 		new Random();
 
     // logging
-    private final transient AgentLoggingProvider 		loggingProvider;
+    public final transient AgentLoggingProvider 		loggingProvider;
     transient Logger 									logger 				= 		Logger.getLogger(Agent.class.getName());
     
     // timings
     protected final int						bootstrapPeriod		=	3000;	//ms
     protected final int						activeStatePeriod	=	2000;	//ms
+    public boolean plansAreSet = false;
 
     // combinatorial optimization variables
     Plan<V> 								selectedPlan;
@@ -62,11 +63,11 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     final transient PlanCostFunction<V> 				localCostFunc;
 
     //For DBLogging
-    public transient PersistenceClient persistenceClient;
+    transient PersistenceClient persistenceClient;
 
     // logging stuff
     private int 							numTransmitted;
-    private int 							numComputed;
+    public int 							numComputed;
     private int 							cumTransmitted;
     private int 							cumComputed;
     
@@ -81,8 +82,8 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
      * @param localCostFunc the local cost function
      * @param loggingProvider the logger for the experiment
      */
-    public Agent(List<Plan<V>> possiblePlans, CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends Agent> loggingProvider) {
-        this.possiblePlans.addAll(possiblePlans);
+    public Agent(CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends Agent> loggingProvider) {
+//        this.possiblePlans.addAll(possiblePlans);
 //        if(localCostFunc != null) {
 //            this.possiblePlans.sort((plan1, plan2) -> (int)Math.signum(localCostFunc.calcCost(plan1) - localCostFunc.calcCost(plan2)));
 //        }
@@ -94,15 +95,13 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     /**
      * Initializes the agent with the given combinatorial optimization problem
      * definition
-     *
-     * @param possiblePlans the possible plans of this agent
-     * @param globalCostFunc the global cost function
+     *  @param globalCostFunc the global cost function
      * @param localCostFunc the local cost function
      * @param loggingProvider the logger for the experiment
      * @param seed the seed for the RNG used by this agent
      */
-    public Agent(List<Plan<V>> possiblePlans, CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends Agent> loggingProvider, long seed) {
-        this(possiblePlans, globalCostFunc, localCostFunc, loggingProvider);
+    public Agent(CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends Agent> loggingProvider, long seed) {
+        this(globalCostFunc, localCostFunc, loggingProvider);
         random.setSeed(seed);
     }
 
@@ -131,6 +130,12 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
 //        if( persistenceClient == null ) {return;}
         this.persistenceClient = persistenceClient;
         System.out.println("persistenceClient set");
+    }
+
+    public void addPlans(List<Plan<V>> possiblePlans){
+        this.possiblePlans.addAll(possiblePlans);
+        plansAreSet = true;
+        System.out.println("plans are set for:" +this.getPeer().getNetworkAddress());
     }
 
     public Plan getSelectedPlan() {
@@ -236,10 +241,8 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
 //    }
 
     private void initPhase() {
-        loggingProvider.init(this);
-        
+//        loggingProvider.init(this);
         this.log(Level.FINER, "initPhase()");
-
         numTransmitted = 0;
         numComputed = 0;
         cumTransmitted = 0;
@@ -248,22 +251,23 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
 
     abstract void runPhase();
 
-    private void scheduleMeasurements() {
+    abstract void scheduleMeasurements(); //{
 
 //        getPeer().getMeasurementLogger().addMeasurementLoggerListener((MeasurementLog log, int epochNumber) -> {
 //            loggingProvider.log(log, epochNumber, this);
 //        });
 //
-        getPeer().getMeasurementLogger().addMeasurementLoggerListener(new MeasurementLoggerListener()
-        {
-            public String getId() {
-                return "EPOS"; }
-
-            public void measurementEpochEnded(MeasurementLog log, int epochNumber){
-                log.log(epochNumber,this,numComputed);
-            }
-        });
-    }
+//        getPeer().getMeasurementLogger().addMeasurementLoggerListener(new MeasurementLoggerListener()
+//        {
+//            public String getId() {
+//                return "EPOS"; }
+//
+//            public void measurementEpochEnded(MeasurementLog log, int epochNumber){
+//                System.out.println("here now");
+//                log.log(epochNumber,this,numComputed);
+//            }
+//        });
+//    }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //																									BY JOVAN: //

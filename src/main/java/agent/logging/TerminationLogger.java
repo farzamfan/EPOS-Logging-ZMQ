@@ -119,15 +119,22 @@ public class TerminationLogger<V extends DataType<V>> extends AgentLogger<Agent<
 
             // only log when agent finishes iterating
             if (agent.getIteration() == agent.getNumIterations() - 1) {
-            	Token token = new Token(this.index, this.run);            
+                TerminationLogger.Token token = new TerminationLogger.Token(this.index, this.run);
                 log.log(epoch, TerminationLogger.class.getName(), token, 1.0);
+                DBLog(agent, token.terminalIteration);
+            }
+        }
+    }
 
-                LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
+    public void DBLog(Agent<V> agent, int iter){
+        if (agent.isRepresentative()) {
+            if (agent.getIteration() == agent.getNumIterations() - 1) {
+                LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
                 record.put("run", String.valueOf(1));
                 record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
-                record.put("termination", String.valueOf(token.terminalIteration));
-                agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "TerminationLogger", record ) );
-            }
+                record.put("termination", String.valueOf(iter));
+                agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("TerminationLogger", record));
+                }
         }
     }
 
@@ -190,7 +197,7 @@ public class TerminationLogger<V extends DataType<V>> extends AgentLogger<Agent<
     					   ", iteration: "	+ agent.getIteration()	+
     					   message);
     }
-    
+
     private class Token implements Comparable<Token> {
 		
 		public int terminalIteration;

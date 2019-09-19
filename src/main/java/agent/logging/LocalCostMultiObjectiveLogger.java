@@ -87,21 +87,27 @@ public class LocalCostMultiObjectiveLogger<V extends DataType<V>> extends AgentL
     @Override
     public void log(MeasurementLog log, int epoch, Agent<V> agent) {
     	MultiObjectiveIEPOSAgent moieposagent = (MultiObjectiveIEPOSAgent) agent;
-//    	if (moieposagent.isRoot()) {
+    	if (moieposagent.isRoot()) {
     		double discomfortSum = moieposagent.getGlobalDiscomfortSum();
     		int numAgents = moieposagent.getNumAgents();
             double cost = PlanSelectionOptimizationFunctionCollection.localCost(discomfortSum, numAgents);
             Token token = new Token(cost, agent.getIteration(), this.run);
             log.log(epoch, LocalCostMultiObjectiveLogger.class.getName(), token, 1.0);            
             log.log(epoch, LocalCostMultiObjectiveLogger.class.getName() + "raw", agent.getIteration(), cost);
+            DBLog(agent, cost);
+        }
+    }
 
-            LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
+    public void DBLog(Agent<V> agent, double cost){
+        MultiObjectiveIEPOSAgent moieposagent = (MultiObjectiveIEPOSAgent) agent;
+        if (moieposagent.isRoot()) {
+            LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
             record.put("run", String.valueOf(1));
             record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
             record.put("iteration", String.valueOf(agent.getIteration()));
-            record.put("cost", String.valueOf(cost) );
-            agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "LocalCostMultiObjectiveLogger", record ) );
-//        }
+            record.put("cost", String.valueOf(cost));
+            agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("LocalCostMultiObjectiveLogger", record));
+        }
     }
 
     @Override

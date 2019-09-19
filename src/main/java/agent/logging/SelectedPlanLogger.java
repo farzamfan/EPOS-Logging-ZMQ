@@ -40,6 +40,7 @@ public class SelectedPlanLogger<V extends DataType<V>> extends AgentLogger<Agent
      *
      * @param filename the output file
      */
+	public SelectedPlanLogger(){};
     public SelectedPlanLogger(String filename, int totalNumAgents) {
         this.filepath = filename;
         this.totalNumAgents = totalNumAgents;
@@ -53,18 +54,20 @@ public class SelectedPlanLogger<V extends DataType<V>> extends AgentLogger<Agent
 
 	@Override
 	public void log(MeasurementLog log, int epoch, Agent<V> agent) {
-		log.log(epoch, 
+    	log.log(epoch,
 				SelectedPlanLogger.class.getName(), 							// tag1
 				"ID-run" + this.run + "-agent" + agent.getPeer().getIndexNumber(), 	// tag2
 				agent.getIteration(), 											// tag3
 				agent.getSelectedPlanID());										// value
+	}
 
-        LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
-        record.put("run", String.valueOf(1));
-        record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
-        record.put("iteration", String.valueOf(agent.getIteration()));
-        record.put("planID", String.valueOf(agent.getSelectedPlanID()) );
-        agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "SelectedPlanLogger", record ) );
+	public void DBLog(Agent<V> agent){
+		LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
+		record.put("run", String.valueOf(1));
+		record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
+		record.put("iteration", String.valueOf(agent.getIteration()));
+		record.put("planID", String.valueOf(agent.getSelectedPlanID()) );
+		agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "SelectedPlanLogger", record ) );
 	}
 
 	@Override

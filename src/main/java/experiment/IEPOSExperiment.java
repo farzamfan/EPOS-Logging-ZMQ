@@ -153,7 +153,7 @@ public class IEPOSExperiment {
 				AgentLoggingProvider<ModifiableIeposAgent<Vector>> agentLP = loggingProvider
 						.getAgentLoggingProvider(agentIdx, simulationId);
 
-				ModifiableIeposAgent<Vector> newAgent = new ModifiableIeposAgent<Vector>(config, possiblePlans,
+				ModifiableIeposAgent<Vector> newAgent = new ModifiableIeposAgent<Vector>(config,
 						agentLP);
 
 				newAgent.setUnfairnessWeight(Double.parseDouble(config.weights[0]));

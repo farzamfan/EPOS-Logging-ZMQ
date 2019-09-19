@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Protopeer" />
         <module name="tutorial" />
+        <module name="EPOS-Logging-ZMQ" />
       </profile>
     </annotationProcessing>
   </component>

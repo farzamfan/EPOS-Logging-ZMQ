@@ -9,10 +9,12 @@ sudo -u postgres psql
 #Launch the daemon 
 ./start.daemon.sh deployments/localhost
 
+#run EPOS
+./launch_all.ch
 
-java -Dlocalhost -Xmx8192m -cp bin:lib/gson.jar:lib/jeromq4.jar:lib/* ⁨agent⁩.logging⁩.DBLogging.⁩PostgresPersistenceDaemon epos 5433 localhost 1000 10
+#kill EPOS
+PID=`ps -ef | grep tutorial | awk '{ print $2 }'`
+kill -9 $PID
 
-java -Dlocalhost -Xmx8192m -cp target/classes:lib/gson.jar:lib/jeromq4.jar:lib/* agent.logging.DBLogging.PostgresPersistenceDaemon epos 5433 localhost 1000 10
-
-java -Dlocalhost -Xmx8192m -cp target/classes:lib/gson.jar:lib/jeromq4.jar:lib/* agent.logging.DBLogging.PostgresPersistenceDaemon epos 5433 localhost 1000 10
-
+#all row counts in DB
+SELECT schemaname,relname,n_live_tup FROM pg_stat_user_tables ORDER BY n_live_tup DESC;

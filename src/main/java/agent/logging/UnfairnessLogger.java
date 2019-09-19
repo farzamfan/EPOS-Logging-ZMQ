@@ -28,7 +28,8 @@ public class UnfairnessLogger<V extends DataType<V>> extends AgentLogger<Agent<V
 	
 	private String filename;
 	private String sql_insert_template_custom;
-	
+
+	public UnfairnessLogger() {}
 	public UnfairnessLogger(String filename) {
 		this.filename = filename;
 	}
@@ -57,14 +58,20 @@ public class UnfairnessLogger<V extends DataType<V>> extends AgentLogger<Agent<V
 			Token token = new Token(unfairness, agent.getIteration(), this.run);            
             log.log(epoch, UnfairnessLogger.class.getName(), token, 1.0);  
 			log.log(epoch, UnfairnessLogger.class.getName()+"raw", moieposagent.getIteration(), unfairness);
-
-            LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
-            record.put("run", String.valueOf(1));
-            record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
-            record.put("iteration", String.valueOf(agent.getIteration()));
-            record.put("unfairness", String.valueOf(unfairness) );
-            agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "UnfairnessLogger", record ) );
+			DBLog(agent, unfairness);
 		}		
+	}
+
+	public void DBLog(Agent<V> agent, double unfairness){
+		MultiObjectiveIEPOSAgent moieposagent = (MultiObjectiveIEPOSAgent) agent;
+		if(moieposagent.isRoot()) {
+			LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
+			record.put("run", String.valueOf(1));
+			record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
+			record.put("iteration", String.valueOf(agent.getIteration()));
+			record.put("unfairness", String.valueOf(unfairness));
+			agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("UnfairnessLogger", record));
+		}
 	}
 
 	@Override

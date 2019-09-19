@@ -29,7 +29,9 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
 	
 	private String 				filepath;
 	private String sql_insert_template_custom;
-	
+
+	public GlobalComplexCostLogger(){ }
+
 	public GlobalComplexCostLogger(String filepath) {
 		this.filepath = filepath;
 	}
@@ -50,7 +52,7 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
 		
 		MultiObjectiveIEPOSAgent moagent = (MultiObjectiveIEPOSAgent) agent;
 		
-//		if (moagent.isRoot()) {
+		if (moagent.isRoot()) {
         	HashMap<OptimizationFactor, Object> parameters = new HashMap<OptimizationFactor, Object>();
             parameters.put(OptimizationFactor.GLOBAL_COST, agent.getGlobalCostFunction().calcCost(agent.getGlobalResponse()));
             parameters.put(OptimizationFactor.DISCOMFORT_SUM, moagent.getGlobalDiscomfortSum());
@@ -64,13 +66,28 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
             log.log(epoch, GlobalComplexCostLogger.class.getName(), token, 1.0);
             log.log(epoch, GlobalComplexCostLogger.class.getName()+"raw", agent.getIteration(), cost);
 
-            LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
-            record.put("run", String.valueOf(1));
-			record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
-            record.put("iteration", String.valueOf(agent.getIteration()));
-            record.put("cost", String.valueOf(cost) );
-            agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "globalComplexCostLogger", record ) );
-//        }
+            DBlog(agent);
+        }
+	}
+
+	public void DBlog(Agent<V> agent) {
+		LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
+
+		MultiObjectiveIEPOSAgent moagent = (MultiObjectiveIEPOSAgent) agent;
+		HashMap<OptimizationFactor, Object> parameters = new HashMap<OptimizationFactor, Object>();
+		parameters.put(OptimizationFactor.GLOBAL_COST, agent.getGlobalCostFunction().calcCost(agent.getGlobalResponse()));
+		parameters.put(OptimizationFactor.DISCOMFORT_SUM, moagent.getGlobalDiscomfortSum());
+		parameters.put(OptimizationFactor.DISCOMFORT_SUM_SQR, moagent.getGlobalDiscomfortSumSqr());
+		parameters.put(OptimizationFactor.ALPHA, moagent.getUnfairnessWeight());
+		parameters.put(OptimizationFactor.BETA, moagent.getLocalCostWeight());
+		parameters.put(OptimizationFactor.NUM_AGENTS, (double) Configuration.numAgents);
+		double cost = Configuration.planOptimizationFunction.apply(parameters);
+
+		record.put("run", String.valueOf(1));
+		record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
+		record.put("iteration", String.valueOf(agent.getIteration()));
+		record.put("cost", String.valueOf(cost) );
+		agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "globalComplexCostLogger", record ) );
 	}
 
 	@Override

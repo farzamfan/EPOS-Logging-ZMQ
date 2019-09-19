@@ -1,10 +1,14 @@
 package experiment;
 
 import agent.Agent;
+import agent.IterativeTreeAgent;
+import agent.TreeAgent;
 import agent.logging.AgentLoggingProvider;
 import agent.logging.instrumentation.CustomFormatter;
 import config.Configuration;
 import config.LiveConfiguration;
+import data.Plan;
+import data.Vector;
 import loggers.EventLog;
 import loggers.MemLog;
 import loggers.RawLog;
@@ -18,6 +22,7 @@ import treestructure.ModifiableTreeClient;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.function.Function;
 import java.util.logging.Handler;
 import java.util.logging.LogManager;
@@ -110,7 +115,7 @@ public class runEPOSLive extends ZMQExperiment {
                 newPeer.addPersistenceClient(persistenceClient, diasNetworkId);
                 Agent newAgent = createAgent.apply(myIndex);
                 newAgent.addPersistenceClient(persistenceClient);
-                architecture.addPeerlets(newPeer, newAgent, myIndex, 7);
+                architecture.addPeerlets(newPeer, newAgent, myIndex, config.numAgents);
 
                 return newPeer;
             }
@@ -128,7 +133,7 @@ public class runEPOSLive extends ZMQExperiment {
 
         Peer thisPeer = this.getPeers().elementAt(myIndex);
 
-        // finally, send Bootstrap hello
+        // send Bootstrap hello
         if (true) {
             System.out.println("Waiting before sending BootstrapHello");
             try {
@@ -139,5 +144,9 @@ public class runEPOSLive extends ZMQExperiment {
             }
             ((ModifiableTreeClient) thisPeer.getPeerletOfType(ModifiableTreeClient.class)).requestNewTreeView();
         }
+
+        //set plans
+        List<Plan<Vector>> possiblePlans =config.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(myIndex));
+//        ((Agent) thisPeer.getPeerletOfType(Agent.class)).addPlans(possiblePlans);
     }
 }

@@ -36,7 +36,8 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
      *
      * @param filename the output file
      */
-    public GlobalResponseVectorLogger(String filename) {
+	public GlobalResponseVectorLogger() { }
+	public GlobalResponseVectorLogger(String filename) {
         this.filepath = filename;
     }
 
@@ -52,17 +53,17 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
 			V globalResponse = agent.getGlobalResponse();
 			Entry<V> e = new Entry<V>(globalResponse.cloneThis(), agent.getIteration(), this.run);
 			log.log(epoch, GlobalResponseVectorLogger.class.getName(), e, 0.0);
-
-			DBlog(agent, e);
+			String gr = String.valueOf(e.globalResponse.toString())+"'";
+			DBlog(agent, gr);
 		}
 	}
 
-		public void DBlog(Agent<V> agent, Entry<V> e){
+		public void DBlog(Agent<V> agent, String gr){
 			LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
 			record.put("run", String.valueOf(1));
 			record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 			record.put("iteration", String.valueOf(agent.getIteration()));
-			record.put("globalresponse", "'"+String.valueOf(e.globalResponse.toString())+"'" );
+			record.put("globalresponse", "'"+gr );
 			agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "GlobalResponseVectorLogger", record ) );
         }
 

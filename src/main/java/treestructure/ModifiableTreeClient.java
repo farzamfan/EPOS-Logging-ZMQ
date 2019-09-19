@@ -5,6 +5,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
+import Communication.PlanSetMessage;
+import agent.Agent;
 import dsutil.protopeer.FingerDescriptor;
 import dsutil.protopeer.services.topology.trees.DescriptorType;
 import dsutil.protopeer.services.topology.trees.TreeMiddlewareInterface;
@@ -140,6 +142,9 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
     public void handleIncomingMessage(Message message) {
         if (message instanceof TreeViewReply) {
                 this.runPassiveState((TreeViewReply) message);
+        }
+        if (message instanceof PlanSetMessage){
+            ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans( ((PlanSetMessage) message).possiblePlans) ;
         }
     }
     

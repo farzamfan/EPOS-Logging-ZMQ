@@ -409,3 +409,5 @@ CREATE INDEX CONCURRENTLY msgs_seq_idx ON msgs USING BRIN(seq_id);
 CREATE INDEX CONCURRENTLY msgs_epoch_idx ON msgs USING BRIN(epoch);	
 CREATE INDEX CONCURRENTLY msgs_date_idx ON msgs USING BTREE (cast(dt as date));
 CREATE INDEX CONCURRENTLY msgs_msg_uuid ON msgs USING BTREE (msg_uuid);
+
+\c epos;

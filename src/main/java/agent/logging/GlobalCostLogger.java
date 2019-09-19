@@ -98,18 +98,20 @@ public class GlobalCostLogger<V extends DataType<V>> extends AgentLogger<Agent<V
             Token token = new Token(cost, agent.getIteration(), this.run);            
             log.log(epoch, GlobalCostLogger.class.getName(), token, 1.0);            
             log.log(epoch, GlobalCostLogger.class.getName() + "raw", agent.getIteration(), cost);
+            DBlog(agent,costFunction.calcCost(agent.getGlobalResponse()));
         }
-        DBlog(agent,costFunction.calcCost(agent.getGlobalResponse()));
     }
 
     public void DBlog(Agent<V> agent, double cost){
-        LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
-        record.put("run", String.valueOf(1));
-        record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
-        record.put("iteration", String.valueOf(agent.getIteration()));
-        record.put("cost", String.valueOf(cost) );
-        System.out.println(record);
-        agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "GlobalCostLogger", record ) );
+        if (agent.isRepresentative()) {
+            LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
+            record.put("run", String.valueOf(1));
+            record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
+            record.put("iteration", String.valueOf(agent.getIteration()));
+            record.put("cost", String.valueOf(cost));
+            System.out.println(record);
+            agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("GlobalCostLogger", record));
+        }
 
     }
 

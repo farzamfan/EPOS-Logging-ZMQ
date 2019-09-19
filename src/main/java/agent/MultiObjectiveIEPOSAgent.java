@@ -6,8 +6,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
-import agent.logging.AgentLoggingProvider;
+import agent.logging.*;
 import agent.planselection.MultiObjectiveIeposPlanSelector;
+import agent.planselection.PlanSelectionOptimizationFunctionCollection;
 import config.Configuration;
 import data.DataType;
 import data.Plan;
@@ -21,7 +22,10 @@ import org.zeromq.ZMQ;
 import pgpersist.PersistenceClient;
 import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
+import protopeer.measurement.MeasurementLog;
+import protopeer.measurement.MeasurementLoggerListener;
 import protopeer.network.zmq.SerialisedMessage;
+import sun.management.resources.agent;
 import sun.plugin2.message.Serializer;
 
 /**
@@ -67,22 +71,19 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
     /**
      * Creates a new IeposAgent. Using the same RNG seed will result in the same
      * execution order in a simulation environment.
-     *
-     * @param numIterations the number of iterations
-     * @param possiblePlans the plans this agent can choose from
+     *  @param numIterations the number of iterations
      * @param globalCostFunc the global cost function
      * @param localCostFunc the local cost function
      * @param loggingProvider the object that extracts data from the agent and
-     * writes it into its log.
+* writes it into its log.
      * @param seed a seed for the RNG
      */
-    public MultiObjectiveIEPOSAgent(int numIterations, 
-    								List<Plan<V>> possiblePlans, 
-    								CostFunction<V> globalCostFunc, 
-    								PlanCostFunction<V> localCostFunc, 
-    								AgentLoggingProvider<? extends MultiObjectiveIEPOSAgent<V>> loggingProvider, 
-    								long seed) {
-        super(numIterations, possiblePlans, globalCostFunc, localCostFunc, loggingProvider, seed);
+    public MultiObjectiveIEPOSAgent(int numIterations,
+                                    CostFunction<V> globalCostFunc,
+                                    PlanCostFunction<V> localCostFunc,
+                                    AgentLoggingProvider<? extends MultiObjectiveIEPOSAgent<V>> loggingProvider,
+                                    long seed) {
+        super(numIterations, globalCostFunc, localCostFunc, loggingProvider, seed);
         this.optimization = new Optimization(this.random);
         this.lambda = 0;
         this.alpha = 0;
@@ -208,6 +209,23 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         this.globalDiscomfortSumSqr	= 0;
         
 //        this.log(Level.FINER, "prevSelectedPlan's score is: " + this.prevSelectedPlan.getScore());
+    }
+
+     void scheduleMeasurements() {
+
+        getPeer().getMeasurementLogger().addMeasurementLoggerListener((MeasurementLog log, int epochNumber) -> {
+            loggingProvider.log(log, epochNumber, this);
+        });
+
+//         getPeer().getMeasurementLogger().addMeasurementLoggerListener(new MeasurementLoggerListener()
+//         {
+//            public String getId() {
+//                return "EPOS"; }
+//
+//            public void measurementEpochEnded(MeasurementLog log, int epochNumber){
+//                log.log(epochNumber,this,numComputed);
+//            }
+//        });
     }
 
     @Override
@@ -338,6 +356,14 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         this.updateGlobalDiscomfortScores(parentMsg);
         this.approveOrRejectChanges(parentMsg);
         this.processDownMessageMore(parentMsg);
+        new GlobalCostLogger().DBlog(this, globalCostFunc.calcCost(globalResponse));
+        new GlobalComplexCostLogger<>().DBlog((Agent) this);
+        new GlobalResponseVectorLogger<>().DBlog((Agent) this,globalResponse.toString()+"'");
+        new LocalCostMultiObjectiveLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.localCost(getGlobalDiscomfortSum(), numAgents));
+        new SelectedPlanLogger<>().DBLog((Agent) this);
+        if (globalResponse == prevAggregatedResponse){new TerminationLogger<>().DBLog((Agent) this,iteration);}
+        if (iteration != 0){
+        new UnfairnessLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.unfairness(getGlobalDiscomfortSum(), getGlobalDiscomfortSumSqr(), numAgents));}
         return this.informChildren();
     }
     

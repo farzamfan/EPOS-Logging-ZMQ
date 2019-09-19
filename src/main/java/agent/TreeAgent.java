@@ -43,21 +43,19 @@ public abstract class TreeAgent<V extends DataType<V>> extends Agent<V> implemen
      * @param loggingProvider the logger for the experiment
      */
     public TreeAgent(List<Plan<V>> possiblePlans, CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends TreeAgent<V>> loggingProvider) {
-        super(possiblePlans, globalCostFunc, localCostFunc, loggingProvider);
+        super(globalCostFunc, localCostFunc, loggingProvider);
     }
 
     /**
      * Initializes the agent with the given combinatorial optimization problem
      * definition
-     *
-     * @param possiblePlans the possible plans of this agent
-     * @param globalCostFunc the global cost function
+     *  @param globalCostFunc the global cost function
      * @param localCost the local cost function
      * @param loggingProvider the logger for the experiment
      * @param seed the seed for the RNG used by this agent
      */
-    public TreeAgent(List<Plan<V>> possiblePlans, CostFunction<V> globalCostFunc, PlanCostFunction<V> localCost, AgentLoggingProvider<? extends TreeAgent<V>> loggingProvider, long seed) {
-        super(possiblePlans, globalCostFunc, localCost, loggingProvider, seed);
+    public TreeAgent(CostFunction<V> globalCostFunc, PlanCostFunction<V> localCost, AgentLoggingProvider<? extends TreeAgent<V>> loggingProvider, long seed) {
+        super(globalCostFunc, localCost, loggingProvider, seed);
     }
 
     /**

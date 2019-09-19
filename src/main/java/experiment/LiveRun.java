@@ -110,9 +110,10 @@ public class LiveRun extends ZMQExperiment {
             Function<Integer, Agent> createAgent = agentIdx -> {
 
 //                List<Plan<Vector>> possiblePlans = dataset.getPlans(index);
-                List<Plan<Vector>> possiblePlans =config.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(agentIdx));
+//                List<Plan<Vector>> possiblePlans =config.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(agentIdx));
                 AgentLoggingProvider<ModifiableIeposAgent<Vector>> agentLP = loggingProvider.getAgentLoggingProvider(agentIdx, 1);
-                ModifiableIeposAgent<Vector> newAgent = new ModifiableIeposAgent<Vector>(config, possiblePlans, agentLP);
+//                ModifiableIeposAgent<Vector> newAgent = new ModifiableIeposAgent<Vector>(config, possiblePlans, agentLP);
+                ModifiableIeposAgent<Vector> newAgent = new ModifiableIeposAgent<Vector>(config, agentLP);
                 newAgent.setUnfairnessWeight(Double.parseDouble(config.weights[0]));
                 newAgent.setLocalCostWeight(Double.parseDouble(config.weights[1]));
                 newAgent.setPlanSelector(planSelector);

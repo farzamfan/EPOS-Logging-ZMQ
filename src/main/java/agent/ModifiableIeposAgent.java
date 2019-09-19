@@ -53,11 +53,11 @@ public class ModifiableIeposAgent<V extends DataType<V>> extends MultiObjectiveI
     
 
 	public ModifiableIeposAgent(Configuration config,								
-								List<Plan<V>> possiblePlans, 								
+//								List<Plan<V>> possiblePlans,
 								AgentLoggingProvider<? extends MultiObjectiveIEPOSAgent<V>> loggingProvider
 								) {
 		
-		super(Configuration.numIterations, possiblePlans, (CostFunction<V>) config.globalCostFunc, 
+		super(Configuration.numIterations, (CostFunction<V>) config.globalCostFunc,
 			  config.localCostFunc, loggingProvider, config.simulationRNG.nextLong());
 		this.state = AgentState.REORGANIZING;
 		this.shouldReorganize = false;

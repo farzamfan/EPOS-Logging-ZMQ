@@ -48,16 +48,14 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     /**
      * Initializes the agent with the given combinatorial optimization problem
      * definition
-     *
-     * @param numIterations number of iterations
-     * @param possiblePlans the possible plans of this agent
+     *  @param numIterations number of iterations
      * @param globalCostFunc the global cost function
      * @param localCostFunc the local cost function
      * @param loggingProvider the logger for the experiment
      * @param seed the seed for the RNG used by this agent
      */
-    public IterativeTreeAgent(int numIterations, List<Plan<V>> possiblePlans, CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends IterativeTreeAgent<V, UP, DOWN>> loggingProvider, long seed) {
-        super(possiblePlans, globalCostFunc, localCostFunc, loggingProvider, seed);
+    public IterativeTreeAgent(int numIterations, CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends IterativeTreeAgent<V, UP, DOWN>> loggingProvider, long seed) {
+        super(globalCostFunc, localCostFunc, loggingProvider, seed);
         this.numIterations = numIterations;
         // TODO: 09.08.19
         this.iteration = -1;
@@ -79,7 +77,8 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         Timer loadAgentTimer = getPeer().getClock().createNewTimer();
         loadAgentTimer.addTimerListener(new TimerListener() {
             public void timerExpired(Timer timer) {
-                if (treeViewIsSet){
+                if (treeViewIsSet && plansAreSet){
+                    System.out.println("tree view and plans are set for:" +getPeer().getNetworkAddress()+" ,moving to active state");
                     runActiveState();}
                 else runBootstrap();
             }
@@ -172,7 +171,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 goUp();
             }
         } else if (message instanceof DownMessage) {
-            System.out.println("received a down message from: "+message.getSourceAddress()+" i am: "+this.getPeer().getNetworkAddress());
+            System.out.println("received a down message from: "+message.getSourceAddress()+" i am: "+this.getPeer().getNetworkAddress()+" at iteration: "+iteration);
             goDown((DOWN) message);
         }
     }
@@ -218,7 +217,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 msg.cumComputed = this.getCumComputed();
                 this.setNumTransmitted(this.getNumTransmitted() + msg.getNumTransmitted());
                 this.setCumTransmitted(this.getCumTransmitted() + msg.getNumTransmitted());
-                System.out.println("sending the up message, I am: "+this.getPeer().getNetworkAddress()+" message goes to: "+parent.getNetworkAddress());
+                System.out.println("sending the up message, I am: "+this.getPeer().getNetworkAddress()+" at iteration: "+iteration+" message goes to: "+parent.getNetworkAddress());
                 getPeer().sendMessage(parent.getNetworkAddress(), msg);
             }
     }
