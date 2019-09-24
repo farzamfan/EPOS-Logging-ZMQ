@@ -5,6 +5,7 @@
  */
 package agent;
 
+import Communication.InformGateway;
 import afu.org.checkerframework.checker.oigj.qual.O;
 import agent.logging.GlobalCostLogger;
 import data.Plan;
@@ -27,12 +28,16 @@ import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
 import protopeer.BasePeerlet;
 import protopeer.Configuration;
+import protopeer.MainConfiguration;
 import protopeer.measurement.MeasurementLog;
 import protopeer.measurement.MeasurementLoggerListener;
+import protopeer.network.NetworkAddress;
+import protopeer.network.zmq.ZMQAddress;
 import protopeer.time.Timer;
 import protopeer.time.TimerListener;
 import protopeer.util.quantities.Time;
 import data.DataType;
+import sun.nio.ch.Net;
 
 /**
  * An agent that performs combinatorial optimization.
@@ -50,9 +55,11 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     transient Logger 									logger 				= 		Logger.getLogger(Agent.class.getName());
     
     // timings
-    protected final int						bootstrapPeriod		=	3000;	//ms
-    protected final int						activeStatePeriod	=	2000;	//ms
-    public boolean plansAreSet = false;
+    protected final int						bootstrapPeriod		=	100;	//ms
+    protected final int						activeStatePeriod	=	500;	//ms
+    protected final int						readyPeriod		=	8000;	//ms
+    public boolean                          plansAreSet = false;
+    public boolean                          readyToRun = false;
 
     // combinatorial optimization variables
     Plan<V> 								selectedPlan;
@@ -64,20 +71,22 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
 
     //For DBLogging
     transient PersistenceClient persistenceClient;
+    transient public NetworkAddress userAddress;
 
     // logging stuff
     private int 							numTransmitted;
-    public int 							numComputed;
+    public int 						    	numComputed;
     private int 							cumTransmitted;
     private int 							cumComputed;
     
     int										iterationAfterReorganization =	0;	// iteration at which reorganization was requested and executed
+    public boolean                          alreadyCleanedResponses = false;
 
     /**
      * Initializes the agent with the given combinatorial optimization problem
      * definition
      *
-     * @param possiblePlans the possible plans of this agent
+//     * @param possiblePlans the possible plans of this agent
      * @param globalCostFunc the global cost function
      * @param localCostFunc the local cost function
      * @param loggingProvider the logger for the experiment
@@ -136,6 +145,12 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
         this.possiblePlans.addAll(possiblePlans);
         plansAreSet = true;
         System.out.println("plans are set for:" +this.getPeer().getNetworkAddress());
+        ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
+        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "plansSet"));
+    }
+
+    public void setReadyToRun(){
+        this.readyToRun = true;
     }
 
     public Plan getSelectedPlan() {
@@ -284,7 +299,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     }
     
     public boolean isIterationAfterReorganization() {
-    	return this.getIteration() == 0;
+    	return (this.getIteration() == 0);
     }
     
     public int getNumReorganizations() {

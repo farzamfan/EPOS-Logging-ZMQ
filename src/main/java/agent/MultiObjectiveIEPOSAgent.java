@@ -240,13 +240,13 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
      * 		- all approvals are cleared
      */
     void initIteration() {
-    	this.log(Level.FINER, "MultiObjectiveIeposAgent::initIteration()");
+    	this.log(Level.FINER, "MultiObjectiveIeposAgent::initIteration()") ;
     	if(!this.isLeaf()) {
     		if(this.children.size() > 1) {
     			this.log(Level.FINER, "Children: " + this.children.get(0) + ", " + this.children.get(1));
     		}    		
     	}
-        if (this.conditionForInitializingIteration()) {
+        if (this.iteration > 0) {
         	
             this.prevSelectedPlan = this.selectedPlan;
             this.prevSelectedPlanID = this.selectedPlanID;
@@ -257,7 +257,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
             this.selectedPlan = null;
             this.aggregatedResponse.reset();
             this.subtreeResponses.clear();            
-            this.approvals.clear();            
+            this.approvals.clear();
             
             this.prevSubtreeDiscomfortSum.clear();
             this.prevSubtreeDiscomfortSum.addAll(this.subtreeDiscomfortSum);
@@ -296,6 +296,9 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         	this.log(Level.FINER, "globalDiscomfortSumSqr: " + this.globalDiscomfortSumSqr);
             
         } else {
+//            System.out.println("in the if clause i want for: "+getPeer().getNetworkAddress()+" "+iteration);
+//            for (int i=0;i<children.size();i++){prevSubtreeResponses.add(createValue());}
+//            System.out.println(prevSubtreeResponses);
         	this.initAtIteration0();
         }
     }
@@ -305,6 +308,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
     }
     
     void initAtIteration0() {
+        // TODO: 20.09.19
     }
 
     @Override
@@ -356,14 +360,16 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         this.updateGlobalDiscomfortScores(parentMsg);
         this.approveOrRejectChanges(parentMsg);
         this.processDownMessageMore(parentMsg);
+
         new GlobalCostLogger().DBlog(this, globalCostFunc.calcCost(globalResponse));
         new GlobalComplexCostLogger<>().DBlog((Agent) this);
         new GlobalResponseVectorLogger<>().DBlog((Agent) this,globalResponse.toString()+"'");
         new LocalCostMultiObjectiveLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.localCost(getGlobalDiscomfortSum(), numAgents));
         new SelectedPlanLogger<>().DBLog((Agent) this);
         if (globalResponse == prevAggregatedResponse){new TerminationLogger<>().DBLog((Agent) this,iteration);}
-        if (iteration != 0){
+        if (iteration > 0){
         new UnfairnessLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.unfairness(getGlobalDiscomfortSum(), getGlobalDiscomfortSumSqr(), numAgents));}
+
         return this.informChildren();
     }
     
@@ -381,11 +387,12 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
             for (int i = 0; i < this.children.size(); i++) {
                 approvals.add(true);
             }
+
         } else if (children.size() > 0) {
             List<List<V>> 			responsesPerChild			=	new ArrayList<>();
             List<List<Double>> 		discomfortSumPerChild		=	new ArrayList<>();
             List<List<Double>>		discomfortSumSqrPerChild	=	new ArrayList<>();
-            
+
             for (int i = 0; i < this.children.size(); i++) {
                 List<V> responseChoices = new ArrayList<>();
                 List<Double> discomfortSumChoices = new ArrayList<>();
@@ -625,7 +632,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         this.prevSubtreeDiscomfortSum.clear();
         this.prevSubtreeDiscomfortSumSqr.clear();
         
-        this.approvals.clear(); 	
+        this.approvals.clear();
         
         this.subtreeDiscomfortSum.clear();
         this.subtreeDiscomfortSumSqr.clear();

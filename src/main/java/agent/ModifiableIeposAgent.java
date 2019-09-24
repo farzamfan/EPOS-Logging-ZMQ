@@ -220,13 +220,19 @@ public class ModifiableIeposAgent<V extends DataType<V>> extends MultiObjectiveI
 		}		
 	}
 
-	@Override
-	/**
-	* WARNING: global response here is cloned, even though it wasn't done originally!
-	*/
-	DownMessage generateDownMessage(int i) {
-		return new ModifiableDownMessage(this.globalResponse.cloneThis(), this.approvals.get(i), this.globalDiscomfortSum, this.globalDiscomfortSumSqr, this.shouldReorganize());
-	}
+//	@Override
+//	/**
+//	* WARNING: global response here is cloned, even though it wasn't done originally!
+//	*/
+//	DownMessage generateDownMessage(int i) {
+//		System.out.println("DEBUG - i am " +getPeer().getNetworkAddress());
+//		System.out.println(this.globalResponse);
+//		System.out.println(approvals.get(i));
+//		System.out.println(this.globalDiscomfortSum);
+//		System.out.println(this.globalDiscomfortSumSqr);
+//		System.out.println("-------");
+//		return new ModifiableDownMessage(this.globalResponse.cloneThis(), this.approvals.get(i), this.globalDiscomfortSum, this.globalDiscomfortSumSqr, this.shouldReorganize());
+//	}
 
 	@Override
 	/**

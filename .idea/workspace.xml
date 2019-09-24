@@ -7,113 +7,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee422a33-45cd-4dc7-9195-4063a1a10a8a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/EPOS-Logging-ZMQ.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/PlanSetMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/SendPlans.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/tutorial_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/tutorial_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequestMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequester.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/InformGateway.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/InformUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/ReadyToRunMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/protopeer.conf" beforeDir="false" afterPath="$PROJECT_DIR$/conf/protopeer.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deployments/localhost/log/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/log/server.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/launch_all.sh" beforeDir="false" afterPath="$PROJECT_DIR$/launch_all.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565680843/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565680858/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565680968/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565680974/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565683722/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565683727/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565683828/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565683833/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565684193/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565684198/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565684373/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565684380/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565684500/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565684520/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565684906/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565684910/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565684963/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565684967/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565685049/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565685054/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565685093/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565685097/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565685210/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565685213/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565685368/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565685372/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565688133/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565688141/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565688188/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565688192/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565688962/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565688997/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689161/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689282/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689286/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689312/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689329/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689341/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689376/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689381/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689479/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689589/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689863/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689868/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689925/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565689929/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565690089/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/gaussian_1565690095/used_conf.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/definitions/create.database.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/definitions/create.database.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568891175/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568891459/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568891480/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568891538/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568891794/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568891815/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568897829/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898107/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898123/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898128/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898155/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898160/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898257/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898265/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898294/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898301/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898475/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568898482/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568901647/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568901670/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568901713/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568903114/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/gaussian_1568903121/used_conf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/PlanSetMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/PlanSetMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/SendPlans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/agent/Agent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/Agent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/agent/ModifiableIeposAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/ModifiableIeposAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/agent/TreeAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/TreeAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalComplexCostLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalComplexCostLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalCostLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalCostLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalResponseVectorLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalResponseVectorLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/LocalCostMultiObjectiveLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/LocalCostMultiObjectiveLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/SelectedPlanLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/SelectedPlanLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/TerminationLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/TerminationLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/UnfairnessLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/UnfairnessLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/experiment/IEPOSExperiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/experiment/IEPOSExperiment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/experiment/LiveRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/experiment/LiveRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/experiment/runEPOSLive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/experiment/runEPOSLive.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/treestructure/ModifiableTreeClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/treestructure/ModifiableTreeClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/Agent$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/PlanSetMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/PlanSetMessage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/SendPlans$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/SendPlans.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/Agent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/Agent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$DownMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$DownMessage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$UpMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$UpMessage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/ModifiableIeposAgent$ModifiableDownMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/ModifiableIeposAgent$ModifiableDownMessage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/ModifiableIeposAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/ModifiableIeposAgent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent$DownMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent$DownMessage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent$UpMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent$UpMessage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/TreeAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/TreeAgent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/GlobalComplexCostLogger$Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/GlobalComplexCostLogger$Token.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/GlobalComplexCostLogger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/GlobalComplexCostLogger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/GlobalCostLogger$Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/GlobalCostLogger$Token.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/GlobalCostLogger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/GlobalCostLogger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/GlobalResponseVectorLogger$Entry.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/GlobalResponseVectorLogger$Entry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/GlobalResponseVectorLogger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/GlobalResponseVectorLogger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/LocalCostMultiObjectiveLogger$Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/LocalCostMultiObjectiveLogger$Token.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/LocalCostMultiObjectiveLogger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/LocalCostMultiObjectiveLogger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/SelectedPlanLogger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/SelectedPlanLogger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/TerminationLogger$Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/TerminationLogger$Token.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/TerminationLogger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/TerminationLogger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/UnfairnessLogger$Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/UnfairnessLogger$Token.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/UnfairnessLogger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/UnfairnessLogger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/experiment/IEPOSExperiment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/experiment/IEPOSExperiment.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/experiment/LiveRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/experiment/LiveRun.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/experiment/runEPOSLive$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/experiment/runEPOSLive$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/experiment/runEPOSLive.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/experiment/runEPOSLive.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeClient$ClientState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeClient$ClientState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeClient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/toRun.txt" beforeDir="false" afterPath="$PROJECT_DIR$/toRun.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
@@ -439,10 +395,6 @@
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1920" />
-    <option name="height" value="1200" />
-  </component>
   <component name="ProjectId" id="1R0p7lvnwTIwZzhcBulOhAS3dRE" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
@@ -475,7 +427,35 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.SendPlans">
+  <component name="RunManager" selected="Application.EPOSRequester">
+    <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
+      <module name="EPOS-Logging-ZMQ" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Communication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Communication.GatewayServer" />
+      <module name="EPOS-Logging-ZMQ" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Communication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="IEPOSExperiment" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="experiment.IEPOSExperiment" />
       <module name="EPOS-Logging-ZMQ" />
@@ -492,7 +472,7 @@
     <configuration name="LiveRun" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="experiment.LiveRun" />
       <module name="EPOS-Logging-ZMQ" />
-      <option name="PROGRAM_PARAMETERS" value="1 3001" />
+      <option name="PROGRAM_PARAMETERS" value="9 3009" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="experiment.*" />
@@ -503,8 +483,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SendPlans" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Communication.SendPlans" />
+    <configuration name="User" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Communication.User" />
       <module name="EPOS-Logging-ZMQ" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
@@ -542,11 +522,15 @@
     <list>
       <item itemvalue="Application.IEPOSExperiment" />
       <item itemvalue="Application.LiveRun" />
-      <item itemvalue="Application.SendPlans" />
+      <item itemvalue="Application.User" />
+      <item itemvalue="Application.GatewayServer" />
+      <item itemvalue="Application.EPOSRequester" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.SendPlans" />
+        <item itemvalue="Application.User" />
+        <item itemvalue="Application.EPOSRequester" />
+        <item itemvalue="Application.GatewayServer" />
         <item itemvalue="Application.LiveRun" />
         <item itemvalue="Application.IEPOSExperiment" />
       </list>
@@ -570,6 +554,9 @@
       <workItem from="1568813708213" duration="106000" />
       <workItem from="1568813830335" duration="250000" />
       <workItem from="1568879915489" duration="19671000" />
+      <workItem from="1568970674340" duration="18078000" />
+      <workItem from="1569223366971" duration="32251000" />
+      <workItem from="1569311034571" duration="19125000" />
     </task>
     <servers />
   </component>

@@ -5,6 +5,7 @@
  */
 package agent;
 
+import Communication.InformGateway;
 import data.Plan;
 import dsutil.protopeer.services.topology.trees.TreeApplicationInterface;
 import func.CostFunction;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import protopeer.Finger;
 import data.DataType;
+import protopeer.MainConfiguration;
+import protopeer.network.zmq.ZMQAddress;
 import protopeer.time.Timer;
 import protopeer.time.TimerListener;
 import protopeer.util.quantities.Time;
@@ -110,6 +113,8 @@ public abstract class TreeAgent<V extends DataType<V>> extends Agent<V> implemen
         this.setChildren(children);
         System.out.println("treeViewIsSet for:"+this.getPeer().getNetworkAddress());
         treeViewIsSet = true;
+        ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
+        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "treeViewSet"));
     }
     
     void treeViewIsSet() {

@@ -3,7 +3,6 @@ package Communication;
 import data.Plan;
 import data.Vector;
 import protopeer.network.Message;
-
 import java.io.Serializable;
 import java.util.List;
 

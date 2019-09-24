@@ -146,7 +146,7 @@ public class runEPOSLive extends ZMQExperiment {
         }
 
         //set plans
-        List<Plan<Vector>> possiblePlans =config.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(myIndex));
+//        List<Plan<Vector>> possiblePlans =config.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(myIndex));
 //        ((Agent) thisPeer.getPeerletOfType(Agent.class)).addPlans(possiblePlans);
     }
 }

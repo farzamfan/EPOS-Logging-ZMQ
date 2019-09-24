@@ -58,54 +58,60 @@ public class LiveRun extends ZMQExperiment {
 
         final int index = Integer.parseInt(args [0]);
         final int port = (args.length >= 2 ? Integer.parseInt(args [1]) : 0 );
+        liveRun(index,port);
+        }
 
-        // common ZeroMQ context for the entire application
-        ZMQ.Context zmqContext = ZMQ.context(1);
-        runEPOSLive EPOSapp = new runEPOSLive();
+        public static void liveRun(int index, int port){
+            // common ZeroMQ context for the entire application
+            ZMQ.Context zmqContext = ZMQ.context(1);
+            runEPOSLive EPOSapp = new runEPOSLive();
 
-        String rootPath = System.getProperty("user.dir");
-        String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
-        Configuration config = Configuration.fromFile(confPath);
-        config.printConfiguration();
+            String rootPath = System.getProperty("user.dir");
+            String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
+            Configuration config = Configuration.fromFile(confPath);
+            config.printConfiguration();
 
-        LiveConfiguration liveConf = new LiveConfiguration();
-        liveConf.readConfiguration(args);		// will also parse conf/dias.conf, as well as any arguments passed in the command-line in form key=value
+            LiveConfiguration liveConf = new LiveConfiguration();
+            String[] args = new String[2];
+            args[0] = String.valueOf(index);
+            args[1]= String.valueOf(port);
+            liveConf.readConfiguration(args);		// will also parse conf/dias.conf, as well as any arguments passed in the command-line in form key=value
 
-        // set arguments
-        liveConf.myIndex = index;
-        liveConf.myPort = port;
+            // set arguments
+            liveConf.myIndex = index;
+            liveConf.myPort = port;
 
-        System.out.println("my index = " + liveConf.myIndex  + "(" + args[0] + ")");
-        System.out.println("my port = " + liveConf.myPort  + "(" + args[1] + ")");
-        System.out.println("my IP = " + liveConf.myIP);
-        System.out.println("\n---- Configuration ---\n" );
-        liveConf.printParameterFile();
-        System.out.println("\n---- End Configuration ---\n" );
+            System.out.println("my index = " + liveConf.myIndex  + "(" + index + ")");
+            System.out.println("my port = " + liveConf.myPort  + "(" + port + ")");
+            System.out.println("my IP = " + liveConf.myIP);
+            System.out.println("\n---- Configuration ---\n" );
+            liveConf.printParameterFile();
+            System.out.println("\n---- End Configuration ---\n" );
 
-        protopeer.MainConfiguration			protopeer_conf = protopeer.MainConfiguration.getSingleton();
+            protopeer.MainConfiguration			protopeer_conf = protopeer.MainConfiguration.getSingleton();
 
 
 //         dataset
 //        Random random = new Random(0);
 //        Dataset<Vector> dataset = new GaussianDataset(16, 100, 0, 1, random);
-        //Dataset<Vector> dataset = new FileVectorDataset("/Users/farzamf/Projects/EPOS-master/datasets/bicycle");
+            //Dataset<Vector> dataset = new FileVectorDataset("/Users/farzamf/Projects/EPOS-master/datasets/bicycle");
 
-        LoggingProvider<MultiObjectiveIEPOSAgent<Vector>> loggingProvider = new LoggingProvider<>();
+            LoggingProvider<MultiObjectiveIEPOSAgent<Vector>> loggingProvider = new LoggingProvider<>();
 
-        for (AgentLogger logger : config.loggers) {
-            loggingProvider.add(logger);
-        }
+            for (AgentLogger logger : config.loggers) {
+                loggingProvider.add(logger);
+            }
 
-        for (AgentLogger al : loggingProvider.getLoggers()) {
-            al.setRun(1);
-        }
+            for (AgentLogger al : loggingProvider.getLoggers()) {
+                al.setRun(1);
+            }
 
 
-        PlanSelector<MultiObjectiveIEPOSAgent<Vector>, Vector> planSelector = new MultiObjectiveIeposPlanSelector<Vector>();
+            PlanSelector<MultiObjectiveIEPOSAgent<Vector>, Vector> planSelector = new MultiObjectiveIeposPlanSelector<Vector>();
 
-        // set arguments
-        liveConf.myIndex = index;
-        liveConf.myPort = port;
+            // set arguments
+            liveConf.myIndex = index;
+            liveConf.myPort = port;
 
             Function<Integer, Agent> createAgent = agentIdx -> {
 
@@ -121,7 +127,7 @@ public class LiveRun extends ZMQExperiment {
 
             };
 
-        EPOSapp.runEPOS(liveConf,protopeer_conf,zmqContext,numChildren,numIterations,numAgents,createAgent,config);
+            EPOSapp.runEPOS(liveConf,protopeer_conf,zmqContext,numChildren,numIterations,numAgents,createAgent,config);
 //        loggingProvider.print();
         }
 

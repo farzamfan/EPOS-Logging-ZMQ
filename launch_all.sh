@@ -1,8 +1,51 @@
 java -jar tutorial.jar 0 3000 &
-# java -jar tutorial.jar 1 3001 &
+java -jar tutorial.jar 1 3001 &
 java -jar tutorial.jar 2 3002 &
 java -jar tutorial.jar 3 3003 &
 java -jar tutorial.jar 4 3004 &
 java -jar tutorial.jar 5 3005 &
-java -jar tutorial.jar 6 3006       
+java -jar tutorial.jar 6 3006 &
+java -jar tutorial.jar 7 3007 &
+java -jar tutorial.jar 8 3008 &
+# java -jar tutorial.jar 9 3009 &
+java -jar tutorial.jar 10 3010 &
+java -jar tutorial.jar 11 3011 &
+java -jar tutorial.jar 12 3012 &
+java -jar tutorial.jar 13 3013 &
+java -jar tutorial.jar 14 3014 &
+java -jar tutorial.jar 15 3015 &
+java -jar tutorial.jar 16 3016 &
+java -jar tutorial.jar 17 3017 &
+java -jar tutorial.jar 18 3018 &
+java -jar tutorial.jar 19 3019 &
+java -jar tutorial.jar 20 3020 &
+java -jar tutorial.jar 21 3021 &
+java -jar tutorial.jar 22 3022 &
+java -jar tutorial.jar 23 3023 &
+java -jar tutorial.jar 24 3024 &
+java -jar tutorial.jar 25 3025 &
+java -jar tutorial.jar 26 3026 &
+java -jar tutorial.jar 27 3027 &
+java -jar tutorial.jar 28 3028 &
+java -jar tutorial.jar 29 3029 &
+java -jar tutorial.jar 30 3030 &
+java -jar tutorial.jar 31 3031 &
+java -jar tutorial.jar 32 3032 &
+java -jar tutorial.jar 33 3033 &
+java -jar tutorial.jar 34 3034 &
+java -jar tutorial.jar 35 3035 &
+java -jar tutorial.jar 36 3036 &
+java -jar tutorial.jar 37 3037 &
+java -jar tutorial.jar 38 3038 &
+java -jar tutorial.jar 39 3039 &
+java -jar tutorial.jar 40 3040 &
+java -jar tutorial.jar 41 3041 &
+java -jar tutorial.jar 42 3042 &
+java -jar tutorial.jar 43 3043 &
+java -jar tutorial.jar 44 3044 &
+java -jar tutorial.jar 45 3045 &
+java -jar tutorial.jar 46 3046 &
+java -jar tutorial.jar 47 3047 &
+java -jar tutorial.jar 48 3048 &
+java -jar tutorial.jar 49 3049
      

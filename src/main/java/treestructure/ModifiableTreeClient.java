@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 import Communication.PlanSetMessage;
+import Communication.ReadyToRunMessage;
 import agent.Agent;
 import dsutil.protopeer.FingerDescriptor;
 import dsutil.protopeer.services.topology.trees.DescriptorType;
@@ -145,6 +146,13 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
         }
         if (message instanceof PlanSetMessage){
             ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans( ((PlanSetMessage) message).possiblePlans) ;
+            ((Agent) this.getPeer().getPeerletOfType(Agent.class)).userAddress = message.getSourceAddress();
+            // TODO: 23.09.19
+            getPeer().sendMessage(message.getSourceAddress(),message);
+        }
+        if (message instanceof ReadyToRunMessage){
+            System.out.println("readyToRun message received (by treeAgent) for: "+getPeer().getNetworkAddress());
+            ((Agent) this.getPeer().getPeerletOfType(Agent.class)).setReadyToRun();
         }
     }
     
