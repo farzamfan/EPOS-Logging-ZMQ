@@ -219,7 +219,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 // inform gateway
                 getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "finished", isLeaf()));
                 // inform user
-                getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerPort - 3000));
+                getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerPort - 3000, "finished",this.selectedPlanID));
             }
             initIteration();
             listenForDownMessage = false;
@@ -274,7 +274,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                     // inform gateway
                     getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "finished", isLeaf()));
                     // inform user
-                    getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerPort - 3000));
+                    getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerPort - 3000, "finished", this.selectedPlanID));
                 }
             } else {
                 msg.numAgents = numAgents;

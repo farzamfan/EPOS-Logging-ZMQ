@@ -125,6 +125,12 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     @Override
     public void start() {
         loggingProvider.init(Agent.this);
+
+        if (MainConfiguration.getSingleton().peerPort - 3000 == 0) {
+            ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
+            getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "bootsrapPeerInitiated", false));
+        }
+
         this.runBootstrap();
         scheduleMeasurements();
 //        testCustomLog();
