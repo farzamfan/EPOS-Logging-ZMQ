@@ -13,8 +13,16 @@
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/User/META-INF/MANIFEST.MF" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/liveRun/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployments/localhost/conf/daemon.conf" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/conf/daemon.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/config/LiveConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/config/LiveConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EPOSRequester.jar" beforeDir="false" afterPath="$PROJECT_DIR$/EPOSRequester.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GateWay.jar" beforeDir="false" afterPath="$PROJECT_DIR$/GateWay.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User.jar" beforeDir="false" afterPath="$PROJECT_DIR$/User.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/protopeer.conf" beforeDir="false" afterPath="$PROJECT_DIR$/conf/protopeer.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/localhost/log/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/log/server.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/EPOS-Logging-ZMQ.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
@@ -318,6 +326,11 @@
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
   </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -370,7 +383,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.User">
+  <component name="RunManager" selected="Application.LiveRun">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="EPOS-Logging-ZMQ" />
@@ -471,10 +484,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.LiveRun" />
         <item itemvalue="Application.User" />
         <item itemvalue="Application.EPOSRequester" />
         <item itemvalue="Application.GatewayServer" />
-        <item itemvalue="Application.LiveRun" />
         <item itemvalue="Application.IEPOSExperiment" />
       </list>
     </recent_temporary>
@@ -507,7 +520,8 @@
       <workItem from="1569422439398" duration="862000" />
       <workItem from="1569424065673" duration="437000" />
       <workItem from="1569490199207" duration="279000" />
-      <workItem from="1569490778366" duration="10955000" />
+      <workItem from="1569490778366" duration="12027000" />
+      <workItem from="1569513376918" duration="75000" />
     </task>
     <servers />
   </component>
