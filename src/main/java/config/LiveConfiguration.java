@@ -144,7 +144,7 @@ public class LiveConfiguration {
 
     // Persistence Daemon server, for logging to Postgres
     public String persistenceDaemonIP = "127.0.0.1";
-    public int persistenceDaemonPort = 5433;
+    public int persistenceDaemonPort = 6433;
 
     // Logging options, specifies what is logged to Postgres
     public boolean persistenceActive = true;
