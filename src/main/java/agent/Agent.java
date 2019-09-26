@@ -55,9 +55,9 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     transient Logger 									logger 				= 		Logger.getLogger(Agent.class.getName());
     
     // timings
-    protected final int						bootstrapPeriod		=	100;	//ms
-    protected final int						activeStatePeriod	=	500;	//ms
-    protected final int						readyPeriod		=	8000;	//ms
+    protected final int						bootstrapPeriod		=	1000;	//ms
+    protected final int						activeStatePeriod	=	100;	//ms
+    protected final int						readyPeriod		=	1000;	//ms
     public boolean                          plansAreSet = false;
     public boolean                          readyToRun = false;
 
@@ -146,7 +146,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
         plansAreSet = true;
         System.out.println("plans are set for:" +this.getPeer().getNetworkAddress());
         ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "plansSet"));
+        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "plansSet", true));
     }
 
     public void setReadyToRun(){

@@ -81,8 +81,8 @@ public class Configuration implements Serializable {
 	public static DatasetDescriptor selectedDataset = null;
 	public static String dataset = null;
 	public static int planDim = -1;
-	public static int numAgents = 100;
-	public static int numPlans = 16;
+	public static int numAgents = -1;
+	public static int numPlans = -1;
 	public static Map<Integer, Integer> mapping = null;
 
 	public static RankPriority priority = RankPriority.HIGH_RANK;
@@ -91,8 +91,8 @@ public class Configuration implements Serializable {
 	public static BalanceType balance = BalanceType.WEIGHT_BALANCED;
 
 	public static int numSimulations = 1;
-	public static int numIterations = 40;
-	public static int numChildren = 2;
+	public static int numIterations = -1;
+	public static int numChildren = -1;
 
 	public static double numberOfWeights = 0;
 	public static String[] weights;
@@ -462,8 +462,8 @@ public class Configuration implements Serializable {
 			// Configuration.outputDirectory = "output";
 
 			Configuration.logDirectory = Configuration.outputDirectory;
-			makeDirectory(Configuration.logDirectory);
-			makeDirectory(Configuration.outputDirectory);
+//			makeDirectory(Configuration.logDirectory);
+//			makeDirectory(Configuration.outputDirectory);
 
 			String datasetPath = Configuration.selectedDataset.getPath();
 			AtomicInteger maxPlans = new AtomicInteger();
@@ -503,7 +503,7 @@ public class Configuration implements Serializable {
 								+ ". There is a chance your agent files are not named or indexed appropriately, "
 								+ "please check them to avoid possible exceptions. Possible causes, files not named in the \"agent_{index}.plans format, missing"
 								+ "indeces or wrong path.\"");
-				Configuration.numAgents = totalFound;
+//				Configuration.numAgents = totalFound;
 			}
 
 			if (Configuration.numPlans > maxPlans.get()) {

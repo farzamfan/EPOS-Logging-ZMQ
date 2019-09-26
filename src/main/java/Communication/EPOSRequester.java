@@ -23,15 +23,16 @@ public class EPOSRequester {
         String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
         Configuration config = Configuration.fromFile(confPath);
 
-        int numNodes = config.numAgents;
+        int numPeers = config.numAgents;
 
-        EPOSRequestMessage ERM = createMessage(config, numNodes);
+        EPOSRequestMessage ERM = createMessage(config, numPeers);
         requestEPOS(ERM);
     }
 
     public static EPOSRequestMessage createMessage(Configuration conf, int numNodes) throws UnknownHostException {
         EPOSRequestMessage eposRequestMessage = new EPOSRequestMessage();
         eposRequestMessage.numNodes = numNodes;
+        System.out.println(conf.numAgents+" "+numNodes);
         return eposRequestMessage;
     }
 

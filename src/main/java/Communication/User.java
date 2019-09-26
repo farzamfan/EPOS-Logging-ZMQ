@@ -1,5 +1,7 @@
 package Communication;
 
+import agent.dataset.Dataset;
+import agent.dataset.GaussianDataset;
 import config.Configuration;
 import data.Plan;
 import data.Vector;
@@ -14,52 +16,38 @@ import protopeer.network.zmq.ZMQNetworkInterface;
 import protopeer.network.zmq.ZMQNetworkInterfaceFactory;
 import protopeer.time.RealClock;
 
+import javax.tools.Diagnostic;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Random;
 
 public class User {
 
+    ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory;
+    ZMQNetworkInterface zmqNetworkInterface;
+    String thisIP;
+    ZMQAddress zmqAddress;
+
     public static void main(String[] args) {
-        sendPlans();
+        User user = new User();
+        user.createInterface();
+        user.sendPlans();
     }
 
-    public static void sendPlans(){
-        try {
-            String rootPath = System.getProperty("user.dir");
-            String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
-            Configuration config = Configuration.fromFile(confPath);
-
-            for (int i=0;i<config.numAgents;i++) {
-                PlanSetMessage psm = createMessage(config,i);
-                sendMessage(psm,i);
-            }
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static PlanSetMessage createMessage(Configuration conf, int Index) throws UnknownHostException {
-        List<Plan<Vector>> possiblePlans = conf.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(Index));
-
-        PlanSetMessage planSetMessage = new PlanSetMessage();
-        planSetMessage.possiblePlans = possiblePlans;
-        return planSetMessage;
-    }
-
-    public static void sendMessage(PlanSetMessage planSetMessage, int Index){
+    public void createInterface(){
         RealClock clock=new RealClock();
         MeasurementLogger measurementLogger=new MeasurementLogger(clock);
-        ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory=new ZMQNetworkInterfaceFactory(measurementLogger);
+        zmqNetworkInterfaceFactory=new ZMQNetworkInterfaceFactory(measurementLogger);
 
-        String thisIP = "127.0.0.1";
+        thisIP = "127.0.0.1";
         System.out.println( "thisIP : " + thisIP);
 
-        ZMQAddress zmqAddress = new ZMQAddress(thisIP,15545+Index);
+        zmqAddress = new ZMQAddress(thisIP,15545);
         System.out.println("zmqAddress : " + zmqAddress );
 
-        ZMQNetworkInterface zmqNetworkInterface=(ZMQNetworkInterface)zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger, zmqAddress);
+        zmqNetworkInterface = (ZMQNetworkInterface) zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger, zmqAddress);
         zmqNetworkInterface.addNetworkListener(new NetworkListener()
         {
             public void exceptionHappened(NetworkInterface networkInterface, NetworkAddress remoteAddress,
@@ -90,12 +78,38 @@ public class User {
                 System.out.println( "ZmqTestClient::interfaceUp" );
             }
         });
-
         zmqNetworkInterface.bringUp();
+    }
 
+    public void sendPlans(){
+        try {
+            String rootPath = System.getProperty("user.dir");
+            String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
+            Configuration config = Configuration.fromFile(confPath);
+
+            for (int i=0;i<config.numAgents;i++) {
+                PlanSetMessage psm = createMessage(config,i);
+                sendMessage(psm,i);
+            }
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public PlanSetMessage createMessage(Configuration conf, int Index) throws UnknownHostException {
+//        List<Plan<Vector>> possiblePlans = conf.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(Index));
+
+        Dataset gaussianDataset = new GaussianDataset(10,100,10,1,new Random(123));
+        List<Plan<Vector>> possiblePlans = gaussianDataset.getPlans(Index);
+
+        PlanSetMessage planSetMessage = new PlanSetMessage();
+        planSetMessage.possiblePlans = possiblePlans;
+        return planSetMessage;
+    }
+
+    public void sendMessage(PlanSetMessage planSetMessage, int Index){
         ZMQAddress destination = new ZMQAddress(thisIP ,3000+Index);
         System.out.println( "destination : " + destination );
-
         zmqNetworkInterface.sendMessage(destination, planSetMessage);
 //        System.exit(0);
     }

@@ -14,10 +14,15 @@ import protopeer.time.RealClock;
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GatewayServer {
 
+    static List<peerStatus> PeersStatus;
+
     public static void main(String[] args) throws UnknownHostException {
+        PeersStatus = new ArrayList<peerStatus>();
         listen();
     }
 
@@ -54,7 +59,10 @@ public class GatewayServer {
 
             }
 
-            private int runningPeers=0;
+            private boolean allNodesReady = false;
+            private int readyPeers=0;
+            private int innerNode=0;
+            private int innerNodeRunning=0;
             private int finishedPeers=0;
             private int peersWithPlansSet=0;
             private int peersWithTreeViewSet=0;
@@ -64,7 +72,7 @@ public class GatewayServer {
             public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress,
                                         Message message)
             {
-                System.out.println("Message received: + " +sourceAddress + " message: "+ message);
+//                System.out.println("Message received: + " +sourceAddress + " message: "+ message);
                 if (message instanceof EPOSRequestMessage){
                     EPOSRequestMessage eposRequestMessage = (EPOSRequestMessage) message;
                     numPeers = eposRequestMessage.numNodes;
@@ -88,9 +96,16 @@ public class GatewayServer {
                         System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
                         peersWithPlansSet++;
                     }
-                    if (informGateway.status.equals("running")) {
+                    if (informGateway.status.equals("ready")) {
+                        peerStatus peer = new peerStatus(informGateway.peerID,informGateway.status,informGateway.isLeaf,informGateway.getSourceAddress());
+                        PeersStatus.add(peer);
                         System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
-                        runningPeers++;
+                        if (informGateway.isLeaf == false) {innerNode++;}
+                        readyPeers++;
+                    }
+                    if (informGateway.status.equals("innerRunning")) {
+                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
+                        innerNodeRunning++;
                     }
                     if (informGateway.status.equals("finished")) {
                         System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
@@ -114,21 +129,44 @@ public class GatewayServer {
                     System.out.println("EPOS Successfully executed");
                     System.out.println("---");
                 }
-                if (runningPeers == numPeers){
+                if (readyPeers == numPeers){
                     System.out.println("---");
-                    System.out.println("All nodes running, sending ready to run message");
+                    System.out.println("all nodes are ready, sending run message to inner nodes");
                     System.out.println("---");
-                    for (int i=0;i<config.numAgents;i++) {
-                        ZMQAddress destination = new ZMQAddress(thisIP ,3000+i);
-                        zmqNetworkInterface.sendMessage(destination, new ReadyToRunMessage(i));
+                    for (peerStatus peer : PeersStatus) {
+                        if (peer.isleaf == false){
+                            zmqNetworkInterface.sendMessage(peer.address, new ReadyToRunMessage(peer.index));
+                        }
                     }
-                    runningPeers = 0;
+                    allNodesReady = true;
+                    readyPeers=0;
                 }
+                if (innerNodeRunning == innerNode & allNodesReady & innerNodeRunning != 0){
+                    System.out.println("---");
+                    System.out.println("all inner nodes are running, sending run message to leafs");
+                    System.out.println("---");
+                    for (peerStatus peer : PeersStatus) {
+                        if (peer.isleaf == true){
+                            zmqNetworkInterface.sendMessage(peer.address, new ReadyToRunMessage(peer.index));
+                        }
+                    }
+                    innerNodeRunning = 0;
+                }
+//                if (runningPeers == numPeers){
+//                    System.out.println("---");
+//                    System.out.println("All nodes running, sending ready to run message");
+//                    System.out.println("---");
+//                    for (int i=0;i<config.numAgents;i++) {
+//                        ZMQAddress destination = new ZMQAddress(thisIP ,3000+i);
+//                        zmqNetworkInterface.sendMessage(destination, new ReadyToRunMessage(i));
+//                    }
+//                    runningPeers = 0;
+//                }
             }
 
             public void messageSent(NetworkInterface networkInterface, NetworkAddress destinationAddress, Message message)
             {
-                System.out.println("Message sent: + " +destinationAddress + " message: "+ message);
+//                System.out.println("Message sent: + " +destinationAddress + " message: "+ message);
             }
 
             public void interfaceUp(NetworkInterface networkInterface)

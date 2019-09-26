@@ -4,10 +4,10 @@ java -jar tutorial.jar 2 3002 &
 java -jar tutorial.jar 3 3003 &
 java -jar tutorial.jar 4 3004 &
 java -jar tutorial.jar 5 3005 &
-java -jar tutorial.jar 6 3006 &
+# java -jar tutorial.jar 6 3006 &
 java -jar tutorial.jar 7 3007 &
 java -jar tutorial.jar 8 3008 &
-# java -jar tutorial.jar 9 3009 &
+java -jar tutorial.jar 9 3009 &
 java -jar tutorial.jar 10 3010 &
 java -jar tutorial.jar 11 3011 &
 java -jar tutorial.jar 12 3012 &

@@ -7,8 +7,10 @@ import java.io.Serializable;
 public class InformGateway extends Message implements Serializable {
     int peerID;
     String status;
-    public InformGateway(int index, String stat){
+    boolean isLeaf;
+    public InformGateway(int index, String stat, boolean leaf){
         peerID = index;
         status =stat;
+        isLeaf = leaf;
     }
 }

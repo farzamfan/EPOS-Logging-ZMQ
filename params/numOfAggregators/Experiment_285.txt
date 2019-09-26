@@ -1,0 +1,76 @@
+# SensorDescription Parameters
+hasSensorDescription=false
+sensorName=null
+sensorType=null
+diasNetworkId=0
+# Simulation Parameters
+Peer index=285
+Runtime [ms]=40000
+Number of nodes=20
+
+# Peer sampling Service Parameters
+View length=50
+Healing parameter=1
+Swap parameter=24
+PSS Communication period [ms]=250
+Age increment [ms]=1000
+Bootstrap PSS time [ms]=10000
+
+# DIAS Service Parameterization
+DIAS communication period [ms]=1000
+DIAS sampling period (Tsampling) [ms]=250
+Sampling size=37
+Number of sessions=30
+Unexploited buffer size=37
+Outdated buffer size=37
+Exploited buffer size=37
+AMS hashing type=
+AMS target number of elements =3000
+AMS target false positive probability = 1.0E-11
+DMA hashing type=
+DMA target number of elements =3000
+DMA target false positive probability = 1.0E-11
+AMD hashing type=
+AMD target number of elements=3000
+AMD target false positive probability = 1.0E-11
+SMA hashing type=
+SMA target number of elements=3000
+SMA target false positive probability = 1.0E-11
+
+# DIAS application Parameterization
+Aggregation type=ARITHMETIC
+Application bootstrap time=15000
+Aggregation period [ms]=100000
+Number of possible states=5
+Minimal input value=0.0
+Maximal input value=1.0
+Time transition probability=1.0
+Parameter transition probability=1.0
+State transitions period [ms]=200000
+
+Minimal delay time [ms]=2
+Maximal delay time [ms]=10
+Top K Buffer Size=100
+
+# Connectivity
+My IP address=127.0.0.1
+My port number=3285
+Bootstrap server IP address=127.0.0.1
+Bootstrap server port number=3000
+Device gateway IP address=127.0.0.1
+Device gateway port number=3427
+Persistence Daemon IP address=127.0.0.1
+Persistence Daemon port number=5433
+
+# Logging
+Logging::persistenceActive=true
+Logging::persistMessages=true
+Logging::eventLogging=false
+Logging::vizPersistence=false
+Logging::persistAggregationEvent=false
+Logging::persistPSSSamples=false
+Logging::rawLog=false
+Logging::rawLogLevel=1
+
+# Flags:PSS logging=false
+Allows every Xth transition=0
