@@ -18,40 +18,42 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 public class EPOSRequester {
+
+    ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory;
+    String thisIP;
+    int numPeers;
+    ZMQNetworkInterface zmqNetworkInterface;
+
     public static void main(String[] args) throws UnknownHostException {
         String rootPath = System.getProperty("user.dir");
         String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
         Configuration config = Configuration.fromFile(confPath);
 
-        int numPeers = config.numAgents;
-
-        EPOSRequestMessage ERM = createMessage(config, numPeers);
-        requestEPOS(ERM);
+        EPOSRequester eposRequester = new EPOSRequester();
+        eposRequester.numPeers = config.numAgents;
+        eposRequester.listen();
+        eposRequester.requestEPOS(eposRequester.createMessage(config, eposRequester.numPeers));
     }
 
-    public static EPOSRequestMessage createMessage(Configuration conf, int numNodes) throws UnknownHostException {
-        EPOSRequestMessage eposRequestMessage = new EPOSRequestMessage();
-        eposRequestMessage.numNodes = numNodes;
+    public EPOSRequestMessage createMessage(Configuration conf, int numNodes) throws UnknownHostException {
+        EPOSRequestMessage eposRequestMessage = new EPOSRequestMessage(1,numNodes,"EPOSRunRequested");
         System.out.println(conf.numAgents+" "+numNodes);
         return eposRequestMessage;
     }
 
-    public static void requestEPOS(EPOSRequestMessage eposRequestMessage){
+    public void listen(){
         RealClock clock=new RealClock();
         MeasurementLogger measurementLogger=new MeasurementLogger(clock);
-        ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory=new ZMQNetworkInterfaceFactory(measurementLogger);
+        zmqNetworkInterfaceFactory=new ZMQNetworkInterfaceFactory(measurementLogger);
 
-        String thisIP = "127.0.0.1";
-        System.out.println( "thisIP : " + thisIP);
-
+        thisIP = "127.0.0.1";
         ZMQAddress zmqAddress = new ZMQAddress(thisIP,54321);
         System.out.println("zmqAddress : " + zmqAddress );
 
-        ZMQNetworkInterface zmqNetworkInterface=(ZMQNetworkInterface)zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger, zmqAddress);
+        zmqNetworkInterface=(ZMQNetworkInterface)zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger, zmqAddress);
         zmqNetworkInterface.addNetworkListener(new NetworkListener()
         {
-            public void exceptionHappened(NetworkInterface networkInterface, NetworkAddress remoteAddress,
-                                          Message message, Throwable cause) {
+            public void exceptionHappened(NetworkInterface networkInterface, NetworkAddress remoteAddress, Message message, Throwable cause) {
                 System.out.println( "ZmqTestClient::exceptionHappened" + cause );
                 cause.printStackTrace();
             }
@@ -60,9 +62,17 @@ public class EPOSRequester {
                 System.out.println( "ZmqTestClient::interfaceDown" );
             }
 
-            public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress,
-                                        Message message) {
-                System.out.println("Message received: + " +sourceAddress + " message: "+ message + " messageSize: " + message.getMessageSize());
+            public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress, Message message) {
+                System.out.println("Message received from: + " +message.getSourceAddress() + " message: "+ message + " messageSize: " + message.getMessageSize());
+                if (message instanceof EPOSRequestMessage){
+                    EPOSRequestMessage eposRequestMessage = (EPOSRequestMessage) message;
+                    if (eposRequestMessage.status.equals("finished")){
+                        System.out.println("---");
+                        System.out.println("EPOS finished successfully!");
+                        System.out.println("---");
+                        System.exit(0);
+                    }
+                }
             }
 
             public void messageSent(NetworkInterface networkInterface, NetworkAddress destinationAddress, Message message) {
@@ -76,10 +86,11 @@ public class EPOSRequester {
         });
 
         zmqNetworkInterface.bringUp();
+    }
 
+    public void requestEPOS(EPOSRequestMessage ERM){
         ZMQAddress destination = new ZMQAddress(thisIP ,12345);
         System.out.println( "destination : " + destination );
-
-        zmqNetworkInterface.sendMessage(destination, eposRequestMessage);
+        zmqNetworkInterface.sendMessage(destination, ERM);
     }
 }

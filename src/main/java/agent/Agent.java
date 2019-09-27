@@ -126,9 +126,9 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public void start() {
         loggingProvider.init(Agent.this);
 
-        if (MainConfiguration.getSingleton().peerPort - 3000 == 0) {
+        if (MainConfiguration.getSingleton().peerIndex == 0) {
             ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-            getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "bootsrapPeerInitiated", false));
+            getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "bootsrapPeerInitiated", false));
         }
 
         this.runBootstrap();
@@ -152,7 +152,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
         plansAreSet = true;
         System.out.println("plans are set for:" +this.getPeer().getNetworkAddress());
         ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "plansSet", true));
+        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "plansSet", true));
     }
 
     public void setReadyToRun(){

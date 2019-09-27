@@ -367,9 +367,8 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         new LocalCostMultiObjectiveLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.localCost(getGlobalDiscomfortSum(), numAgents));
         new SelectedPlanLogger<>().DBLog((Agent) this);
         if (globalResponse == prevAggregatedResponse){new TerminationLogger<>().DBLog((Agent) this,iteration);}
-//        if (iteration > 0){
-//        new UnfairnessLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.unfairness(getGlobalDiscomfortSum(), getGlobalDiscomfortSumSqr(), numAgents));}
-
+        if (iteration > 0){
+        new UnfairnessLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.unfairness(getGlobalDiscomfortSum(), getGlobalDiscomfortSumSqr(), numAgents));}
         return this.informChildren();
     }
     

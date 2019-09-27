@@ -88,7 +88,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                         System.out.println("sending the ready to run for: " + getPeer().getNetworkAddress());
                         //inform gateway of running status
                         ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-                        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "ready", isLeaf()));
+                        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "ready", isLeaf()));
                         readytoRunActiveState();
                     }
                 }
@@ -140,22 +140,22 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     private void runIteration() {
         // TODO: 23.09.19
 //        if (iteration == -1){iteration++;}
-        
+
         if(this.isIterationAfterReorganization() && alreadyCleanedResponses == false ) {
         	this.reset();
         	this.initIteration();
         	alreadyCleanedResponses = true;
         	if (!isLeaf()){
             ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-            getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "innerRunning", isLeaf()));}
-        }        
-    	
+            getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "innerRunning", isLeaf()));}
+        }
+
         this.setNumComputed(0);
         this.setNumTransmitted(0);
 
         doIfConditionToStartNewIterationIsMet();
     }
-    
+
     /**
      * This condition should control how many iterations IEPOS runs for.
      * It should prevent program to run indefinitely long.
@@ -165,7 +165,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     	return this.iteration < this.numIterations;
 //    	return true;
     }
-    
+
     void doIfConditionToStartNewIterationIsMet() {
 //    	this.log(Level.FINER, "IterativeTreeAgent::doIfConditionToStartNewIterationIsMet()");
 //        if (!listen){
@@ -182,7 +182,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         }
         this.runActiveState();
     }
-    
+
     void doIfConditionToStartNewIterationIsNOTMet() {
 //        System.out.println("doIfConditionToStartNewIterationIsNOTMet for: "+getPeer().getNetworkAddress() );
     }
@@ -194,7 +194,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
      * 	2. invokes <code>this.goUp()</code> when <code>this.children.size() <= this.messageBuffer.size()</code>
      *     Number of children is constant (for now), and <code>messageBuffer</code> is only growing. The moment it
      *     reaches size of <code>children</code>, UP phase begins
-     * 
+     *
      * In case of <code>DOWN Message</code>:
      * 	1. invokes <code>this.goDown()</code>
      * @param message
@@ -217,9 +217,9 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 System.out.println("EPOS finished for: "+getPeer().getNetworkAddress()+" at iteration: "+iteration+". Sending message now");
                 ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,12345);
                 // inform gateway
-                getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "finished", isLeaf()));
+                getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "finished", isLeaf()));
                 // inform user
-                getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerPort - 3000, "finished",this.selectedPlanID));
+                getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerIndex, "finished",this.selectedPlanID));
             }
             initIteration();
             listenForDownMessage = false;
@@ -272,9 +272,9 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                     System.out.println("EPOS finished for: "+getPeer().getNetworkAddress()+" at iteration: "+iteration+". Sending message now");
                     ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,12345);
                     // inform gateway
-                    getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "finished", isLeaf()));
+                    getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "finished", isLeaf()));
                     // inform user
-                    getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerPort - 3000, "finished", this.selectedPlanID));
+                    getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerIndex, "finished", this.selectedPlanID));
                 }
             } else {
                 msg.numAgents = numAgents;

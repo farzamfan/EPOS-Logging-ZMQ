@@ -31,6 +31,7 @@ public class User {
     private Configuration config;
     private List<UserStatus> Users;
     private int usersWithAssignedPeer;
+    private int finishedPeers=0;
 
 
     public User(){
@@ -76,6 +77,13 @@ public class User {
                     InformUser informUser = (InformUser) message;
                     if (informUser.status.equals("finished")) {
                         System.out.println("EPOS finished for user: " + informUser.peerID+" with selected plan ID: "+informUser.selectedPlanID);
+                        finishedPeers++;
+                        if (finishedPeers == Users.size()){
+                            System.out.println("---");
+                            System.out.println("all users have received their final plans! EPOS finished");
+                            System.out.println("---");
+                            System.exit(0);
+                        }
                     }
                 }
                 else if (message instanceof UserRegisterMessage){

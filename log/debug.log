@@ -1,6 +1,7 @@
-[Sep 26 17:58:38] ERROR (TimerTask.java:21) - 
+[Sep 27 11:49:02] ERROR (TimerTask.java:21) - 
 java.lang.NullPointerException
-	at agent.logging.PlanFrequencyLogger.log(PlanFrequencyLogger.java:64)
+	at agent.MultiObjectiveIEPOSAgent.getGlobalResponse(MultiObjectiveIEPOSAgent.java:128)
+	at agent.logging.GlobalComplexCostLogger.log(GlobalComplexCostLogger.java:57)
 	at agent.logging.AgentLoggingProvider.log(AgentLoggingProvider.java:85)
 	at agent.MultiObjectiveIEPOSAgent.lambda$scheduleMeasurements$0(MultiObjectiveIEPOSAgent.java:217)
 	at protopeer.measurement.MeasurementLogger.fireMeasurmentEpochEnded(MeasurementLogger.java:113)
@@ -9,6 +10,4 @@ java.lang.NullPointerException
 	at protopeer.time.Timer.fireTimerExpired(Timer.java:110)
 	at protopeer.time.TimerTask.run(TimerTask.java:19)
 	at java.util.TimerThread.mainLoop(Timer.java:555)
-	at java.util.TimerThread.run(Timer.java:505)
-at java.util.TimerThread.mainLoop(Timer.java:555)
 	at java.util.TimerThread.run(Timer.java:505)

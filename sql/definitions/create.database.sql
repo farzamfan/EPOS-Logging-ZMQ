@@ -248,7 +248,7 @@ CREATE TABLE globalComplexCostLogger
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
-	,cost NUMERIC NOT NULL
+	,cost NUMERIC
 );
 
 
@@ -269,7 +269,7 @@ CREATE TABLE GlobalCostLogger
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
-	,cost NUMERIC NOT NULL
+	,cost NUMERIC
 );
 
 --###########
@@ -289,7 +289,7 @@ CREATE TABLE GlobalResponseVectorLogger
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
-	,globalresponse varchar NOT NULL
+	,globalresponse varchar
 );
 
 
@@ -310,7 +310,7 @@ CREATE TABLE LocalCostMultiObjectiveLogger
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
-	,cost NUMERIC NOT NULL
+	,cost NUMERIC
 );
 
 
@@ -331,7 +331,7 @@ CREATE TABLE SelectedPlanLogger
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
-	,planID NUMERIC NOT NULL
+	,planID NUMERIC
 );
 
 
@@ -351,7 +351,7 @@ CREATE TABLE TerminationLogger
 	seq_id SERIAL NOT NULL		-- auto-increment field
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
-	,termination NUMERIC NOT NULL
+	,termination NUMERIC
 );
 
 
@@ -372,7 +372,7 @@ CREATE TABLE UnfairnessLogger
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
-	,unfairness NUMERIC NOT NULL
+	,unfairness NUMERIC
 );
 
 DROP TABLE IF EXISTS msgs CASCADE;

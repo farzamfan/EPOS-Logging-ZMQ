@@ -109,10 +109,6 @@ public class LiveRun extends ZMQExperiment {
 
             PlanSelector<MultiObjectiveIEPOSAgent<Vector>, Vector> planSelector = new MultiObjectiveIeposPlanSelector<Vector>();
 
-            // set arguments
-            liveConf.myIndex = index;
-            liveConf.myPort = port;
-
             Function<Integer, Agent> createAgent = agentIdx -> {
 
 //                List<Plan<Vector>> possiblePlans = dataset.getPlans(index);

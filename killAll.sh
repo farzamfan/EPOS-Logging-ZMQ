@@ -1,0 +1,1 @@
+PID=`ps -ef | grep tutorial | awk '{ print $2 }'`; kill -9 $PID;

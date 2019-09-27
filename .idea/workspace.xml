@@ -16,11 +16,29 @@
       <change beforePath="$PROJECT_DIR$/EPOSRequester.jar" beforeDir="false" afterPath="$PROJECT_DIR$/EPOSRequester.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GateWay.jar" beforeDir="false" afterPath="$PROJECT_DIR$/GateWay.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User.jar" beforeDir="false" afterPath="$PROJECT_DIR$/User.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/protopeer.conf" beforeDir="false" afterPath="$PROJECT_DIR$/conf/protopeer.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/localhost/conf/daemon.conf" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/conf/daemon.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deployments/localhost/log/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/log/server.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/definitions/create.database.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/definitions/create.database.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequestMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequestMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequester.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/Agent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/Agent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/EPOS-Logging-ZMQ.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/config/LiveConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/config/LiveConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/experiment/LiveRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/experiment/LiveRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/EPOSRequester$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/EPOSRequester$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/EPOSRequester.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/EPOSRequester.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/GatewayServer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/GatewayServer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/GatewayServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/GatewayServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/User$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/User$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/Agent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/Agent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
@@ -383,7 +401,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.LiveRun">
+  <component name="RunManager" selected="Application.GatewayServer">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="EPOS-Logging-ZMQ" />
@@ -484,10 +502,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GatewayServer" />
         <item itemvalue="Application.LiveRun" />
         <item itemvalue="Application.User" />
         <item itemvalue="Application.EPOSRequester" />
-        <item itemvalue="Application.GatewayServer" />
         <item itemvalue="Application.IEPOSExperiment" />
       </list>
     </recent_temporary>
@@ -521,7 +539,8 @@
       <workItem from="1569424065673" duration="437000" />
       <workItem from="1569490199207" duration="279000" />
       <workItem from="1569490778366" duration="12027000" />
-      <workItem from="1569513376918" duration="75000" />
+      <workItem from="1569513376918" duration="1846000" />
+      <workItem from="1569570915939" duration="5715000" />
     </task>
     <servers />
   </component>

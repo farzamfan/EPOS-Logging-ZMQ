@@ -136,7 +136,7 @@ public class LiveConfiguration {
 
     // Protopeer Bootstrap server
     public String bootstrapIP = "127.0.0.1";
-    public int bootstrapPort = 3000;
+    public int bootstrapPort = 12000;
 
     // device gateway, so that devices can obtain IP address of peers
     public String deviceGatewayIP = "127.0.0.1";

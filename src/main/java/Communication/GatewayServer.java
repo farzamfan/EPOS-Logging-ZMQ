@@ -1,6 +1,8 @@
 package Communication;
 
 import config.Configuration;
+import config.LiveConfiguration;
+import experiment.LiveRun;
 import protopeer.measurement.MeasurementLogger;
 import protopeer.network.Message;
 import protopeer.network.NetworkAddress;
@@ -31,12 +33,17 @@ public class GatewayServer {
     private List<EPOSPeerStatus> PeersStatus;
     private List<UserStatus> UsersStatus;
     private int registeredUsers=0;
+    private ZMQAddress EPOSRequesterAddress;
+    private int bootstrapPort;
 
     public GatewayServer(){
         String rootPath = System.getProperty("user.dir");
         String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
         Configuration config = Configuration.fromFile(confPath);
         numPeers=config.numAgents;
+
+        LiveConfiguration liveConfiguration = new LiveConfiguration();
+        bootstrapPort = liveConfiguration.bootstrapPort;
 
         RealClock clock=new RealClock();
         MeasurementLogger measurementLogger=new MeasurementLogger(clock);
@@ -80,13 +87,14 @@ public class GatewayServer {
             {
                 if (message instanceof EPOSRequestMessage){
                     EPOSRequestMessage eposRequestMessage = (EPOSRequestMessage) message;
-                    numPeers = eposRequestMessage.numNodes;
-                    if (numPeers>1 && UsersStatus.size()>0){
+                    numPeers = eposRequestMessage.numPeers;
+                    EPOSRequesterAddress = (ZMQAddress) eposRequestMessage.getSourceAddress();
+                    if (eposRequestMessage.numPeers>1 && UsersStatus.size()>0){
                         System.out.println("---");
-                        System.out.println("initiating the boostrap server");
+                        System.out.println("initiating the boostrap server with address: "+"127.0.0.1:"+(bootstrapPort + UsersStatus.get(0).index));
                         System.out.println("---");
-                        ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",(3000 + UsersStatus.get(0).index));
-                        String command = "java -jar tutorial.jar " + String.valueOf(UsersStatus.get(0).index) + " " + String.valueOf(3000 + UsersStatus.get(0).index);
+                        ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",(bootstrapPort + UsersStatus.get(0).index));
+                        String command = "java -jar tutorial.jar " + String.valueOf(UsersStatus.get(0).index) + " " + String.valueOf(bootstrapPort + UsersStatus.get(0).index);
                         try {
                             Runtime.getRuntime().exec(command);
                             UsersStatus.get(0).assignedPeerAddress = peerAddress;
@@ -180,6 +188,8 @@ public class GatewayServer {
             System.out.println("---");
             System.out.println("EPOS Successfully executed");
             System.out.println("---");
+            zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(1,numPeers,"finished"));
+            terminate();
         }
         if (readyPeers == numPeers){
             System.out.println("---");
@@ -212,8 +222,8 @@ public class GatewayServer {
             System.out.println("---");
             for (int j=1;j<UsersStatus.size();j++) {
                 System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
-                ZMQAddress peerAddress = new ZMQAddress("127.0.0.1", (3000 + UsersStatus.get(j).index));
-                String command = "java -jar tutorial.jar " + String.valueOf(UsersStatus.get(j).index) + " " + String.valueOf(3000 + UsersStatus.get(j).index);
+                ZMQAddress peerAddress = new ZMQAddress("127.0.0.1", (bootstrapPort + UsersStatus.get(j).index));
+                String command = "java -jar tutorial.jar " + String.valueOf(UsersStatus.get(j).index) + " " + String.valueOf(bootstrapPort + UsersStatus.get(j).index);
                 try {
                     Runtime.getRuntime().exec(command);
                     UsersStatus.get(j).assignedPeerAddress = peerAddress;
@@ -226,5 +236,14 @@ public class GatewayServer {
 
     public void informUser(UserStatus user){
         zmqNetworkInterface.sendMessage(user.userAddress, new UserRegisterMessage(user.index,user.status,user.userAddress,user.assignedPeerAddress));
+    }
+
+    public void terminate(){
+        try {
+            Runtime.getRuntime().exec("./killAll.sh");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
     }
 }
