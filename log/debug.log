@@ -1,4 +1,4 @@
-[Sep 27 11:49:02] ERROR (TimerTask.java:21) - 
+[Sep 27 15:24:37] ERROR (TimerTask.java:21) - 
 java.lang.NullPointerException
 	at agent.MultiObjectiveIEPOSAgent.getGlobalResponse(MultiObjectiveIEPOSAgent.java:128)
 	at agent.logging.GlobalComplexCostLogger.log(GlobalComplexCostLogger.java:57)

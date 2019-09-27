@@ -33,3 +33,10 @@ sudo sysctl -w kern.maxfiles=10485760
 #Hetzner server
 username: farzam
 ip: 178.63.43.201
+Pass: RetinaMac
+
+#kill all screen session
+screen -ls | grep Detached | cut -d. -f1 | awk '{print $1}' | xargs kill
+
+#find open ports and applications
+sudo lsof -i -P -n | grep LISTEN 

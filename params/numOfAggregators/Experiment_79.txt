@@ -54,13 +54,13 @@ Top K Buffer Size=100
 
 # Connectivity
 My IP address=127.0.0.1
-My port number=3079
+My port number=12079
 Bootstrap server IP address=127.0.0.1
-Bootstrap server port number=3000
+Bootstrap server port number=12000
 Device gateway IP address=127.0.0.1
 Device gateway port number=3427
 Persistence Daemon IP address=127.0.0.1
-Persistence Daemon port number=5433
+Persistence Daemon port number=6433
 
 # Logging
 Logging::persistenceActive=true
