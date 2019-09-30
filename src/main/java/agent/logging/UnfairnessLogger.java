@@ -66,7 +66,7 @@ public class UnfairnessLogger<V extends DataType<V>> extends AgentLogger<Agent<V
 		MultiObjectiveIEPOSAgent moieposagent = (MultiObjectiveIEPOSAgent) agent;
 		if(moieposagent.isRoot()) {
 			LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
-			record.put("run", String.valueOf(1));
+			record.put("run", String.valueOf(agent.run));
 			record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 			record.put("iteration", String.valueOf(agent.getIteration()));
 			record.put("unfairness", String.valueOf(unfairness));

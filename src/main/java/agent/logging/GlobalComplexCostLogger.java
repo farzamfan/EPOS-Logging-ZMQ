@@ -83,7 +83,7 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
 		parameters.put(OptimizationFactor.NUM_AGENTS, (double) Configuration.numAgents);
 		double cost = Configuration.planOptimizationFunction.apply(parameters);
 
-		record.put("run", String.valueOf(1));
+		record.put("run", String.valueOf(agent.run));
 		record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 		record.put("iteration", String.valueOf(agent.getIteration()));
 		record.put("cost", String.valueOf(cost) );

@@ -60,7 +60,7 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
 
 		public void DBlog(Agent<V> agent, String gr){
 			LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
-			record.put("run", String.valueOf(1));
+			record.put("run", String.valueOf(agent.run));
 			record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 			record.put("iteration", String.valueOf(agent.getIteration()));
 			record.put("globalresponse", "'"+gr );

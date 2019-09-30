@@ -130,7 +130,7 @@ public class TerminationLogger<V extends DataType<V>> extends AgentLogger<Agent<
         if (agent.isRepresentative()) {
             if (agent.getIteration() == agent.getNumIterations() - 1) {
                 LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
-                record.put("run", String.valueOf(1));
+                record.put("run", String.valueOf(agent.run));
                 record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
                 record.put("termination", String.valueOf(iter));
                 agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("TerminationLogger", record));

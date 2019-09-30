@@ -80,7 +80,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     private int 							cumComputed;
     
     int										iterationAfterReorganization =	0;	// iteration at which reorganization was requested and executed
-    protected int                             run;
+    public int                             run;
     protected boolean                          alreadyCleanedResponses = false;
 
     /**

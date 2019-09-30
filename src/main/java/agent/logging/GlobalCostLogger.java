@@ -105,7 +105,7 @@ public class GlobalCostLogger<V extends DataType<V>> extends AgentLogger<Agent<V
     public void DBlog(Agent<V> agent, double cost){
         if (agent.isRepresentative()) {
             LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
-            record.put("run", String.valueOf(1));
+            record.put("run", String.valueOf(agent.run));
             record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
             record.put("iteration", String.valueOf(agent.getIteration()));
             record.put("cost", String.valueOf(cost));

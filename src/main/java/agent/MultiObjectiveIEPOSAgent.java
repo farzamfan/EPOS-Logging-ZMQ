@@ -370,6 +370,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         if (globalResponse == prevAggregatedResponse){new TerminationLogger<>().DBLog((Agent) this,iteration);}
         if (iteration > 0){
         new UnfairnessLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.unfairness(getGlobalDiscomfortSum(), getGlobalDiscomfortSumSqr(), numAgents));}
+
         return this.informChildren();
     }
     

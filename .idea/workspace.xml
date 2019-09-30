@@ -13,24 +13,15 @@
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/User/META-INF/MANIFEST.MF" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/liveRun/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EPOSRequester.jar" beforeDir="false" afterPath="$PROJECT_DIR$/EPOSRequester.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GateWay.jar" beforeDir="false" afterPath="$PROJECT_DIR$/GateWay.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User.jar" beforeDir="false" afterPath="$PROJECT_DIR$/User.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/EPOSPeerStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/EPOSPeerStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/InformGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/InformGateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/agent/Agent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/Agent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/TreeAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/TreeAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/treestructure/ModifiableTreeClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/treestructure/ModifiableTreeClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Communication/GatewayServer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/GatewayServer$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Communication/GatewayServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/GatewayServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalComplexCostLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalComplexCostLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalCostLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalCostLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalResponseVectorLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalResponseVectorLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/LocalCostMultiObjectiveLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/LocalCostMultiObjectiveLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/SelectedPlanLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/SelectedPlanLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/TerminationLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/TerminationLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/UnfairnessLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/UnfairnessLogger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
@@ -535,6 +526,7 @@
       <workItem from="1569513376918" duration="1846000" />
       <workItem from="1569570915939" duration="9491000" />
       <workItem from="1569843782025" duration="13533000" />
+      <workItem from="1569860978446" duration="174000" />
     </task>
     <servers />
   </component>
