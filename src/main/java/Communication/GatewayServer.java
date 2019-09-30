@@ -29,6 +29,7 @@ public class GatewayServer {
     private int peersWithPlansSet=0;
     private int peersWithTreeViewSet=0;
     private int numPeers;
+    private int numRuns=0;
     private ZMQNetworkInterface zmqNetworkInterface;
     private List<EPOSPeerStatus> PeersStatus;
     private List<UserStatus> UsersStatus;
@@ -45,6 +46,9 @@ public class GatewayServer {
         LiveConfiguration liveConfiguration = new LiveConfiguration();
         bootstrapPort = liveConfiguration.bootstrapPort;
 
+        PeersStatus = new ArrayList<EPOSPeerStatus>(numPeers);
+        UsersStatus = new ArrayList<UserStatus>(numPeers);
+
         RealClock clock=new RealClock();
         MeasurementLogger measurementLogger=new MeasurementLogger(clock);
         ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory=new ZMQNetworkInterfaceFactory(measurementLogger);
@@ -59,8 +63,6 @@ public class GatewayServer {
 
     public static void main(String[] args) {
         GatewayServer gatewayServer = new GatewayServer();
-        gatewayServer.PeersStatus = new ArrayList<EPOSPeerStatus>();
-        gatewayServer.UsersStatus = new ArrayList<UserStatus>();
         gatewayServer.listen();
     }
 
@@ -85,6 +87,7 @@ public class GatewayServer {
             public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress,
                                         Message message)
             {
+//                System.out.println("Message received: + " +message.getSourceAddress() + " message: "+ message.getClass());
                 if (message instanceof EPOSRequestMessage){
                     EPOSRequestMessage eposRequestMessage = (EPOSRequestMessage) message;
                     numPeers = eposRequestMessage.numPeers;
@@ -127,7 +130,7 @@ public class GatewayServer {
                         peersWithPlansSet++;
                     }
                     else if (informGateway.status.equals("ready")) {
-                        EPOSPeerStatus peer = new EPOSPeerStatus(informGateway.peerID,informGateway.status,informGateway.isLeaf,informGateway.getSourceAddress());
+                        EPOSPeerStatus peer = new EPOSPeerStatus(informGateway.peerID,informGateway.run,informGateway.status,informGateway.isLeaf,informGateway.getSourceAddress());
                         PeersStatus.add(peer);
                         System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
                         if (informGateway.isLeaf == false) {innerNode++;}
@@ -186,10 +189,12 @@ public class GatewayServer {
         }
         if (finishedPeers == numPeers){
             System.out.println("---");
-            System.out.println("EPOS Successfully executed");
+            System.out.println("EPOS Successfully executed for run: "+numRuns);
             System.out.println("---");
             zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(1,numPeers,"finished"));
-            terminate();
+            resetAll();
+            numRuns++;
+//            terminate();
         }
         if (readyPeers == numPeers){
             System.out.println("---");
@@ -208,11 +213,12 @@ public class GatewayServer {
             System.out.println("all inner nodes are running, sending run message to leafs");
             System.out.println("---");
             for (EPOSPeerStatus peer : PeersStatus) {
-                if (peer.isleaf == true){
+                if (peer.isleaf == true && peer.run == numRuns){
                     zmqNetworkInterface.sendMessage(peer.address, new ReadyToRunMessage(peer.index));
                 }
             }
             innerNodeRunning = 0;
+            allNodesReady = false;
         }
     }
 
@@ -245,5 +251,13 @@ public class GatewayServer {
             e.printStackTrace();
         }
         System.exit(0);
+    }
+
+    public void resetAll(){
+        allNodesReady = false;
+        readyPeers=0;
+        innerNode=0;
+        innerNodeRunning=0;
+        finishedPeers=0;
     }
 }

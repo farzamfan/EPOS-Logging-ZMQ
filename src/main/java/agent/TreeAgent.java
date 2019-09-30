@@ -114,7 +114,7 @@ public abstract class TreeAgent<V extends DataType<V>> extends Agent<V> implemen
         System.out.println("treeViewIsSet for:"+this.getPeer().getNetworkAddress());
         treeViewIsSet = true;
         ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerPort - 3000, "treeViewSet", isLeaf()));
+        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "treeViewSet", isLeaf()));
     }
     
     void treeViewIsSet() {

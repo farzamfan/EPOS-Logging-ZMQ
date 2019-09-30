@@ -46,7 +46,8 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     int numIterations;
     int iteration;
     int latestDownMessage = -10;
-    public boolean listenForDownMessage = false;
+    boolean listenForDownMessage = false;
+    boolean inBetweenRuns = false;
 
     private final Map<Finger, UP> messageBuffer = new HashMap<>();
 
@@ -88,9 +89,11 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                         System.out.println("sending the ready to run for: " + getPeer().getNetworkAddress());
                         //inform gateway of running status
                         ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-                        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "ready", isLeaf()));
+                        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, run, "ready", isLeaf()));
                         readytoRunActiveState();
                     }
+                    else if (readyToRun) {readytoRunActiveState();}
+                    else {runBootstrap();}
                 }
                 else runBootstrap();
             }
@@ -99,6 +102,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     }
 
     protected void readytoRunActiveState() {
+        inBetweenRuns = false;
         if (!isLeaf()){
             runActiveState();
         }
@@ -107,6 +111,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
             loadAgentTimer.addTimerListener((Timer timer) -> {
                 if (readyToRun){
                 System.out.println("waiting over, I am a leaf: "+isLeaf()+", moving to active state for: "+getPeer().getNetworkAddress());
+                listenForDownMessage = false;
                 runActiveState();}
                 else {
                     System.out.println("waiting for the ready to run message: "+getPeer().getNetworkAddress());
@@ -138,16 +143,16 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     }
 
     private void runIteration() {
-        // TODO: 23.09.19
-//        if (iteration == -1){iteration++;}
 
-        if(this.isIterationAfterReorganization() && alreadyCleanedResponses == false ) {
+        if(this.isIterationAfterReorganization() && alreadyCleanedResponses == false && !inBetweenRuns) {
         	this.reset();
         	this.initIteration();
         	alreadyCleanedResponses = true;
         	if (!isLeaf()){
-            ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-            getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "innerRunning", isLeaf()));}
+                System.out.println("DEBUG: sending inner run message for: "+getPeer().getNetworkAddress()+" at iteration: "+iteration+" in run: "+run);
+                ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
+                getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "innerRunning", isLeaf()));
+        	}
         }
 
         this.setNumComputed(0);
@@ -173,11 +178,9 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         if (this.isLeaf()) {
             if (iteration ==0 && !listenForDownMessage){
                 this.goUp();
-//                listen = true;
             }
             else if (iteration == latestDownMessage+1 && iteration != numIterations && !listenForDownMessage){
                 this.goUp();
-//                listen = true;
             }
         }
         this.runActiveState();
@@ -217,12 +220,15 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 System.out.println("EPOS finished for: "+getPeer().getNetworkAddress()+" at iteration: "+iteration+". Sending message now");
                 ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,12345);
                 // inform gateway
-                getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "finished", isLeaf()));
+                getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "finished", isLeaf()));
                 // inform user
                 getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerIndex, "finished",this.selectedPlanID));
+                // move to the next run
+                this.newRun();
             }
-            initIteration();
-            listenForDownMessage = false;
+            else {
+                listenForDownMessage = false;
+                initIteration(); }
         }
     }
 
@@ -267,14 +273,18 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 System.out.println("----------");
                 goDown(atRoot(msg));
                 iteration++;
-                initIteration();
                 if (iteration == numIterations){
                     System.out.println("EPOS finished for: "+getPeer().getNetworkAddress()+" at iteration: "+iteration+". Sending message now");
                     ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,12345);
                     // inform gateway
-                    getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "finished", isLeaf()));
+                    getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "finished", isLeaf()));
                     // inform user
                     getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerIndex, "finished", this.selectedPlanID));
+                    // move to the next run
+                    this.newRun();
+                }
+                else {
+                    initIteration();
                 }
             } else {
                 msg.numAgents = numAgents;
@@ -362,5 +372,18 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     @Override
     public void log(Level level, String message) {
     	this.logger.log(level, "NODE: " + this.getPeer().getIndexNumber() + ", iter: " + this.iteration + ", " + message);
+    }
+
+    public void newRun(){
+        inBetweenRuns = true;
+        readyToRun = false;
+        iteration =0;
+        alreadyCleanedResponses = false;
+        latestDownMessage = -10;
+        run++;
+        System.out.println("----------");
+        System.out.println("run "+run+" started for: "+getPeer().getNetworkAddress());
+        System.out.println("----------");
+        this.runBootstrap();
     }
 }

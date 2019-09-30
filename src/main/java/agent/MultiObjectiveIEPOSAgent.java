@@ -240,6 +240,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
      * 		- all approvals are cleared
      */
     void initIteration() {
+//        System.out.println("DEBUG: init iteration performed for: "+getPeer().getNetworkAddress()+" at iteration: "+iteration+" in run: "+run);
     	this.log(Level.FINER, "MultiObjectiveIeposAgent::initIteration()") ;
     	if(!this.isLeaf()) {
     		if(this.children.size() > 1) {

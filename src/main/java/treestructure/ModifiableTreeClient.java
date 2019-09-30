@@ -151,7 +151,6 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
             getPeer().sendMessage(message.getSourceAddress(),message);
         }
         if (message instanceof ReadyToRunMessage){
-            System.out.println("readyToRun message received (by treeAgent) for: "+getPeer().getNetworkAddress());
             ((Agent) this.getPeer().getPeerletOfType(Agent.class)).setReadyToRun();
         }
     }

@@ -80,7 +80,8 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     private int 							cumComputed;
     
     int										iterationAfterReorganization =	0;	// iteration at which reorganization was requested and executed
-    public boolean                          alreadyCleanedResponses = false;
+    protected int                             run;
+    protected boolean                          alreadyCleanedResponses = false;
 
     /**
      * Initializes the agent with the given combinatorial optimization problem
@@ -112,6 +113,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public Agent(CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends Agent> loggingProvider, long seed) {
         this(globalCostFunc, localCostFunc, loggingProvider);
         random.setSeed(seed);
+        this.run=0;
     }
 
     V createValue() {
@@ -128,7 +130,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
 
         if (MainConfiguration.getSingleton().peerIndex == 0) {
             ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-            getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "bootsrapPeerInitiated", false));
+            getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "bootsrapPeerInitiated", false));
         }
 
         this.runBootstrap();
@@ -152,7 +154,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
         plansAreSet = true;
         System.out.println("plans are set for:" +this.getPeer().getNetworkAddress());
         ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, "plansSet", true));
+        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "plansSet", true));
     }
 
     public void setReadyToRun(){

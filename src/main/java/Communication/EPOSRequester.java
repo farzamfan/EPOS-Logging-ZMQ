@@ -70,7 +70,7 @@ public class EPOSRequester {
                         System.out.println("---");
                         System.out.println("EPOS finished successfully!");
                         System.out.println("---");
-                        System.exit(0);
+//                        System.exit(0);
                     }
                 }
             }
