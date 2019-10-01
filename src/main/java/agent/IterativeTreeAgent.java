@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import loggers.EventLog;
 import protopeer.Finger;
 import protopeer.MainConfiguration;
 import protopeer.network.Message;
@@ -124,6 +125,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
 
     @Override
     protected void runActiveState() {
+        EventLog.logEvent("IterativeTreeAgent", "runActiveState", "start" );
         if (iteration <= numIterations - 1) {
             Timer loadAgentTimer = getPeer().getClock().createNewTimer();
             loadAgentTimer.addTimerListener((Timer timer) -> {
@@ -133,6 +135,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
             });
             loadAgentTimer.schedule(Time.inMilliseconds(this.activeStatePeriod));
         }
+        EventLog.logEvent("IterativeTreeAgent", "runActiveState", "end" );
     }
 
     @Override

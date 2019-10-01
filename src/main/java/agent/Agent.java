@@ -22,6 +22,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import loggers.EventLog;
 import org.zeromq.ZMQ;
 import pgpersist.PersistenceClient;
 import pgpersist.SqlDataItem;
@@ -114,6 +115,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
         this(globalCostFunc, localCostFunc, loggingProvider);
         random.setSeed(seed);
         this.run=0;
+
     }
 
     V createValue() {
@@ -127,6 +129,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     @Override
     public void start() {
         loggingProvider.init(Agent.this);
+        setUpEventLogger();
 
         if (MainConfiguration.getSingleton().peerIndex == 0) {
             ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
@@ -135,7 +138,6 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
 
         this.runBootstrap();
         scheduleMeasurements();
-//        testCustomLog();
     }
 
     @Override
@@ -394,5 +396,11 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
 
 
         }// whi
+    }
+
+    public void setUpEventLogger(){
+        EventLog.setPeristenceClient(persistenceClient);
+        EventLog.setPeerId(MainConfiguration.getSingleton().peerIndex);
+        EventLog.setDIASNetworkId(0);
     }
 }
