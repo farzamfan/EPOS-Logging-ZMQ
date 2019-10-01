@@ -125,7 +125,6 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
 
     @Override
     protected void runActiveState() {
-        EventLog.logEvent("IterativeTreeAgent", "runActiveState", "start" ,String.valueOf(iteration));
         if (iteration <= numIterations - 1) {
             Timer loadAgentTimer = getPeer().getClock().createNewTimer();
             loadAgentTimer.addTimerListener((Timer timer) -> {
@@ -135,7 +134,6 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
             });
             loadAgentTimer.schedule(Time.inMilliseconds(this.activeStatePeriod));
         }
-        EventLog.logEvent("IterativeTreeAgent", "runActiveState", "end", String.valueOf(iteration));
     }
 
     @Override
@@ -231,8 +229,8 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 this.newRun();
             }
             else {
-                listenForDownMessage = false;
-                initIteration(); }
+                initIteration();
+                listenForDownMessage = false;}
         }
     }
 
@@ -248,7 +246,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
      * 6. counters are updated and message is sent to parent
      */
     private void goUp() {
-
+        EventLog.logEvent("IterativeTreeAgent", "goUp", "goUp started" ,String.valueOf(iteration));
             listenForDownMessage = true;
 
             List<UP> orderedMsgs = new ArrayList<>();
@@ -300,6 +298,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 getPeer().sendMessage(parent.getNetworkAddress(), msg);
                 EventLog.logEvent("IterativeTreeAgent", "goUp", "upMessage send" ,String.valueOf(iteration));
             }
+        EventLog.logEvent("IterativeTreeAgent", "goUp", "goUp ended" ,String.valueOf(iteration));
     }
 
     /**
@@ -312,6 +311,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
      * @param parentMsg
      */
     private void goDown(DOWN parentMsg) {
+        EventLog.logEvent("IterativeTreeAgent", "goDown", "goDown started" ,String.valueOf(iteration));
         if (!isRoot()) {
             System.out.println("going down, I am: "+getPeer().getNetworkAddress()+" "+getIteration());
             numAgents = parentMsg.numAgents;
@@ -331,12 +331,11 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
             msg.cumComputed = this.getCumComputed();
             this.setNumTransmitted(this.getNumTransmitted() + msg.getNumTransmitted());
             this.setCumTransmitted(this.getCumTransmitted() + msg.getNumTransmitted());
-            
             getPeer().sendMessage(children.get(i).getNetworkAddress(), msg);
             EventLog.logEvent("IterativeTreeAgent", "goDown", "downMessage send" ,String.valueOf(iteration));
         }
-        
         this.finalizeDownPhase(parentMsg);
+        EventLog.logEvent("IterativeTreeAgent", "goDown", "goDown ended" ,String.valueOf(iteration));
     }
 
     abstract void initPhase();
