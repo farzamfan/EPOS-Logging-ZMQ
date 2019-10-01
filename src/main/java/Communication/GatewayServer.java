@@ -118,30 +118,30 @@ public class GatewayServer {
                 else if (message instanceof InformGateway){
                     InformGateway informGateway = (InformGateway) message;
                     if (informGateway.status.equals("bootsrapPeerInitiated")) {
-                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
+//                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
                         initiateRemainigPeers();
                     }
                     if (informGateway.status.equals("treeViewSet")) {
-                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
+//                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
                         peersWithTreeViewSet++;
                     }
                     else if (informGateway.status.equals("plansSet")) {
-                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
+//                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
                         peersWithPlansSet++;
                     }
                     else if (informGateway.status.equals("ready")) {
                         EPOSPeerStatus peer = new EPOSPeerStatus(informGateway.peerID,informGateway.run,informGateway.status,informGateway.isLeaf,informGateway.getSourceAddress());
                         PeersStatus.add(peer);
-                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
+//                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
                         if (informGateway.isLeaf == false) {innerNode++;}
                         readyPeers++;
                     }
                     else if (informGateway.status.equals("innerRunning")) {
-                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
+//                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
                         innerNodeRunning++;
                     }
                     else if (informGateway.status.equals("finished")) {
-                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
+//                        System.out.println("peer: "+informGateway.peerID+" is "+ informGateway.status);
                         finishedPeers++;
                     }
                 }
@@ -149,7 +149,7 @@ public class GatewayServer {
                     UserRegisterMessage userRegisterMessage = (UserRegisterMessage) message;
                     UserStatus userStatus = new UserStatus(registeredUsers,userRegisterMessage.status,(ZMQAddress) userRegisterMessage.getSourceAddress());
                     UsersStatus.add(userStatus);
-                    System.out.println("users "+userRegisterMessage.index+" registered");
+//                    System.out.println("users "+userRegisterMessage.index+" registered");
                     registeredUsers++;
                 }
                 checkStatus();

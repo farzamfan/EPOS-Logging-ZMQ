@@ -13,7 +13,14 @@
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/User/META-INF/MANIFEST.MF" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/liveRun/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EPOSRequester.jar" beforeDir="false" afterPath="$PROJECT_DIR$/EPOSRequester.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GateWay.jar" beforeDir="false" afterPath="$PROJECT_DIR$/GateWay.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User.jar" beforeDir="false" afterPath="$PROJECT_DIR$/User.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/protopeer.conf" beforeDir="false" afterPath="$PROJECT_DIR$/conf/protopeer.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/experiment/IEPOSExperiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/experiment/IEPOSExperiment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
@@ -519,7 +526,8 @@
       <workItem from="1569570915939" duration="9491000" />
       <workItem from="1569843782025" duration="13533000" />
       <workItem from="1569860978446" duration="174000" />
-      <workItem from="1569914452602" duration="5876000" />
+      <workItem from="1569914452602" duration="6410000" />
+      <workItem from="1569924838799" duration="332000" />
     </task>
     <servers />
   </component>

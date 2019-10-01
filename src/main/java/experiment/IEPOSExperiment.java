@@ -144,7 +144,7 @@ public class IEPOSExperiment {
 			 */
 			Function<Integer, Agent> createAgent = agentIdx -> {
 
-				final int					persistenceClientOutputQueueSize = 1000;
+				final int					persistenceClientOutputQueueSize = 5000;
 				final String				daemonConnectString = "tcp://" + liveConf.persistenceDaemonIP + ":" + liveConf.persistenceDaemonPort;
 				PersistenceClient persistenceClient = new PersistenceClient( zmqContext, daemonConnectString, persistenceClientOutputQueueSize );
 
