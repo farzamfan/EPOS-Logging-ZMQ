@@ -125,7 +125,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
 
     @Override
     protected void runActiveState() {
-        EventLog.logEvent("IterativeTreeAgent", "runActiveState", "start" );
+        EventLog.logEvent("IterativeTreeAgent", "runActiveState", "start" ,String.valueOf(iteration));
         if (iteration <= numIterations - 1) {
             Timer loadAgentTimer = getPeer().getClock().createNewTimer();
             loadAgentTimer.addTimerListener((Timer timer) -> {
@@ -135,7 +135,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
             });
             loadAgentTimer.schedule(Time.inMilliseconds(this.activeStatePeriod));
         }
-        EventLog.logEvent("IterativeTreeAgent", "runActiveState", "end" );
+        EventLog.logEvent("IterativeTreeAgent", "runActiveState", "end", String.valueOf(iteration));
     }
 
     @Override
@@ -152,7 +152,6 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         	this.initIteration();
         	alreadyCleanedResponses = true;
         	if (!isLeaf()){
-                System.out.println("DEBUG: sending inner run message for: "+getPeer().getNetworkAddress()+" at iteration: "+iteration+" in run: "+run);
                 ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
                 getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "innerRunning", isLeaf()));
         	}
@@ -207,6 +206,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
      */
     public void handleIncomingMessage(Message message) {
         if (message instanceof UpMessage) {
+            EventLog.logEvent("IterativeTreeAgent", "handleIncomingMessage", "upMessage received" ,String.valueOf(iteration));
             System.out.println("received an up message from: "+message.getSourceAddress()+" i am: "+this.getPeer().getNetworkAddress()+" at iteration: "+iteration);
             UP msg = (UP) message;
             messageBuffer.put(msg.child, msg);
@@ -215,6 +215,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 goUp();
             }
         } else if (message instanceof DownMessage) {
+            EventLog.logEvent("IterativeTreeAgent", "handleIncomingMessage", "downMessage received" ,String.valueOf(iteration));
             System.out.println("received a down message from: "+message.getSourceAddress()+" i am: "+this.getPeer().getNetworkAddress()+" at iteration: "+iteration);
             latestDownMessage = this.iteration;
             goDown((DOWN) message);
@@ -297,6 +298,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 this.setCumTransmitted(this.getCumTransmitted() + msg.getNumTransmitted());
                 System.out.println("sending the up message, I am: "+this.getPeer().getNetworkAddress()+" at iteration: "+iteration+" message goes to: "+parent.getNetworkAddress());
                 getPeer().sendMessage(parent.getNetworkAddress(), msg);
+                EventLog.logEvent("IterativeTreeAgent", "goUp", "upMessage send" ,String.valueOf(iteration));
             }
     }
 
@@ -331,6 +333,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
             this.setCumTransmitted(this.getCumTransmitted() + msg.getNumTransmitted());
             
             getPeer().sendMessage(children.get(i).getNetworkAddress(), msg);
+            EventLog.logEvent("IterativeTreeAgent", "goDown", "downMessage send" ,String.valueOf(iteration));
         }
         
         this.finalizeDownPhase(parentMsg);

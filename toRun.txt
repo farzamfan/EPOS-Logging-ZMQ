@@ -25,6 +25,7 @@ Truncate globalresponsevectorlogger;
 Truncate globalcomplexcostlogger ;
 Truncate selectedplanlogger;
 Truncate localcostmultiobjectivelogger;
+Truncate eventlog;
 
 #if the process limit is reached
 sudo sysctl -w kern.maxfilesperproc=1048576

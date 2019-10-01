@@ -241,7 +241,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
      */
     void initIteration() {
 
-        EventLog.logEvent("MultiObjectiveIEPOSAgent", "initIteration", "start" );
+        EventLog.logEvent("MultiObjectiveIEPOSAgent", "initIteration", "start",String.valueOf(iteration) );
 
     	this.log(Level.FINER, "MultiObjectiveIeposAgent::initIteration()") ;
     	if(!this.isLeaf()) {
