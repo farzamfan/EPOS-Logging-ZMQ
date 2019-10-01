@@ -63,12 +63,12 @@ public class EPOSRequester {
             }
 
             public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress, Message message) {
-                System.out.println("Message received from: + " +message.getSourceAddress() + " message: "+ message + " messageSize: " + message.getMessageSize());
+//                System.out.println("Message received from: + " +message.getSourceAddress() + " message: "+ message + " messageSize: " + message.getMessageSize());
                 if (message instanceof EPOSRequestMessage){
                     EPOSRequestMessage eposRequestMessage = (EPOSRequestMessage) message;
                     if (eposRequestMessage.status.equals("finished")){
                         System.out.println("---");
-                        System.out.println("EPOS finished successfully!");
+                        System.out.println("EPOS finished successfully! Run: "+eposRequestMessage.run);
                         System.out.println("---");
 //                        System.exit(0);
                     }
@@ -76,7 +76,7 @@ public class EPOSRequester {
             }
 
             public void messageSent(NetworkInterface networkInterface, NetworkAddress destinationAddress, Message message) {
-                System.out.println("Message sent: + " +destinationAddress + " message: "+ message + " messageSize: " + message.getMessageSize());
+//                System.out.println("Message sent: + " +destinationAddress + " message: "+ message + " messageSize: " + message.getMessageSize());
             }
 
 

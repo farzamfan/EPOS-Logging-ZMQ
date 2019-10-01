@@ -71,23 +71,25 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
 	}
 
 	public void DBlog(Agent<V> agent) {
-		LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
+		if (agent.isRepresentative()) {
+			LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
 
-		MultiObjectiveIEPOSAgent moagent = (MultiObjectiveIEPOSAgent) agent;
-		HashMap<OptimizationFactor, Object> parameters = new HashMap<OptimizationFactor, Object>();
-		parameters.put(OptimizationFactor.GLOBAL_COST, agent.getGlobalCostFunction().calcCost(agent.getGlobalResponse()));
-		parameters.put(OptimizationFactor.DISCOMFORT_SUM, moagent.getGlobalDiscomfortSum());
-		parameters.put(OptimizationFactor.DISCOMFORT_SUM_SQR, moagent.getGlobalDiscomfortSumSqr());
-		parameters.put(OptimizationFactor.ALPHA, moagent.getUnfairnessWeight());
-		parameters.put(OptimizationFactor.BETA, moagent.getLocalCostWeight());
-		parameters.put(OptimizationFactor.NUM_AGENTS, (double) Configuration.numAgents);
-		double cost = Configuration.planOptimizationFunction.apply(parameters);
+			MultiObjectiveIEPOSAgent moagent = (MultiObjectiveIEPOSAgent) agent;
+			HashMap<OptimizationFactor, Object> parameters = new HashMap<OptimizationFactor, Object>();
+			parameters.put(OptimizationFactor.GLOBAL_COST, agent.getGlobalCostFunction().calcCost(agent.getGlobalResponse()));
+			parameters.put(OptimizationFactor.DISCOMFORT_SUM, moagent.getGlobalDiscomfortSum());
+			parameters.put(OptimizationFactor.DISCOMFORT_SUM_SQR, moagent.getGlobalDiscomfortSumSqr());
+			parameters.put(OptimizationFactor.ALPHA, moagent.getUnfairnessWeight());
+			parameters.put(OptimizationFactor.BETA, moagent.getLocalCostWeight());
+			parameters.put(OptimizationFactor.NUM_AGENTS, (double) Configuration.numAgents);
+			double cost = Configuration.planOptimizationFunction.apply(parameters);
 
-		record.put("run", String.valueOf(agent.run));
-		record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
-		record.put("iteration", String.valueOf(agent.getIteration()));
-		record.put("cost", String.valueOf(cost) );
-		agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "globalComplexCostLogger", record ) );
+			record.put("run", String.valueOf(agent.run));
+			record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
+			record.put("iteration", String.valueOf(agent.getIteration()));
+			record.put("cost", String.valueOf(cost));
+			agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("globalComplexCostLogger", record));
+		}
 	}
 
 	@Override

@@ -45,13 +45,13 @@ echo "deployment_name : $deployment_name"
 config=$deployment/conf/daemon.conf
 echo "config : $config"
 
-commit_rate=1000
+commit_rate=500
 echo "commit_rate : $commit_rate"
 
 commit_period_seconds=10
 echo "commit_period_seconds : $commit_period_seconds"
 
-javamem=8192m
+javamem=16384m
 echo "javamem : $javamem"
 
 # set the java classpath, using either:

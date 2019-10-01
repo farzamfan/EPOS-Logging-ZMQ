@@ -32,6 +32,7 @@ public class User {
     private List<UserStatus> Users;
     private int usersWithAssignedPeer;
     private int finishedPeers=0;
+    private int currentRun =0;
 
 
     public User(){
@@ -76,12 +77,13 @@ public class User {
                 if (message instanceof InformUser){
                     InformUser informUser = (InformUser) message;
                     if (informUser.status.equals("finished")) {
-                        System.out.println("EPOS finished for user: " + informUser.peerID+" with selected plan ID: "+informUser.selectedPlanID);
+//                        System.out.println("EPOS finished for user: " + informUser.peerID+" with selected plan ID: "+informUser.selectedPlanID);
                         finishedPeers++;
                         if (finishedPeers == Users.size()){
                             System.out.println("---");
-                            System.out.println("all users have received their final plans! EPOS finished");
+                            System.out.println("all users have received their final plans! EPOS finished! Run: "+ currentRun);
                             System.out.println("---");
+                            currentRun++;
 //                            System.exit(0);
                         }
                     }

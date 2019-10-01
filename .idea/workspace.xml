@@ -16,10 +16,12 @@
       <change beforePath="$PROJECT_DIR$/EPOSRequester.jar" beforeDir="false" afterPath="$PROJECT_DIR$/EPOSRequester.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GateWay.jar" beforeDir="false" afterPath="$PROJECT_DIR$/GateWay.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User.jar" beforeDir="false" afterPath="$PROJECT_DIR$/User.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployments/localhost/log/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/log/server.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequester.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalComplexCostLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalComplexCostLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalResponseVectorLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalResponseVectorLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start.daemon.sh" beforeDir="false" afterPath="$PROJECT_DIR$/start.daemon.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" afterDir="false" />
@@ -527,7 +529,7 @@
       <workItem from="1569843782025" duration="13533000" />
       <workItem from="1569860978446" duration="174000" />
       <workItem from="1569914452602" duration="6410000" />
-      <workItem from="1569924838799" duration="1101000" />
+      <workItem from="1569924838799" duration="2842000" />
     </task>
     <servers />
   </component>

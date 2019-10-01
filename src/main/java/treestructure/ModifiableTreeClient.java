@@ -145,6 +145,7 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
                 this.runPassiveState((TreeViewReply) message);
         }
         if (message instanceof PlanSetMessage){
+            PlanSetMessage planSetMessage = (PlanSetMessage) message;
             ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans( ((PlanSetMessage) message).possiblePlans) ;
             ((Agent) this.getPeer().getPeerletOfType(Agent.class)).userAddress = message.getSourceAddress();
             // TODO: 23.09.19
