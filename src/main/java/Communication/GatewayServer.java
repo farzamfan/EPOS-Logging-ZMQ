@@ -97,7 +97,7 @@ public class GatewayServer {
                         System.out.println("initiating the boostrap server with address: "+"127.0.0.1:"+(bootstrapPort + UsersStatus.get(0).index));
                         System.out.println("---");
                         ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",(bootstrapPort + UsersStatus.get(0).index));
-                        String command = "screen -S peer"+UsersStatus.get(0).index+" -d -m java -jar tutorial.jar "+ String.valueOf(UsersStatus.get(0).index) + " " + String.valueOf(bootstrapPort + UsersStatus.get(0).index);
+                        String command = "screen -S peer"+UsersStatus.get(0).index+" -d -m java -Xmx1024m -jar tutorial.jar "+ String.valueOf(UsersStatus.get(0).index) + " " + String.valueOf(bootstrapPort + UsersStatus.get(0).index);
                         try {
                             Runtime.getRuntime().exec(command);
                             UsersStatus.get(0).assignedPeerAddress = peerAddress;
@@ -229,7 +229,7 @@ public class GatewayServer {
             for (int j=1;j<UsersStatus.size();j++) {
                 System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
                 ZMQAddress peerAddress = new ZMQAddress("127.0.0.1", (bootstrapPort + UsersStatus.get(j).index));
-                String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -jar tutorial.jar "+ String.valueOf(UsersStatus.get(j).index) + " " + String.valueOf(bootstrapPort + UsersStatus.get(j).index);
+                String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar tutorial.jar "+ String.valueOf(UsersStatus.get(j).index) + " " + String.valueOf(bootstrapPort + UsersStatus.get(j).index);
                 try {
                     Runtime.getRuntime().exec(command);
                     UsersStatus.get(j).assignedPeerAddress = peerAddress;
