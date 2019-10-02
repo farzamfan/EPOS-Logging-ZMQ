@@ -191,7 +191,7 @@ public class GatewayServer {
             System.out.println("---");
             System.out.println("EPOS Successfully executed for run: "+numRuns);
             System.out.println("---");
-            zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(1,numPeers,"finished"));
+            zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(numRuns,numPeers,"finished"));
             resetAll();
             numRuns++;
 //            terminate();

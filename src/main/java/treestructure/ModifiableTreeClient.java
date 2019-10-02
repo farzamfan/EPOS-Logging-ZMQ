@@ -146,10 +146,20 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
         }
         if (message instanceof PlanSetMessage){
             PlanSetMessage planSetMessage = (PlanSetMessage) message;
-            ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans( ((PlanSetMessage) message).possiblePlans) ;
-            ((Agent) this.getPeer().getPeerletOfType(Agent.class)).userAddress = message.getSourceAddress();
-            // TODO: 23.09.19
-            getPeer().sendMessage(message.getSourceAddress(),message);
+            System.out.println("Message received from: "+planSetMessage.getSourceAddress()+ " message: "+ planSetMessage + " messageSize: " + planSetMessage.status);
+            if (planSetMessage.status.equals("setPlans")) {
+                ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans(((PlanSetMessage) message).possiblePlans);
+                ((Agent) this.getPeer().getPeerletOfType(Agent.class)).userAddress = message.getSourceAddress();
+                getPeer().sendMessage(message.getSourceAddress(), new PlanSetMessage("plansSet"));
+            }
+            if (planSetMessage.status.equals("noNewPlans")) {
+                ((Agent) this.getPeer().getPeerletOfType(Agent.class)).plansAreSet = true;
+            }
+            if (planSetMessage.status.equals("changePlans")) {
+                ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans(((PlanSetMessage) message).possiblePlans);
+                System.out.println("plans for peer: "+getPeer().getIndexNumber()+" has changed");
+                getPeer().sendMessage(message.getSourceAddress(), new PlanSetMessage("plansChanged"));
+            }
         }
         if (message instanceof ReadyToRunMessage){
             ((Agent) this.getPeer().getPeerletOfType(Agent.class)).setReadyToRun();

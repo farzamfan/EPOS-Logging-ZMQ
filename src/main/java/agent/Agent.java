@@ -81,8 +81,9 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     private int 							cumComputed;
     
     int										iterationAfterReorganization =	0;	// iteration at which reorganization was requested and executed
-    public int                             run;
-    protected boolean                          alreadyCleanedResponses = false;
+    public int                              run;
+    protected boolean                       alreadyCleanedResponses = false;
+    transient ZMQAddress                    GatewayAddress = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
 
     /**
      * Initializes the agent with the given combinatorial optimization problem
@@ -129,11 +130,10 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     @Override
     public void start() {
         loggingProvider.init(Agent.this);
-        setUpEventLogger();
+//        setUpEventLogger();
 
         if (MainConfiguration.getSingleton().peerIndex == 0) {
-            ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-            getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "bootsrapPeerInitiated", false));
+            getPeer().sendMessage(GatewayAddress, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "bootsrapPeerInitiated", false));
         }
 
         this.runBootstrap();
@@ -152,11 +152,11 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     }
 
     public void addPlans(List<Plan<V>> possiblePlans){
+        this.possiblePlans.clear();
         this.possiblePlans.addAll(possiblePlans);
         plansAreSet = true;
         System.out.println("plans are set for:" +this.getPeer().getNetworkAddress());
-        ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "plansSet", true));
+        getPeer().sendMessage(GatewayAddress, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "plansSet", true));
     }
 
     public void setReadyToRun(){

@@ -77,6 +77,8 @@ public class User {
                 if (message instanceof InformUser){
                     InformUser informUser = (InformUser) message;
                     if (informUser.status.equals("finished")) {
+                        Users.get(informUser.peerID).status = "finished";
+                        generateNewPlans(Users.get(informUser.peerID));
 //                        System.out.println("EPOS finished for user: " + informUser.peerID+" with selected plan ID: "+informUser.selectedPlanID);
                         finishedPeers++;
                         if (finishedPeers == Users.size()){
@@ -84,8 +86,13 @@ public class User {
                             System.out.println("all users have received their final plans! EPOS finished! Run: "+ currentRun);
                             System.out.println("---");
                             currentRun++;
+                            finishedPeers =0;
 //                            System.exit(0);
                         }
+                    }
+                    if (informUser.status.equals("checkNewPlans")) {
+//                        System.out.println("user: " + informUser.peerID+" is: "+informUser.status);
+                        checkForNewPlans(informUser);
                     }
                 }
                 else if (message instanceof UserRegisterMessage){
@@ -153,7 +160,7 @@ public class User {
         Dataset gaussianDataset = new GaussianDataset(10,100,10,1,new Random(123));
         List<Plan<Vector>> possiblePlans = gaussianDataset.getPlans(Index);
 
-        PlanSetMessage planSetMessage = new PlanSetMessage();
+        PlanSetMessage planSetMessage = new PlanSetMessage("setPlans");
         planSetMessage.possiblePlans = possiblePlans;
         return planSetMessage;
     }
@@ -161,6 +168,26 @@ public class User {
     public void sendPlansMessage(PlanSetMessage planSetMessage, ZMQAddress destination){
         zmqNetworkInterface.sendMessage(destination, planSetMessage);
 //        System.exit(0);
+    }
+
+    public void checkForNewPlans(InformUser informUser){
+        if (Users.get(informUser.peerID).status.equals("hasNewPlans")){
+            Dataset gaussianDataset = new GaussianDataset(10,100,10,1,new Random(123));
+            List<Plan<Vector>> possiblePlans = gaussianDataset.getPlans(informUser.peerID);
+            PlanSetMessage planSetMessage = new PlanSetMessage("changePlans");
+            planSetMessage.possiblePlans = possiblePlans;
+            sendPlansMessage(planSetMessage,Users.get(informUser.peerID).assignedPeerAddress);
+        }
+        else {
+        zmqNetworkInterface.sendMessage(Users.get(informUser.peerID).assignedPeerAddress, new PlanSetMessage("noNewPlans"));}
+    }
+
+    public void generateNewPlans(UserStatus user){
+        Random random = new Random();
+        if( (random.nextInt(19) + 1) == 1){
+            user.status = "hasNewPlans";
+            System.out.println("user: "+user.index+ " has new plans.");
+        }
     }
 
 }

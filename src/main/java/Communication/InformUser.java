@@ -8,9 +8,15 @@ public class InformUser extends Message implements Serializable {
     int peerID;
     String status;
     int selectedPlanID;
+
     public InformUser(int index, String stat, int planID){
         peerID = index;
         status = stat;
         selectedPlanID = planID;
+    }
+
+    public InformUser(int index, String stat) {
+        peerID = index;
+        status = stat;
     }
 }

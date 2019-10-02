@@ -385,10 +385,17 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         iteration =0;
         alreadyCleanedResponses = false;
         latestDownMessage = -10;
+        plansAreSet = false;
+        checkForNewPlans();
         run++;
         System.out.println("----------");
         System.out.println("run "+run+" started for: "+getPeer().getNetworkAddress());
         System.out.println("----------");
         this.runBootstrap();
+    }
+
+    public void checkForNewPlans(){
+        System.out.println("checking for new plans for: "+getPeer().getNetworkAddress());
+        getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerIndex, "checkNewPlans"));
     }
 }
