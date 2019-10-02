@@ -45,7 +45,7 @@ echo "deployment_name : $deployment_name"
 config=$deployment/conf/daemon.conf
 echo "config : $config"
 
-commit_rate=500
+commit_rate=1000
 echo "commit_rate : $commit_rate"
 
 commit_period_seconds=10
