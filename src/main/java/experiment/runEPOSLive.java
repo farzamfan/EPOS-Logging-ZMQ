@@ -34,6 +34,7 @@ public class runEPOSLive extends ZMQExperiment {
                         int numChildren, // number of children for each middle node
                         int numIterations, // total number of iterations to run for
                         int numAgents, // total number of nodes in the network
+                        int initRun,
                         Function<Integer, Agent> createAgent, // lambda expression that creates an agent
                         Configuration config)
     {
@@ -115,7 +116,8 @@ public class runEPOSLive extends ZMQExperiment {
                 newPeer.addPersistenceClient(persistenceClient, diasNetworkId);
                 Agent newAgent = createAgent.apply(myIndex);
                 newAgent.addPersistenceClient(persistenceClient);
-                architecture.addPeerlets(newPeer, newAgent, myIndex, config.numAgents);
+                newAgent.setActiveRun(initRun);
+                architecture.addPeerlets(newPeer, newAgent, myIndex, numAgents);
 
                 return newPeer;
             }

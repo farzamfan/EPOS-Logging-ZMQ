@@ -87,10 +87,11 @@ public class PlanSelectionOptimizationFunctionCollection {
 		double numAgents		=	(double)	map.get(OptimizationFactor.NUM_AGENTS);
 		
 		double local_cost		=	localCost(discomfortSum, numAgents);
-		double unfairness		=	unfairness(discomfortSum, discomfortSumSqr, numAgents); 
-		
+		double unfairness		=	unfairness(discomfortSum, discomfortSumSqr, numAgents);
+
 		if(Double.isNaN(unfairness)) {
-			throw new NotANumberException();
+			unfairness	 	=	0.0;
+//			throw new NotANumberException();
 		}
 //		System.out.println("discomfortSum = " + discomfortSum + ", discomfortSumSqr = " + discomfortSumSqr);
 //		System.out.println("global cost = " + global_cost + ", unfairness = " + unfairness + ", local cost = " + local_cost + ", num agents = " + numAgents);

@@ -7,13 +7,65 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee422a33-45cd-4dc7-9195-4063a1a10a8a" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/InformBootstrap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/TreeViewChangeMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Communication/UserJoinLeaveMessage.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/liverun/src/META-INF/MANIFEST.MF" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/EPOSRequester/META-INF/MANIFEST.MF" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/Gateway/META-INF/MANIFEST.MF" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/User/META-INF/MANIFEST.MF" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/liveRun/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start.daemon.sh" beforeDir="false" afterPath="$PROJECT_DIR$/start.daemon.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EPOSRequester.jar" beforeDir="false" afterPath="$PROJECT_DIR$/EPOSRequester.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GateWay.jar" beforeDir="false" afterPath="$PROJECT_DIR$/GateWay.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User.jar" beforeDir="false" afterPath="$PROJECT_DIR$/User.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/localhost/log/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/log/server.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/InformGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/InformGatewayMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/InformUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/InformUserMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/ReadyToRunMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/ReadyToRunMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/UserRegisterMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/UserRegisterMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/Agent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/Agent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/TreeAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/TreeAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalComplexCostLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalComplexCostLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalCostLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalCostLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalResponseVectorLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalResponseVectorLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/LocalCostMultiObjectiveLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/LocalCostMultiObjectiveLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/SelectedPlanLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/SelectedPlanLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/TerminationLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/TerminationLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/UnfairnessLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/UnfairnessLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/planselection/PlanSelectionOptimizationFunctionCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/planselection/PlanSelectionOptimizationFunctionCollection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/experiment/LiveRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/experiment/LiveRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/experiment/runEPOSLive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/experiment/runEPOSLive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/treestructure/ModifiableTreeClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/treestructure/ModifiableTreeClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/treestructure/ModifiableTreeServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/treestructure/ModifiableTreeServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/GatewayServer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/GatewayServer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/GatewayServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/GatewayServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/InformGateway.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/InformUser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/ReadyToRunMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/ReadyToRunMessage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/User$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/User$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/UserRegisterMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/UserRegisterMessage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/Agent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/Agent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$DownMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$DownMessage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$UpMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent$UpMessage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/TreeAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/TreeAgent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/experiment/LiveRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/experiment/LiveRun.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/experiment/runEPOSLive$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/experiment/runEPOSLive$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/experiment/runEPOSLive.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/experiment/runEPOSLive.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeClient$ClientState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeClient$ClientState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeServer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeServer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeServer$ServerState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeServer$ServerState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/treestructure/ModifiableTreeServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
@@ -377,7 +429,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.User">
+  <component name="RunManager" selected="Application.GatewayServer">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="EPOS-Logging-ZMQ" />
@@ -478,9 +530,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GatewayServer" />
         <item itemvalue="Application.User" />
         <item itemvalue="Application.LiveRun" />
-        <item itemvalue="Application.GatewayServer" />
         <item itemvalue="Application.EPOSRequester" />
         <item itemvalue="Application.IEPOSExperiment" />
       </list>
@@ -521,7 +573,10 @@
       <workItem from="1569860978446" duration="174000" />
       <workItem from="1569914452602" duration="6410000" />
       <workItem from="1569924838799" duration="8579000" />
-      <workItem from="1570002917618" duration="2399000" />
+      <workItem from="1570002917618" duration="16639000" />
+      <workItem from="1570087949509" duration="24336000" />
+      <workItem from="1570177102576" duration="10895000" />
+      <workItem from="1570436045585" duration="19260000" />
     </task>
     <servers />
   </component>

@@ -23,7 +23,6 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +33,6 @@ import agent.Agent;
 
 import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
-import protopeer.measurement.Aggregate;
 import protopeer.measurement.MeasurementLog;
 import data.DataType;
 
@@ -130,7 +128,7 @@ public class TerminationLogger<V extends DataType<V>> extends AgentLogger<Agent<
         if (agent.isRepresentative()) {
             if (agent.getIteration() == agent.getNumIterations() - 1) {
                 LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
-                record.put("run", String.valueOf(agent.run));
+                record.put("run", String.valueOf(agent.activeRun));
                 record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
                 record.put("termination", String.valueOf(iter));
                 agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("TerminationLogger", record));

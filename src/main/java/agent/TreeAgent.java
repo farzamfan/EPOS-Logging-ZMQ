@@ -5,23 +5,19 @@
  */
 package agent;
 
-import Communication.InformGateway;
+import Communication.InformGatewayMessage;
 import data.Plan;
 import dsutil.protopeer.services.topology.trees.TreeApplicationInterface;
 import func.CostFunction;
 import func.PlanCostFunction;
 import agent.logging.AgentLoggingProvider;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import protopeer.Finger;
 import data.DataType;
 import protopeer.MainConfiguration;
 import protopeer.network.zmq.ZMQAddress;
-import protopeer.time.Timer;
-import protopeer.time.TimerListener;
-import protopeer.util.quantities.Time;
 
 /**
  * An agent that performs combinatorial optimization in a tree network.
@@ -109,16 +105,21 @@ public abstract class TreeAgent<V extends DataType<V>> extends Agent<V> implemen
 
     @Override
     public void setTreeView(Finger parent, List<Finger> children) {
-    	this.setParent(parent);
+        resetTreeView();
+        this.setParent(parent);
         this.setChildren(children);
         System.out.println("treeViewIsSet for:"+this.getPeer().getNetworkAddress());
         treeViewIsSet = true;
         ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "treeViewSet", isLeaf()));
+        getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "treeViewSet", isLeaf()));
     }
-    
-    void treeViewIsSet() {
+
+    void resetTreeView() {
+        this.parent = null;
+        this.children.clear();
     }
+
+    void treeViewIsSet(){};
 
     public List<Finger> getChildren() {
         return children;

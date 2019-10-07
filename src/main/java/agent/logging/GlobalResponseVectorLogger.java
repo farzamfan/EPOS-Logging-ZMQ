@@ -14,7 +14,6 @@ import agent.Agent;
 import config.Configuration;
 import data.DataType;
 import data.Vector;
-import func.RSSCostFunction;
 import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
 import protopeer.measurement.MeasurementLog;
@@ -61,7 +60,7 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
 		public void DBlog(Agent<V> agent, String gr){
 			if (agent.isRepresentative()) {
 				LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
-				record.put("run", String.valueOf(agent.run));
+				record.put("run", String.valueOf(agent.activeRun));
 				record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 				record.put("iteration", String.valueOf(agent.getIteration()));
 				record.put("globalresponse", "'" + gr);

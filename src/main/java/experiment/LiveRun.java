@@ -9,56 +9,33 @@ import agent.dataset.GaussianDataset;
 import agent.logging.AgentLogger;
 import agent.logging.AgentLoggingProvider;
 import agent.logging.LoggingProvider;
-import agent.logging.instrumentation.CustomFormatter;
 import agent.planselection.MultiObjectiveIeposPlanSelector;
 import config.Configuration;
 import config.LiveConfiguration;
-import data.Plan;
 import data.Vector;
-import loggers.EventLog;
-import loggers.MemLog;
-import loggers.RawLog;
-import org.github.jamm.MemoryMeter;
 import org.zeromq.ZMQ;
-import pgpersist.PersistenceClient;
-import protopeer.*;
 import protopeer.ZMQExperiment;
-import protopeer.network.NetworkAddress;
-import protopeer.servers.bootstrap.BootstrapClient;
-import protopeer.servers.bootstrap.BootstrapServer;
-import protopeer.servers.bootstrap.SimpleConnector;
-import protopeer.servers.bootstrap.SimplePeerIdentifierGenerator;
-import treestructure.ModifiableTreeArchitecture;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
 import java.util.function.Function;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
-import static config.Configuration.numAgents;
 import static config.Configuration.numChildren;
 import static config.Configuration.numIterations;
 
+
 public class LiveRun extends ZMQExperiment {
+
+    static int idx=0;
+    static int peerPort=0;
+    static int numAgents=0;
+    static int initRun=0;
 
     public static void main(String[] args) {
 
-        final int index = Integer.parseInt(args [0]);
-        final int port = (args.length >= 2 ? Integer.parseInt(args [1]) : 0 );
-        liveRun(index,port);
+        idx = Integer.parseInt(args [0]);
+        peerPort = (args.length >= 2 ? Integer.parseInt(args [1]) : 0 );
+        numAgents = (args.length >= 3 ? Integer.parseInt(args [2]) : 0 );
+        initRun = (args.length >= 4 ? Integer.parseInt(args [3]) : 0 );
+        liveRun(idx,peerPort);
         }
 
         public static void liveRun(int index, int port){
@@ -123,7 +100,7 @@ public class LiveRun extends ZMQExperiment {
 
             };
 
-            EPOSapp.runEPOS(liveConf,protopeer_conf,zmqContext,numChildren,numIterations,numAgents,createAgent,config);
+            EPOSapp.runEPOS(liveConf,protopeer_conf,zmqContext,numChildren,numIterations,numAgents,initRun,createAgent,config);
 //        loggingProvider.print();
         }
 

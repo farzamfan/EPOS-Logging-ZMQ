@@ -5,15 +5,12 @@
  */
 package agent;
 
-import Communication.InformGateway;
-import afu.org.checkerframework.checker.oigj.qual.O;
-import agent.logging.GlobalCostLogger;
+import Communication.InformGatewayMessage;
 import data.Plan;
 import func.CostFunction;
 import func.PlanCostFunction;
 import agent.logging.AgentLoggingProvider;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -23,22 +20,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import loggers.EventLog;
-import org.zeromq.ZMQ;
 import pgpersist.PersistenceClient;
 import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
 import protopeer.BasePeerlet;
-import protopeer.Configuration;
 import protopeer.MainConfiguration;
-import protopeer.measurement.MeasurementLog;
-import protopeer.measurement.MeasurementLoggerListener;
 import protopeer.network.NetworkAddress;
 import protopeer.network.zmq.ZMQAddress;
-import protopeer.time.Timer;
-import protopeer.time.TimerListener;
-import protopeer.util.quantities.Time;
 import data.DataType;
-import sun.nio.ch.Net;
 
 /**
  * An agent that performs combinatorial optimization.
@@ -81,7 +70,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     private int 							cumComputed;
     
     int										iterationAfterReorganization =	0;	// iteration at which reorganization was requested and executed
-    public int                              run;
+    public int activeRun;
     protected boolean                       alreadyCleanedResponses = false;
     transient ZMQAddress                    GatewayAddress = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
 
@@ -115,7 +104,6 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public Agent(CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends Agent> loggingProvider, long seed) {
         this(globalCostFunc, localCostFunc, loggingProvider);
         random.setSeed(seed);
-        this.run=0;
 
     }
 
@@ -133,7 +121,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
 //        setUpEventLogger();
 
         if (MainConfiguration.getSingleton().peerIndex == 0) {
-            getPeer().sendMessage(GatewayAddress, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "bootsrapPeerInitiated", false));
+            getPeer().sendMessage(GatewayAddress, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "bootsrapPeerInitiated", false));
         }
 
         this.runBootstrap();
@@ -151,12 +139,16 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
         System.out.println("persistenceClient set");
     }
 
+    public void setActiveRun (int initRun){
+        activeRun = initRun;
+    }
+
     public void addPlans(List<Plan<V>> possiblePlans){
         this.possiblePlans.clear();
         this.possiblePlans.addAll(possiblePlans);
         plansAreSet = true;
         System.out.println("plans are set for:" +this.getPeer().getNetworkAddress());
-        getPeer().sendMessage(GatewayAddress, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "plansSet", true));
+        getPeer().sendMessage(GatewayAddress, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "plansSet", true));
     }
 
     public void setReadyToRun(){

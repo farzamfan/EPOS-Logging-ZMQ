@@ -33,12 +33,18 @@ public class User {
     private int usersWithAssignedPeer;
     private int finishedPeers=0;
     private int currentRun =0;
-
+    private int usersWithassignedPeerRunning =0;
+    private List<Integer> numUsersPerRun;
+    private int joinLeaveRate = 20;
+    private int newPlanProb = 19;
+    private int userChangeProb = 2;
 
     public User(){
         String rootPath = System.getProperty("user.dir");
         String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
         config = Configuration.fromFile(confPath);
+        numUsersPerRun = new ArrayList<Integer>();
+        numUsersPerRun.add(config.numAgents);
     }
 
     public static void main(String[] args) {
@@ -74,14 +80,18 @@ public class User {
             }
 
             public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress, Message message) {
-                if (message instanceof InformUser){
-                    InformUser informUser = (InformUser) message;
-                    if (informUser.status.equals("finished")) {
-                        Users.get(informUser.peerID).status = "finished";
-                        generateNewPlans(Users.get(informUser.peerID));
+                if (message instanceof InformUserMessage){
+                    InformUserMessage informUserMessage = (InformUserMessage) message;
+                    if (informUserMessage.status.equals("assignedPeerRunning")){
+                        Users.get(informUserMessage.peerID).status = "assignedPeerRunning";
+                        usersWithassignedPeerRunning++;
+                    }
+                    if (informUserMessage.status.equals("finished")) {
+                        Users.get(informUserMessage.peerID).status = "finished";
+                        usersHavingNewPlans(Users.get(informUserMessage.peerID));
 //                        System.out.println("EPOS finished for user: " + informUser.peerID+" with selected plan ID: "+informUser.selectedPlanID);
                         finishedPeers++;
-                        if (finishedPeers == Users.size()){
+                        if (finishedPeers == numUsersPerRun.get(currentRun)){
                             System.out.println("---");
                             System.out.println("all users have received their final plans! EPOS finished! Run: "+ currentRun);
                             System.out.println("---");
@@ -90,23 +100,29 @@ public class User {
 //                            System.exit(0);
                         }
                     }
-                    if (informUser.status.equals("checkNewPlans")) {
-//                        System.out.println("user: " + informUser.peerID+" is: "+informUser.status);
-                        checkForNewPlans(informUser);
+                    if (informUserMessage.status.equals("checkNewPlans")) {
+                        checkForNewPlans(informUserMessage);
                     }
                 }
                 else if (message instanceof UserRegisterMessage){
                     UserRegisterMessage userRegisterMessage = (UserRegisterMessage) message;
                     Users.get(userRegisterMessage.index).status = "peerAssigned";
                     Users.get(userRegisterMessage.index).assignedPeerAddress = userRegisterMessage.assignedPeerAddress;
+                    sendPlans(userRegisterMessage.index,userRegisterMessage.assignedPeerAddress);
                     usersWithAssignedPeer++;
                 }
                 if (usersWithAssignedPeer == Users.size()){
                     System.out.println("---");
                     System.out.println("all users are assigned peers");
                     System.out.println("---");
-                    sendPlans();
                     usersWithAssignedPeer = 0;
+                }
+                if (usersWithassignedPeerRunning == Users.size()){
+                    System.out.println("---");
+                    System.out.println("all users have their assigned peers running");
+                    System.out.println("---");
+                    usersJoiningOrLeaving();
+                    usersWithassignedPeerRunning = 0;
                 }
 
             }
@@ -124,8 +140,8 @@ public class User {
     }
 
     public void initiateUsers(){
-        Users = new ArrayList<UserStatus>(config.numAgents);
-        for (int i=0;i<config.numAgents;i++){
+        Users = new ArrayList<UserStatus>(numUsersPerRun.get(currentRun));
+        for (int i=0;i<numUsersPerRun.get(currentRun);i++){
             UserStatus user = new UserStatus(i,"initiated",thisAddress);
             Users.add(user);
         }
@@ -133,35 +149,27 @@ public class User {
 
     public void registerUsers(){
         for (UserStatus user: Users) {
-            zmqNetworkInterface.sendMessage(gateWayAddress, new UserRegisterMessage(user.index,user.status,user.userAddress));
+            zmqNetworkInterface.sendMessage(gateWayAddress, new UserRegisterMessage(user.index, currentRun,user.status,user.userAddress));
         }
         System.out.println("---");
         System.out.println("user register message send for all of the users");
         System.out.println("---");
     }
 
-    public void sendPlans(){
-        for (UserStatus user: Users) {
-            try {
-                PlanSetMessage psm = getPlans(config,user.index);
-                sendPlansMessage(psm,user.assignedPeerAddress);
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
+    public void sendPlans(int idx, ZMQAddress address){
+
+        PlanSetMessage psm = null;
+        try {
+            psm = createPlanMessage(config,idx);
+            sendPlansMessage(psm,address);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
         }
-        System.out.println("---");
-        System.out.println("all users have sent their plans");
-        System.out.println("---");
     }
 
-    public PlanSetMessage getPlans(Configuration conf, int Index) throws UnknownHostException {
-//        List<Plan<Vector>> possiblePlans = conf.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(Index));
-
-        Dataset gaussianDataset = new GaussianDataset(10,100,10,1,new Random(123));
-        List<Plan<Vector>> possiblePlans = gaussianDataset.getPlans(Index);
-
+    public PlanSetMessage createPlanMessage(Configuration conf, int Index) throws UnknownHostException {
         PlanSetMessage planSetMessage = new PlanSetMessage("setPlans");
-        planSetMessage.possiblePlans = possiblePlans;
+        planSetMessage.possiblePlans = generatePlans(Index);
         return planSetMessage;
     }
 
@@ -170,24 +178,63 @@ public class User {
 //        System.exit(0);
     }
 
-    public void checkForNewPlans(InformUser informUser){
-        if (Users.get(informUser.peerID).status.equals("hasNewPlans")){
-            Dataset gaussianDataset = new GaussianDataset(10,100,10,1,new Random(123));
-            List<Plan<Vector>> possiblePlans = gaussianDataset.getPlans(informUser.peerID);
-            PlanSetMessage planSetMessage = new PlanSetMessage("changePlans");
-            planSetMessage.possiblePlans = possiblePlans;
-            sendPlansMessage(planSetMessage,Users.get(informUser.peerID).assignedPeerAddress);
-        }
-        else {
-        zmqNetworkInterface.sendMessage(Users.get(informUser.peerID).assignedPeerAddress, new PlanSetMessage("noNewPlans"));}
+    public List<Plan<Vector>> generatePlans(int peerIdx){
+        //        List<Plan<Vector>> possiblePlans = conf.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(Index));
+        Dataset gaussianDataset = new GaussianDataset(10,100,10,1,new Random(System.currentTimeMillis()));
+        List<Plan<Vector>> possiblePlans = gaussianDataset.getPlans(peerIdx);
+        return possiblePlans;
     }
 
-    public void generateNewPlans(UserStatus user){
-        Random random = new Random();
-        if( (random.nextInt(19) + 1) == 1){
+    public void checkForNewPlans(InformUserMessage informUserMessage){
+        if (Users.get(informUserMessage.peerID).status.equals("hasNewPlans")){
+            PlanSetMessage planSetMessage = new PlanSetMessage("changePlans");
+            planSetMessage.possiblePlans = generatePlans(informUserMessage.peerID);
+            sendPlansMessage(planSetMessage,Users.get(informUserMessage.peerID).assignedPeerAddress);
+        }
+        else {
+        zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new PlanSetMessage("noNewPlans"));}
+    }
+
+    public void usersHavingNewPlans(UserStatus user){
+        Random random = new Random(System.currentTimeMillis());
+        if( (random.nextInt(newPlanProb) + 1) == 1){
             user.status = "hasNewPlans";
             System.out.println("user: "+user.index+ " has new plans.");
         }
+    }
+
+    public void addRemoveUsers(){
+        Random random = new Random(System.currentTimeMillis());
+        if (random.nextInt(1) == 0){
+            System.out.println(Users.size()/joinLeaveRate+" users to be added");
+            for (int r=0;r<Users.size()/joinLeaveRate;r++){
+                UserStatus user = new UserStatus(Users.size(),"added",thisAddress);
+                Users.add(user);
+                zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage(Users.size()-1,currentRun+1,"join",this.thisAddress));
+            }
+            numUsersPerRun.add(Users.size());
+        }
+//        else {
+//            System.out.printf(Users.size()/joinLeaveRate+" users to be removed");
+//            int[] leftUserIndices = new int[Users.size()/joinLeaveRate];
+//            for (int r=0;r<Users.size()/joinLeaveRate;r++){
+//                Users.remove(random.nextInt(Users.size()-1));
+//                leftUserIndices[r] = random.nextInt(Users.size()-1);
+//            }
+//            numUsersPerRun.add(Users.size());
+//            zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage("leave",Users.size()/joinLeaveRate, leftUserIndices,currentRun));
+//        }
+    }
+
+    public void usersJoiningOrLeaving(){
+        Random random = new Random(System.currentTimeMillis());
+        if( (random.nextInt(userChangeProb) + 1) == 1 && currentRun>0){
+            System.out.println("There is a change in Users numbers for run: "+(currentRun+1));
+            addRemoveUsers();
+        }
+        else {
+            numUsersPerRun.add(Users.size());
+            zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage("noChange",currentRun));}
     }
 
 }

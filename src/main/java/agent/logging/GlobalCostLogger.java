@@ -11,7 +11,6 @@ import agent.Agent;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.logging.Level;
@@ -19,7 +18,6 @@ import java.util.logging.Logger;
 
 import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
-import protopeer.Configuration;
 import protopeer.measurement.Aggregate;
 import protopeer.measurement.MeasurementLog;
 import data.DataType;
@@ -105,7 +103,7 @@ public class GlobalCostLogger<V extends DataType<V>> extends AgentLogger<Agent<V
     public void DBlog(Agent<V> agent, double cost){
         if (agent.isRepresentative()) {
             LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
-            record.put("run", String.valueOf(agent.run));
+            record.put("run", String.valueOf(agent.activeRun));
             record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
             record.put("iteration", String.valueOf(agent.getIteration()));
             record.put("cost", String.valueOf(cost));

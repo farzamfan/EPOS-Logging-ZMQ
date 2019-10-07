@@ -63,7 +63,7 @@ public class SelectedPlanLogger<V extends DataType<V>> extends AgentLogger<Agent
 
 	public void DBLog(Agent<V> agent){
 		LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
-		record.put("run", String.valueOf(agent.run));
+		record.put("run", String.valueOf(agent.activeRun));
 		record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 		record.put("iteration", String.valueOf(agent.getIteration()));
 		record.put("planID", String.valueOf(agent.getSelectedPlanID()) );

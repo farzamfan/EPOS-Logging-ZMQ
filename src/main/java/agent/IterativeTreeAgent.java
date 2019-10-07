@@ -5,8 +5,8 @@
  */
 package agent;
 
-import Communication.InformGateway;
-import Communication.InformUser;
+import Communication.InformGatewayMessage;
+import Communication.InformUserMessage;
 import func.CostFunction;
 import func.PlanCostFunction;
 import agent.logging.AgentLoggingProvider;
@@ -50,6 +50,8 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     boolean listenForDownMessage = false;
     boolean inBetweenRuns = false;
 
+    boolean moveToReadyToActive = false;
+
     private final Map<Finger, UP> messageBuffer = new HashMap<>();
 
     /**
@@ -79,6 +81,9 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         return numIterations;
     }
 
+
+
+
     @Override
     protected void runBootstrap() {
         Timer loadAgentTimer = getPeer().getClock().createNewTimer();
@@ -90,10 +95,11 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                         System.out.println("sending the ready to run for: " + getPeer().getNetworkAddress());
                         //inform gateway of running status
                         ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-                        getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, run, "ready", isLeaf()));
+                        getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, activeRun, "ready", isLeaf()));
                         readytoRunActiveState();
                     }
-                    else if (readyToRun) {readytoRunActiveState();}
+                    else if (readyToRun) {
+                        readytoRunActiveState();}
                     else {runBootstrap();}
                 }
                 else runBootstrap();
@@ -101,6 +107,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         });
         loadAgentTimer.schedule(Time.inMilliseconds(this.bootstrapPeriod));
     }
+
 
     protected void readytoRunActiveState() {
         inBetweenRuns = false;
@@ -115,7 +122,6 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 listenForDownMessage = false;
                 runActiveState();}
                 else {
-                    System.out.println("waiting for the ready to run message: "+getPeer().getNetworkAddress());
                     readytoRunActiveState();
                 }
             });
@@ -151,7 +157,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         	alreadyCleanedResponses = true;
         	if (!isLeaf()){
                 ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
-                getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "innerRunning", isLeaf()));
+                getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "innerRunning", isLeaf()));
         	}
         }
 
@@ -219,12 +225,12 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
             goDown((DOWN) message);
             iteration++;
             if (iteration == numIterations){
-                System.out.println("EPOS finished for: "+getPeer().getNetworkAddress()+" at iteration: "+iteration+". Sending message now");
+                System.out.println("EPOS finished for: "+getPeer().getNetworkAddress()+" for run: "+this.activeRun +" at iteration: "+iteration+". Sending message now");
                 ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,12345);
                 // inform gateway
-                getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "finished", isLeaf()));
+                getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "finished", isLeaf()));
                 // inform user
-                getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerIndex, "finished",this.selectedPlanID));
+                getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun,"finished",this.selectedPlanID));
                 // move to the next run
                 this.newRun();
             }
@@ -276,12 +282,12 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 goDown(atRoot(msg));
                 iteration++;
                 if (iteration == numIterations){
-                    System.out.println("EPOS finished for: "+getPeer().getNetworkAddress()+" at iteration: "+iteration+". Sending message now");
+                    System.out.println("EPOS finished for: "+getPeer().getNetworkAddress()+" for run: "+this.activeRun +" at iteration: "+iteration+". Sending message now");
                     ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,12345);
                     // inform gateway
-                    getPeer().sendMessage(dest, new InformGateway(MainConfiguration.getSingleton().peerIndex, this.run, "finished", isLeaf()));
+                    getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "finished", isLeaf()));
                     // inform user
-                    getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerIndex, "finished", this.selectedPlanID));
+                    getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "finished", this.selectedPlanID));
                     // move to the next run
                     this.newRun();
                 }
@@ -385,17 +391,31 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         iteration =0;
         alreadyCleanedResponses = false;
         latestDownMessage = -10;
+        activeRun++;
+
+        treeViewIsSet = false;
+        checkForUserChanges();
+
         plansAreSet = false;
         checkForNewPlans();
-        run++;
-        System.out.println("----------");
-        System.out.println("run "+run+" started for: "+getPeer().getNetworkAddress());
-        System.out.println("----------");
-        this.runBootstrap();
+
+        Timer loadAgentTimer = getPeer().getClock().createNewTimer();
+        loadAgentTimer.addTimerListener((Timer timer) -> {
+            System.out.println("----------");
+            System.out.println("run "+this.activeRun +" started for: "+getPeer().getNetworkAddress());
+            System.out.println("----------");
+            this.runBootstrap();
+        });
+        loadAgentTimer.schedule(Time.inMilliseconds(readyPeriod));
+    }
+
+    public void checkForUserChanges(){
+        System.out.println("checking for user changes for : "+getPeer().getNetworkAddress());
+        getPeer().sendMessage(GatewayAddress, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkUserChanges", isLeaf()));
     }
 
     public void checkForNewPlans(){
         System.out.println("checking for new plans for: "+getPeer().getNetworkAddress());
-        getPeer().sendMessage(userAddress, new InformUser(MainConfiguration.getSingleton().peerIndex, "checkNewPlans"));
+        getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkNewPlans"));
     }
 }

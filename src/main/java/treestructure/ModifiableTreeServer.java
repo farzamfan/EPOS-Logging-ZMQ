@@ -11,6 +11,8 @@ import java.util.stream.IntStream;
 import java.util.Random;
 import java.util.Set;
 
+import Communication.InformBootstrap;
+import Communication.TreeViewChangeMessage;
 import dsutil.generic.RankPriority;
 import dsutil.protopeer.FingerDescriptor;
 import dsutil.protopeer.services.topology.trees.DescriptorType;
@@ -42,14 +44,15 @@ public class ModifiableTreeServer extends BasePeerlet {
         INIT,
         GATHERING_PEERS,
         WAITING,
-        COMPLETED
+        COMPLETED,
+		UPDATE_VIEW
     }
     
     private Random								random;
     private LinkedHashSet<FingerDescriptor> 	peers;			// it maintains the insertion order!
     private TreeTopologyGenerator 				generator;
     private ServerState 						state;
-    private final int 							N;
+    private int 								N;
     private int 								n;
     
     private Set<Entry<FingerDescriptor,TreeViewFacilitator>> views;
@@ -173,6 +176,15 @@ public class ModifiableTreeServer extends BasePeerlet {
 			System.out.println("message receive from "+message.getSourceAddress());
                 this.runPassiveState((TreeViewRequest) message);
         }
+        if (message instanceof InformBootstrap){
+			InformBootstrap informBootstrap = (InformBootstrap) message;
+        	if (informBootstrap.status.equals("informBootstrap")) {
+				this.state = ServerState.UPDATE_VIEW;
+				this.peers.clear();
+				this.N = informBootstrap.numPeers;
+				System.out.println("informing bootstrap: change state to: "+this.state+" the new number of nodes: "+this.N);
+			}
+		}
     }
     
     /**
@@ -203,6 +215,16 @@ public class ModifiableTreeServer extends BasePeerlet {
     	case COMPLETED:
     		this.handleSingleMessage(request);
     		break;
+    	case UPDATE_VIEW:
+    		request.sourceDescriptor.replaceDescriptor(DescriptorType.RANK,(double) n);
+			this.peers.add(request.sourceDescriptor);
+			//this.logger.log(Level.FINER, "Descriptor received: " + request.sourceDescriptor);
+			this.n++;
+			if(this.n == this.N){
+				//this.logger.log(Level.INFO, "Number of requests gathered reached expected number: " + this.N);
+				this.generateTreeTopology();
+			}
+			break;
     	default:
     		this.logger.log(Level.SEVERE, "Received Tree View Request during WAITING state.");
     		break;
@@ -251,7 +273,7 @@ public class ModifiableTreeServer extends BasePeerlet {
      * Sends reply containing parent and children to every node in the network.
      * If views is <code>null</code>, nothing is sent to the nodes.
      * 
-     * @param views set of pairs: Descriptor of the receiving agent and it's assigned parent and children
+//     * @param views set of pairs: Descriptor of the receiving agent and it's assigned parent and children
      */
     private void broadcastViews() {
         System.out.println("broadcast messages to be sent");

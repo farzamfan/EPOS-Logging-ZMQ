@@ -7,11 +7,15 @@ import java.util.stream.IntStream;
 
 import Communication.PlanSetMessage;
 import Communication.ReadyToRunMessage;
+import Communication.TreeViewChangeMessage;
 import agent.Agent;
+import agent.TreeAgent;
+import com.sun.source.tree.Tree;
 import dsutil.protopeer.FingerDescriptor;
 import dsutil.protopeer.services.topology.trees.DescriptorType;
 import dsutil.protopeer.services.topology.trees.TreeMiddlewareInterface;
 import dsutil.protopeer.services.topology.trees.TreeProviderInterface;
+import org.apache.regexp.RE;
 import protopeer.BasePeerlet;
 import protopeer.Peer;
 import protopeer.network.Message;
@@ -19,6 +23,8 @@ import protopeer.network.NetworkAddress;
 import protopeer.servers.bootstrap.PeerIdentifierGenerator;
 import tree.centralized.TreeViewReply;
 import tree.centralized.TreeViewRequest;
+
+import javax.swing.*;
 
 /**
  * This class allows the tree structure to be changed dynamically during runtime. 
@@ -146,7 +152,7 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
         }
         if (message instanceof PlanSetMessage){
             PlanSetMessage planSetMessage = (PlanSetMessage) message;
-            System.out.println("Message received from: "+planSetMessage.getSourceAddress()+ " message: "+ planSetMessage + " messageSize: " + planSetMessage.status);
+//            System.out.println("Message received from: "+planSetMessage.getSourceAddress()+ " message: "+ planSetMessage + " messageSize: " + planSetMessage.status);
             if (planSetMessage.status.equals("setPlans")) {
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans(((PlanSetMessage) message).possiblePlans);
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).userAddress = message.getSourceAddress();
@@ -160,9 +166,21 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
                 System.out.println("plans for peer: "+getPeer().getIndexNumber()+" has changed");
                 getPeer().sendMessage(message.getSourceAddress(), new PlanSetMessage("plansChanged"));
             }
+            if (planSetMessage.status.equals("noUserChanges")) {
+                ((TreeAgent) this.getPeer().getPeerletOfType(TreeAgent.class)).treeViewIsSet = true;
+            }
         }
         if (message instanceof ReadyToRunMessage){
+            ReadyToRunMessage readyToRunMessage = (ReadyToRunMessage) message;
+            System.out.println("ready to run message received for: "+getPeer().getNetworkAddress()+" run:"+readyToRunMessage.run);
             ((Agent) this.getPeer().getPeerletOfType(Agent.class)).setReadyToRun();
+        }
+        if (message instanceof TreeViewChangeMessage){
+            System.out.println("new tree view requested for: " + getPeer().getNetworkAddress());
+            TreeViewChangeMessage treeViewChangeMessage = (TreeViewChangeMessage) message;
+            if (treeViewChangeMessage.status.equals("requestNewTreeView")) {
+                this.requestNewTreeView();
+            }
         }
     }
     
@@ -190,7 +208,8 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
     		this.logger.log(Level.SEVERE, "No parent and no children, node " + this.getPeer().getIndexNumber() + " is disconnected!");
     	} else {
     		this.logger.log(Level.FINER, "TREE VIEW - NODE: " + this.getPeer().getIndexNumber() + " " + ModifiableTreeClient.printParent(parent) + "   " + ModifiableTreeClient.printChildren(children));
-    	}    	
+    	}
+        System.out.println("I am: "+getPeer().getNetworkAddress()+" parent: "+printParent(parent)+" children: "+printChildren(children));
     	this.getTreeProvider().provideTreeView(parent, children);
 	}
     

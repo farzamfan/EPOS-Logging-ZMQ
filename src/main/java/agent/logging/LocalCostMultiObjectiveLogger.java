@@ -12,9 +12,7 @@ import agent.planselection.PlanSelectionOptimizationFunctionCollection;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,7 +100,7 @@ public class LocalCostMultiObjectiveLogger<V extends DataType<V>> extends AgentL
         MultiObjectiveIEPOSAgent moieposagent = (MultiObjectiveIEPOSAgent) agent;
         if (moieposagent.isRoot()) {
             LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
-            record.put("run", String.valueOf(agent.run));
+            record.put("run", String.valueOf(agent.activeRun));
             record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
             record.put("iteration", String.valueOf(agent.getIteration()));
             record.put("cost", String.valueOf(cost));
