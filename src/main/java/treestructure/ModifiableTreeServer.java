@@ -173,14 +173,16 @@ public class ModifiableTreeServer extends BasePeerlet {
      */
     public void handleIncomingMessage(Message message) {
         if (message instanceof TreeViewRequest) {
-			System.out.println("message receive from "+message.getSourceAddress());
+			System.out.println("TreeViewRequest received from "+message.getSourceAddress());
                 this.runPassiveState((TreeViewRequest) message);
         }
         if (message instanceof InformBootstrap){
 			InformBootstrap informBootstrap = (InformBootstrap) message;
         	if (informBootstrap.status.equals("informBootstrap")) {
 				this.state = ServerState.UPDATE_VIEW;
+				this.n = 0;
 				this.peers.clear();
+				this.views.clear();
 				this.N = informBootstrap.numPeers;
 				System.out.println("informing bootstrap: change state to: "+this.state+" the new number of nodes: "+this.N);
 			}
@@ -286,7 +288,7 @@ public class ModifiableTreeServer extends BasePeerlet {
     								                                          		 this.createReplyMessage(entry));
     					   })
     	              .forEach(entry -> {
-    	            	  //this.logger.log(Level.FINER, "Reply sent from server to agent " + entry.getKey().getNetworkAddress());
+						  System.out.println("Reply sent from server to agent " + entry.getKey().getNetworkAddress());
     	            	  this.getPeer().sendMessage(entry.getKey().getNetworkAddress(), entry.getValue());
     	              });
     }
@@ -296,7 +298,6 @@ public class ModifiableTreeServer extends BasePeerlet {
      * @param request
      */
     private void handleSingleMessage(TreeViewRequest request) {
-    	//this.logger.log(Level.INFO, "handling single request!");
     	FingerDescriptor sender = request.sourceDescriptor;
     	if(sender == null) {
     		this.logger.log(Level.SEVERE, "Sender of TreeViewRequest is null!");

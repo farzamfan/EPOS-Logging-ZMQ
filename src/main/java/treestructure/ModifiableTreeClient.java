@@ -148,7 +148,8 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
      */
     public void handleIncomingMessage(Message message) {
         if (message instanceof TreeViewReply) {
-                this.runPassiveState((TreeViewReply) message);
+            System.out.println("treeViewReply received by: "+getPeer().getNetworkAddress());
+            this.runPassiveState((TreeViewReply) message);
         }
         if (message instanceof PlanSetMessage){
             PlanSetMessage planSetMessage = (PlanSetMessage) message;
@@ -178,6 +179,9 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
         if (message instanceof TreeViewChangeMessage){
             System.out.println("new tree view requested for: " + getPeer().getNetworkAddress());
             TreeViewChangeMessage treeViewChangeMessage = (TreeViewChangeMessage) message;
+            if (treeViewChangeMessage.status.equals("deactivate")) {
+                System.exit(0);
+            }
             if (treeViewChangeMessage.status.equals("requestNewTreeView")) {
                 this.requestNewTreeView();
             }

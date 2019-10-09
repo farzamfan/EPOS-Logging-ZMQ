@@ -19,14 +19,6 @@ public class UserJoinLeaveMessage extends Message implements Serializable {
         userAddress = userAddr;
     }
 
-    public UserJoinLeaveMessage(int idx, int run, String stat, ZMQAddress userAddr, ZMQAddress peerAddr){
-        userIndex = idx;
-        currentRun = run;
-        joinLeaveStatus = stat;
-        userAddress = userAddr;
-        peerAddress = peerAddr;
-    }
-
     public UserJoinLeaveMessage(String stat, int run){
         joinLeaveStatus = stat;
         currentRun = run;

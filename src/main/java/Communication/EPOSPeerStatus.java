@@ -6,6 +6,7 @@ import protopeer.network.zmq.ZMQAddress;
 public class EPOSPeerStatus {
     int index;
     int run;
+    int leaveRun=Integer.MAX_VALUE;
     String status;
     boolean isleaf;
     NetworkAddress address;
