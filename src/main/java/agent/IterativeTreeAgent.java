@@ -392,21 +392,19 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         alreadyCleanedResponses = false;
         latestDownMessage = -10;
         activeRun++;
-
         treeViewIsSet = false;
-        checkForUserChanges();
-
         plansAreSet = false;
-        checkForNewPlans();
 
         Timer loadAgentTimer = getPeer().getClock().createNewTimer();
         loadAgentTimer.addTimerListener((Timer timer) -> {
+            checkForUserChanges();
+            checkForNewPlans();
             System.out.println("----------");
             System.out.println("run "+this.activeRun +" started for: "+getPeer().getNetworkAddress());
             System.out.println("----------");
             this.runBootstrap();
         });
-        loadAgentTimer.schedule(Time.inMilliseconds(readyPeriod));
+        loadAgentTimer.schedule(Time.inMilliseconds(readyPeriod+4000));
     }
 
     public void checkForUserChanges(){

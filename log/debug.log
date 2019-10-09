@@ -1,7 +1,8 @@
-[Oct 09 13:53:30] ERROR (TimerTask.java:21) - 
+[Oct 09 15:05:20] ERROR (TimerTask.java:21) - 
 java.lang.NullPointerException
-	at agent.MultiObjectiveIEPOSAgent.getGlobalResponse(MultiObjectiveIEPOSAgent.java:128)
-	at agent.logging.TerminationLogger.log(TerminationLogger.java:98)
+	at func.IndexCostFunction.calcCost(IndexCostFunction.java:24)
+	at agent.logging.VisualizerLogger.log(VisualizerLogger.java:111)
+	at agent.logging.VisualizerLogger.log(VisualizerLogger.java:61)
 	at agent.logging.AgentLoggingProvider.log(AgentLoggingProvider.java:85)
 	at agent.MultiObjectiveIEPOSAgent.lambda$scheduleMeasurements$0(MultiObjectiveIEPOSAgent.java:217)
 	at protopeer.measurement.MeasurementLogger.fireMeasurmentEpochEnded(MeasurementLogger.java:113)
