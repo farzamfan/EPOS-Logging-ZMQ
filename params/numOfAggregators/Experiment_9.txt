@@ -54,7 +54,7 @@ Top K Buffer Size=100
 
 # Connectivity
 My IP address=127.0.0.1
-My port number=12009
+My port number=53727
 Bootstrap server IP address=127.0.0.1
 Bootstrap server port number=12000
 Device gateway IP address=127.0.0.1

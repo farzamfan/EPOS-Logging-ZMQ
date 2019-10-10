@@ -16,6 +16,7 @@ import protopeer.time.RealClock;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -356,9 +357,13 @@ public class GatewayServer {
     public void initiatePeers(int beginRange, int numPeers, int initRun){
         for (int j=beginRange;j<(beginRange+numPeers);j++) {
             System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
-            ZMQAddress peerAddress = new ZMQAddress("127.0.0.1", (bootstrapPort + UsersStatus.get(j).index));
+            int peerPort = findFreePort();
+            ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",peerPort);
+//            ZMQAddress peerAddress = new ZMQAddress("127.0.0.1", (bootstrapPort + UsersStatus.get(j).index));
+//            String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar tutorial.jar "+UsersStatus.get(j).index+
+//                    " "+(bootstrapPort + UsersStatus.get(j).index)+" "+numUsersPerRun.get(currentRun)+" "+initRun;
             String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar tutorial.jar "+UsersStatus.get(j).index+
-                    " "+(bootstrapPort + UsersStatus.get(j).index)+" "+numUsersPerRun.get(currentRun)+" "+initRun;
+                    " "+peerPort+" "+numUsersPerRun.get(currentRun)+" "+initRun;
             try {
                 Runtime.getRuntime().exec(command);
                 UsersStatus.get(j).assignedPeerAddress = peerAddress;
@@ -415,5 +420,30 @@ public class GatewayServer {
         innerNodeRunning=0;
         finishedPeers=0;
         bootstrapInformed = false;
+    }
+    private int findFreePort() {
+        ServerSocket socket = null;
+        try {
+            socket = new ServerSocket(0);
+            socket.setReuseAddress(true);
+            int port = socket.getLocalPort();
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return port;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+        throw new IllegalStateException("Could not find a free TCP/IP port to start peer on");
     }
 }
