@@ -35,6 +35,7 @@ public class User {
     private int usersWithAssignedPeer;
     private int finishedPeers=0;
     private int currentRun =0;
+    private int finishedRun=-1;
     private int usersWithassignedPeerRunning =0;
     private int maxNumRuns=5000;
     private List<Integer> numUsersPerRun;
@@ -94,18 +95,26 @@ public class User {
                         usersWithassignedPeerRunning++;
                     }
                     if (informUserMessage.status.equals("finished")) {
-//                        System.out.println("peer: "+informUserMessage.peerID+" is finished at run: "+(informUserMessage.run));
-                        Users.get(informUserMessage.peerID).status = "finished";
-                        Users.get(informUserMessage.peerID).run = informUserMessage.run;
-                        usersHavingNewPlans(Users.get(informUserMessage.peerID));
-                        finishedPeers++;
+                        if (informUserMessage.run == finishedRun+1){
+                            Users.get(informUserMessage.peerID).status = "finished";
+                            Users.get(informUserMessage.peerID).run = informUserMessage.run;
+                            usersHavingNewPlans(Users.get(informUserMessage.peerID));
+                            finishedPeers++;
+                        }
+                        else {
+                            System.out.println("incorrect finish message received from: "+informUserMessage.getSourceAddress()+
+                                    " reported run: "+informUserMessage.run+" numPeers for incorrect run: "+numUsersPerRun.get(informUserMessage.run));
+                            System.out.println("current run: "+currentRun+" correct numPeers: "+numUsersPerRun.get(currentRun));
+                        }
                         if (finishedPeers == numUsersPerRun.get(currentRun)){
+                            finishedPeers =0;
                             System.out.println("---");
                             System.out.println("EPOS FINISHED! Run: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
                             System.out.println("---");
+                            finishedRun=currentRun;
                             currentRun++;
-                            finishedPeers =0;
                             userChangeProcessed = false;
+                            resetPerRun();
 //                            System.exit(0);
                         }
                     }
@@ -122,16 +131,16 @@ public class User {
                     usersWithAssignedPeer++;
                 }
                 if (usersWithAssignedPeer == numUsersPerRun.get(currentRun)){
-                    System.out.println("all users are assigned peers for run: "+currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
                     usersWithAssignedPeer = 0;
+                    System.out.println("all users are assigned peers for run: "+currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
                 }
                 if (usersWithassignedPeerRunning == numUsersPerRun.get(currentRun)){
+                    usersWithassignedPeerRunning = 0;
                     System.out.println("all users have their assigned peers running for run: "+currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
                     if (!userChangeProcessed) {
                         userChangeProcessed = true;
                         usersJoiningOrLeaving();
                     }
-                    usersWithassignedPeerRunning = 0;
                 }
 
             }
@@ -248,6 +257,12 @@ public class User {
         else {
             numUsersPerRun.set(currentRun+1,numUsersPerRun.get(currentRun));
             zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage("noChange",currentRun));}
+    }
+
+    public void resetPerRun(){
+        finishedPeers=0;
+        usersWithassignedPeerRunning =0;
+        usersWithAssignedPeer=0;
     }
 
 }

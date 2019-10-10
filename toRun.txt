@@ -14,6 +14,8 @@ sudo -u postgres psql
 
 #kill EPOS
 PID=`ps -ef | grep tutorial | awk '{ print $2 }'`; kill -9 $PID;
+/bin/bash
+PID=`ps -ef | grep tutorial | awk '{ print $2 }'`; kill -9 $PID;
 
 #all row counts in DB
 SELECT schemaname,relname,n_live_tup FROM pg_stat_user_tables ORDER BY n_live_tup DESC;

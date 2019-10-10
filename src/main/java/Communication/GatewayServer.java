@@ -39,7 +39,7 @@ public class GatewayServer {
     private List<UserStatus> UsersStatus;
     private ZMQAddress EPOSRequesterAddress;
     private int bootstrapPort;
-    private int maxNumRuns=2000;
+    private int maxNumRuns=5000;
     private boolean bootstrapInformed = false;
 
     public GatewayServer(){
