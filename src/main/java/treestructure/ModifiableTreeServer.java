@@ -1,15 +1,11 @@
 package treestructure;
 
+import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
-import java.util.Random;
-import java.util.Set;
 
 import Communication.InformBootstrap;
 import Communication.TreeViewChangeMessage;
@@ -56,6 +52,8 @@ public class ModifiableTreeServer extends BasePeerlet {
     private int 								n;
     
     private Set<Entry<FingerDescriptor,TreeViewFacilitator>> views;
+
+	List<Integer> ActivePeers = new ArrayList<Integer>();
     
     
     /**
@@ -183,6 +181,7 @@ public class ModifiableTreeServer extends BasePeerlet {
 				this.n = 0;
 				this.peers.clear();
 				this.views.clear();
+				this.ActivePeers = informBootstrap.activePeers;
 				this.N = informBootstrap.numPeers;
 				System.out.println("informing bootstrap: change state to: "+this.state+" the new number of nodes: "+this.N);
 			}
@@ -218,10 +217,12 @@ public class ModifiableTreeServer extends BasePeerlet {
     		this.handleSingleMessage(request);
     		break;
     	case UPDATE_VIEW:
-    		request.sourceDescriptor.replaceDescriptor(DescriptorType.RANK,(double) n);
-			this.peers.add(request.sourceDescriptor);
-			//this.logger.log(Level.FINER, "Descriptor received: " + request.sourceDescriptor);
-			this.n++;
+//    		if (Arrays.asList(ActivePeers).contains(request.sourceDescriptor.getFinger())){
+    			request.sourceDescriptor.replaceDescriptor(DescriptorType.RANK,(double) n);
+				this.peers.add(request.sourceDescriptor);
+				//this.logger.log(Level.FINER, "Descriptor received: " + request.sourceDescriptor);
+				this.n++;
+//    		}
 			if(this.n == this.N){
 				//this.logger.log(Level.INFO, "Number of requests gathered reached expected number: " + this.N);
 				this.generateTreeTopology();
@@ -244,6 +245,7 @@ public class ModifiableTreeServer extends BasePeerlet {
         this.state = ServerState.COMPLETED;
         this.shuffleNodes();
         this.n = 0;
+        this.ActivePeers.clear();
     }
     
     /**

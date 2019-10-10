@@ -46,10 +46,11 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     
     // timings
     protected final int						bootstrapPeriod		=	1000;	//ms
-    protected final int						activeStatePeriod	=	1000;	//ms
+    protected final int						activeStatePeriod	=	100;	//ms
     protected final int						readyPeriod		=	1000;	//ms
     public boolean                          plansAreSet = false;
     public boolean                          readyToRun = false;
+    public boolean                          weightsAreSet = true;
 
     // combinatorial optimization variables
     Plan<V> 								selectedPlan;

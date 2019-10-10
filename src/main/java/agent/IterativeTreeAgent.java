@@ -89,7 +89,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         Timer loadAgentTimer = getPeer().getClock().createNewTimer();
         loadAgentTimer.addTimerListener(new TimerListener() {
             public void timerExpired(Timer timer) {
-                if (treeViewIsSet && plansAreSet){
+                if (treeViewIsSet && plansAreSet && weightsAreSet){
                     System.out.println("tree view and plans are set for: " +getPeer().getNetworkAddress());
                     if (!readyToRun) {
                         System.out.println("sending the ready to run for: " + getPeer().getNetworkAddress());
@@ -394,17 +394,19 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         activeRun++;
         treeViewIsSet = false;
         plansAreSet = false;
+        weightsAreSet = false;
 
         Timer loadAgentTimer = getPeer().getClock().createNewTimer();
         loadAgentTimer.addTimerListener((Timer timer) -> {
             checkForUserChanges();
             checkForNewPlans();
+            checkForNewWeights();
             System.out.println("----------");
             System.out.println("run "+this.activeRun +" started for: "+getPeer().getNetworkAddress());
             System.out.println("----------");
             this.runBootstrap();
         });
-        loadAgentTimer.schedule(Time.inMilliseconds(readyPeriod+4000));
+        loadAgentTimer.schedule(Time.inMilliseconds(readyPeriod+9000));
     }
 
     public void checkForUserChanges(){
@@ -415,5 +417,10 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     public void checkForNewPlans(){
         System.out.println("checking for new plans for: "+getPeer().getNetworkAddress());
         getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkNewPlans"));
+    }
+
+    public void checkForNewWeights(){
+        System.out.println("checking for new weights for: "+getPeer().getNetworkAddress());
+        getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkNewWeights"));
     }
 }

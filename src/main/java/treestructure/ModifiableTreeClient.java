@@ -8,7 +8,9 @@ import java.util.stream.IntStream;
 import Communication.PlanSetMessage;
 import Communication.ReadyToRunMessage;
 import Communication.TreeViewChangeMessage;
+import Communication.WeightSetMessage;
 import agent.Agent;
+import agent.MultiObjectiveIEPOSAgent;
 import agent.TreeAgent;
 import com.sun.source.tree.Tree;
 import dsutil.protopeer.FingerDescriptor;
@@ -169,6 +171,20 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
             }
             if (planSetMessage.status.equals("noUserChanges")) {
                 ((TreeAgent) this.getPeer().getPeerletOfType(TreeAgent.class)).treeViewIsSet = true;
+            }
+        }
+        if (message instanceof WeightSetMessage){
+            WeightSetMessage weightSetMessage = (WeightSetMessage) message;
+            if (weightSetMessage.status.equals("hasNewWeights")){
+                ((MultiObjectiveIEPOSAgent) this.getPeer().getPeerletOfType(MultiObjectiveIEPOSAgent.class)).setUnfairnessWeight(((WeightSetMessage) message).alpha);
+                ((MultiObjectiveIEPOSAgent) this.getPeer().getPeerletOfType(MultiObjectiveIEPOSAgent.class)).setLocalCostWeight(((WeightSetMessage) message).beta);
+                System.out.println("weights for peer: "+getPeer().getIndexNumber()+" has changed");
+                getPeer().sendMessage(message.getSourceAddress(), new WeightSetMessage("weightsChanged"));
+                ((Agent) this.getPeer().getPeerletOfType(Agent.class)).weightsAreSet = true;
+
+            }
+            if (weightSetMessage.status.equals("noNewWeights")){
+                ((Agent) this.getPeer().getPeerletOfType(Agent.class)).weightsAreSet = true;
             }
         }
         if (message instanceof ReadyToRunMessage){

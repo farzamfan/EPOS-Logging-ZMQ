@@ -14,7 +14,7 @@ sudo -u postgres psql
 
 #kill EPOS
 PID=`ps -ef | grep tutorial | awk '{ print $2 }'`; kill -9 $PID;
-/bin/bash
+/bin/bash;
 PID=`ps -ef | grep tutorial | awk '{ print $2 }'`; kill -9 $PID;
 
 #all row counts in DB

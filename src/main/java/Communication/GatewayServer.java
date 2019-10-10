@@ -393,7 +393,9 @@ public class GatewayServer {
     }
 
     public void treeViewShouldChange(){
-        zmqNetworkInterface.sendMessage(UsersStatus.get(0).assignedPeerAddress,new InformBootstrap(currentRun, "informBootstrap",numUsersPerRun.get(currentRun+1)));
+        List<Integer> activePeers = new ArrayList<>();
+        activePeers = findActivePeers(activePeers);
+        zmqNetworkInterface.sendMessage(UsersStatus.get(0).assignedPeerAddress,new InformBootstrap(currentRun, "informBootstrap",numUsersPerRun.get(currentRun+1),activePeers));
         for (EPOSPeerStatus peer: PeersStatus){
             if (peer.run == currentRun+1){
                 initiatePeers(peer.index,1,peer.run,false);
@@ -420,7 +422,17 @@ public class GatewayServer {
         finishedPeers=0;
         bootstrapInformed = false;
     }
-    private int findFreePort() {
+
+    public List<Integer> findActivePeers(List<Integer> actPeers){
+        for (EPOSPeerStatus peer:PeersStatus) {
+            if (peer.leaveRun > (currentRun+1)){
+                actPeers.add(peer.index);
+            }
+        }
+        return actPeers;
+    }
+
+    public int findFreePort() {
         ServerSocket socket = null;
         try {
             socket = new ServerSocket(0);

@@ -9,6 +9,8 @@ public class InformUserMessage extends Message implements Serializable {
     int run;
     String status;
     int selectedPlanID;
+    double alpha;
+    double beta;
 
     public InformUserMessage(int index, int currentRun, String stat, int planID){
         peerID = index;

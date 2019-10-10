@@ -8,6 +8,8 @@ public class UserStatus {
     int run;
     int leaveRun = Integer.MAX_VALUE;
     String status;
+    String planStatus;
+    String weightStatus;
     ZMQAddress assignedPeerAddress;
     ZMQAddress userAddress;
 
