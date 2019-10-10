@@ -13,52 +13,7 @@
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/User/META-INF/MANIFEST.MF" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/liveRun/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EPOSRequester.jar" beforeDir="false" afterPath="$PROJECT_DIR$/EPOSRequester.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GateWay.jar" beforeDir="false" afterPath="$PROJECT_DIR$/GateWay.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User.jar" beforeDir="false" afterPath="$PROJECT_DIR$/User.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_10.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_10.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_11.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_11.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_12.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_12.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_13.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_13.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_14.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_14.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_15.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_15.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_16.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_16.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_17.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_17.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_18.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_18.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_19.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_19.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_20.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_20.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_21.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_21.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_22.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_22.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_23.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_23.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_24.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_24.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_25.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_25.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_26.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_26.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_27.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_27.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_28.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_28.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_29.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_29.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_3.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_30.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_30.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_31.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_31.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_32.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_32.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_33.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_33.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_34.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_34.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_35.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_35.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_36.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_36.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_37.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_37.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_38.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_38.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_39.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_39.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_4.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_4.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_5.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_5.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_6.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_6.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_7.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_7.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_8.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_8.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_9.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_9.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
@@ -574,7 +529,7 @@
       <workItem from="1570608913168" duration="9462000" />
       <workItem from="1570625698755" duration="1131000" />
       <workItem from="1570633502542" duration="2539000" />
-      <workItem from="1570694273066" duration="1085000" />
+      <workItem from="1570694273066" duration="1425000" />
     </task>
     <servers />
   </component>

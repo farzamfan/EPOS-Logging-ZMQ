@@ -155,7 +155,7 @@ public class GatewayServer {
                         - initiates the rest of the peers
                         - updates the user and peer status
                         */
-                        initiatePeers(1,UsersStatus.size()-1,currentRun);
+                        initiatePeers(1,UsersStatus.size()-1,currentRun,true);
                     }
                     if (informGatewayMessage.status.equals("treeViewSet")) {
                         // all peers have sent their bootstrap hello and received the treeView from the server
@@ -354,19 +354,13 @@ public class GatewayServer {
         PeersStatus.add(peer);
     }
 
-    public void initiatePeers(int beginRange, int numPeers, int initRun){
+    public void initiatePeers(int beginRange, int numPeers, int initRun, boolean init){
         for (int j=beginRange;j<(beginRange+numPeers);j++) {
             System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
-            int peerPort = findFreePort();
+            int peerPort;
+            if (init){ peerPort = (bootstrapPort + UsersStatus.get(j).index); }
+            else {peerPort = findFreePort();}
             ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",peerPort);
-            for (EPOSPeerStatus peer:PeersStatus) {
-                if (peer.address == peerAddress){
-                    peerPort = findFreePort();
-                    peerAddress = new ZMQAddress("127.0.0.1",peerPort);}
-            }
-//            ZMQAddress peerAddress = new ZMQAddress("127.0.0.1", (bootstrapPort + UsersStatus.get(j).index));
-//            String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar tutorial.jar "+UsersStatus.get(j).index+
-//                    " "+(bootstrapPort + UsersStatus.get(j).index)+" "+numUsersPerRun.get(currentRun)+" "+initRun;
             String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar tutorial.jar "+UsersStatus.get(j).index+
                     " "+peerPort+" "+numUsersPerRun.get(currentRun)+" "+initRun;
             try {
@@ -402,7 +396,7 @@ public class GatewayServer {
         zmqNetworkInterface.sendMessage(UsersStatus.get(0).assignedPeerAddress,new InformBootstrap(currentRun, "informBootstrap",numUsersPerRun.get(currentRun+1)));
         for (EPOSPeerStatus peer: PeersStatus){
             if (peer.run == currentRun+1){
-                initiatePeers(peer.index,1,peer.run);
+                initiatePeers(peer.index,1,peer.run,false);
             }
         }
         System.out.println("informing the treeGateway ("+UsersStatus.get(0).assignedPeerAddress+") " +
