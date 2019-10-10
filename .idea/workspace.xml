@@ -56,6 +56,7 @@
       <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_7.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_7.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_8.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_8.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/params/numOfAggregators/Experiment_9.txt" beforeDir="false" afterPath="$PROJECT_DIR$/params/numOfAggregators/Experiment_9.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
@@ -421,7 +422,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.User">
+  <component name="RunManager" selected="Application.GatewayServer">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="EPOS-Logging-ZMQ" />
@@ -522,8 +523,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.User" />
         <item itemvalue="Application.GatewayServer" />
+        <item itemvalue="Application.User" />
         <item itemvalue="Application.LiveRun" />
         <item itemvalue="Application.EPOSRequester" />
         <item itemvalue="Application.IEPOSExperiment" />
@@ -573,6 +574,7 @@
       <workItem from="1570608913168" duration="9462000" />
       <workItem from="1570625698755" duration="1131000" />
       <workItem from="1570633502542" duration="2539000" />
+      <workItem from="1570694273066" duration="1085000" />
     </task>
     <servers />
   </component>

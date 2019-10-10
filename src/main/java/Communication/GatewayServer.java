@@ -359,6 +359,11 @@ public class GatewayServer {
             System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
             int peerPort = findFreePort();
             ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",peerPort);
+            for (EPOSPeerStatus peer:PeersStatus) {
+                if (peer.address == peerAddress){
+                    peerPort = findFreePort();
+                    peerAddress = new ZMQAddress("127.0.0.1",peerPort);}
+            }
 //            ZMQAddress peerAddress = new ZMQAddress("127.0.0.1", (bootstrapPort + UsersStatus.get(j).index));
 //            String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar tutorial.jar "+UsersStatus.get(j).index+
 //                    " "+(bootstrapPort + UsersStatus.get(j).index)+" "+numUsersPerRun.get(currentRun)+" "+initRun;
