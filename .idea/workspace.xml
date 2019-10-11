@@ -12,6 +12,7 @@
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/Gateway/META-INF/MANIFEST.MF" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/User/META-INF/MANIFEST.MF" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/src/liveRun/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Communication/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
@@ -535,7 +536,7 @@
       <workItem from="1570713670456" duration="2205000" />
       <workItem from="1570717310813" duration="9850000" />
       <workItem from="1570779731656" duration="3183000" />
-      <workItem from="1570783176913" duration="5201000" />
+      <workItem from="1570783176913" duration="5783000" />
     </task>
     <servers />
   </component>
