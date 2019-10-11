@@ -18,10 +18,7 @@ import protopeer.time.RealClock;
 
 import java.io.File;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static org.apache.commons.math3.util.Precision.round;
 
@@ -42,8 +39,8 @@ public class User {
     private int maxNumRuns=5000;
     private List<Integer> numUsersPerRun;
     private int joinLeaveRate = 9;
-    private int maxNumPeers = 120;
-    private int minNumPeers = 80;
+    private int maxNumPeers = 180;
+    private int minNumPeers = 120;
     private int newPlanProb = 9;
     private int newWeightProb = 9;
     private int userChangeProb = 9;
@@ -277,9 +274,14 @@ public class User {
         }
         else if (numUsersPerRun.get(currentRun) > minNumPeers) {
             int countLeft=0;
+            Set<Integer> indices = new HashSet<Integer>();
+            Random newRand = new java.util.Random(Double.doubleToLongBits(Math.random()));
             for (int r=0;r<numUsersPerRun.get(currentRun)/joinLeaveRate;r++){
-                Random newRand = new java.util.Random(Double.doubleToLongBits(Math.random()));
-                int index = newRand.nextInt(Users.size()-1);
+                indices.add(newRand.nextInt(Users.size()-1));
+            }
+            Iterator<Integer> it = indices.iterator();
+            while (it.hasNext()){
+                int index = it.next();
                 if (index !=0 && (currentRun < Users.get(index).leaveRun) ){
                     Users.get(index).run = currentRun+1;
                     Users.get(index).leaveRun = currentRun+1;
