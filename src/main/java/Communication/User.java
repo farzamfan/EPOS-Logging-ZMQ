@@ -321,6 +321,7 @@ public class User {
             System.out.println("incorrect finish message received from: "+informUserMessage.getSourceAddress()+
                     " reported run: "+informUserMessage.run+" numPeers for incorrect run: "+numUsersPerRun.get(informUserMessage.run));
             System.out.println("current run: "+currentRun+" correct numPeers: "+numUsersPerRun.get(currentRun));
+            System.exit(1);
         }
     }
 

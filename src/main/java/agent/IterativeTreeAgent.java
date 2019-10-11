@@ -406,7 +406,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
             System.out.println("----------");
             this.runBootstrap();
         });
-        loadAgentTimer.schedule(Time.inMilliseconds(readyPeriod));
+        loadAgentTimer.schedule(Time.inMilliseconds(readyPeriod+4000));
     }
 
     public void checkForUserChanges(){
