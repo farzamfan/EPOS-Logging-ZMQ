@@ -17,21 +17,8 @@
       <change beforePath="$PROJECT_DIR$/GateWay.jar" beforeDir="false" afterPath="$PROJECT_DIR$/GateWay.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User.jar" beforeDir="false" afterPath="$PROJECT_DIR$/User.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployments/localhost/log/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/log/server.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/InformUserMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/InformUserMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Communication/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/UserStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/UserStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/IterativeTreeAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/MultiObjectiveIEPOSAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/treestructure/ModifiableTreeServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/treestructure/ModifiableTreeServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Communication/InformUserMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/InformUserMessage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Communication/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Communication/UserStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/UserStatus.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/IterativeTreeAgent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent$DownMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent$DownMessage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent$UpMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent$UpMessage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/MultiObjectiveIEPOSAgent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Configuration.java" afterDir="false" />
@@ -554,7 +541,7 @@
       <workItem from="1570713670456" duration="2205000" />
       <workItem from="1570717310813" duration="9850000" />
       <workItem from="1570779731656" duration="3183000" />
-      <workItem from="1570783176913" duration="4441000" />
+      <workItem from="1570783176913" duration="4965000" />
     </task>
     <servers />
   </component>

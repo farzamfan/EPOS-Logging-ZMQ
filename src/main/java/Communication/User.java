@@ -42,8 +42,8 @@ public class User {
     private int maxNumRuns=5000;
     private List<Integer> numUsersPerRun;
     private int joinLeaveRate = 9;
-    private int maxNumPeers = 160;
-    private int minNumPeers = 80;
+    private int maxNumPeers = 60;
+    private int minNumPeers = 20;
     private int newPlanProb = 9;
     private int newWeightProb = 9;
     private int userChangeProb = 9;

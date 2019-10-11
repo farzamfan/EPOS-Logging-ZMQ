@@ -219,7 +219,7 @@ public class ModifiableTreeServer extends BasePeerlet {
     		this.handleSingleMessage(request);
     		break;
     	case UPDATE_VIEW:
-    		if (ActivePeers.contains(request.peerID)){
+    		if (ActivePeers.contains(request.peerID) && !( this.peers.contains(request.sourceDescriptor) )){
     			request.sourceDescriptor.replaceDescriptor(DescriptorType.RANK,(double) n);
 				this.peers.add(request.sourceDescriptor);
 				//this.logger.log(Level.FINER, "Descriptor received: " + request.sourceDescriptor);
@@ -311,6 +311,8 @@ public class ModifiableTreeServer extends BasePeerlet {
     	}
     	if(!this.peers.contains(sender)) {
     		this.logger.log(Level.SEVERE, "TreeViewRequest sent from unknown node!");
+			System.out.println("Debug: "+sender.getNetworkAddress()+" sent from unknown!!!!");
+			System.exit(1);
     		return;
     	}
 		Entry<FingerDescriptor, TreeViewFacilitator> sendersEntry = 

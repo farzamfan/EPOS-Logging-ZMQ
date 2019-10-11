@@ -27523,3 +27523,1305 @@ totalMessageCount : 142828
 writing...ok
 
 Listening for messages on tcp://localhost:6433 -> epos
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:12:59
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:12:59
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:12:59
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:12:59
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:12:59
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:12:59
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:12:59
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:11
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:12
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:13
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:14
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:15
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:13:16
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+........
+commit start
+dt : 2019-10-11 12:13:21
+msgCountSinceLastCommit : 89
+totalMessageCount : 142917
+writing...ok
+
+Listening for messages on tcp://localhost:6433 -> epos..........................................................
+commit start
+dt : 2019-10-11 12:13:31
+msgCountSinceLastCommit : 583
+totalMessageCount : 143500
+writing...ok
+
+Listening for messages on tcp://localhost:6433 -> epos............................................
+commit start
+dt : 2019-10-11 12:13:41
+msgCountSinceLastCommit : 448
+totalMessageCount : 143948
+writing...ok
+
+Listening for messages on tcp://localhost:6433 -> epos...................................................................
+commit start
+dt : 2019-10-11 12:13:51
+msgCountSinceLastCommit : 672
+totalMessageCount : 144620
+writing...ok
+
+Listening for messages on tcp://localhost:6433 -> epos............................................
+commit start
+dt : 2019-10-11 12:14:01
+msgCountSinceLastCommit : 448
+totalMessageCount : 145068
+writing...ok
+
+Listening for messages on tcp://localhost:6433 -> epos
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+
+New template : 'SelectedPlanLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID})
+
+New template : 'TerminationLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination})
+
+New template : 'LocalCostMultiObjectiveLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalCostLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'GlobalResponseVectorLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse})
+
+New template : 'globalComplexCostLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost})
+
+New template : 'UnfairnessLogger'
+dt : 2019-10-11 12:14:02
+INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness})
+....................................
+commit start
+dt : 2019-10-11 12:14:11
+msgCountSinceLastCommit : 365
+totalMessageCount : 145433
+writing...ok
+
+Listening for messages on tcp://localhost:6433 -> epos...........................................................
+commit start
+dt : 2019-10-11 12:14:21
+msgCountSinceLastCommit : 591
+totalMessageCount : 146024
+writing...ok
+
+Listening for messages on tcp://localhost:6433 -> epos...........................................
+commit start
+dt : 2019-10-11 12:14:31
+msgCountSinceLastCommit : 433
+totalMessageCount : 146457
+writing...ok
+
+Listening for messages on tcp://localhost:6433 -> epos..............................................................
+commit start
+dt : 2019-10-11 12:14:41
+msgCountSinceLastCommit : 627
+totalMessageCount : 147084
+writing...ok
+
+Listening for messages on tcp://localhost:6433 -> epos.........................................
+commit start
+dt : 2019-10-11 12:14:51
+msgCountSinceLastCommit : 418
+totalMessageCount : 147502
+writing...ok
+
+Listening for messages on tcp://localhost:6433 -> epos
