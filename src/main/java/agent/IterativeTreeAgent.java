@@ -419,8 +419,5 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkNewPlans"));
     }
 
-    public void checkForNewWeights(){
-        System.out.println("checking for new weights for: "+getPeer().getNetworkAddress());
-        getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkNewWeights"));
-    }
+    abstract void checkForNewWeights();
 }

@@ -1,10 +1,10 @@
-[Oct 11 10:17:08] ERROR (TimerTask.java:21) - 
+[Oct 11 11:58:07] ERROR (TimerTask.java:21) - 
 java.lang.NullPointerException
 	at func.IndexCostFunction.calcCost(IndexCostFunction.java:24)
 	at agent.logging.VisualizerLogger.log(VisualizerLogger.java:111)
 	at agent.logging.VisualizerLogger.log(VisualizerLogger.java:61)
 	at agent.logging.AgentLoggingProvider.log(AgentLoggingProvider.java:85)
-	at agent.MultiObjectiveIEPOSAgent.lambda$scheduleMeasurements$0(MultiObjectiveIEPOSAgent.java:217)
+	at agent.MultiObjectiveIEPOSAgent.lambda$scheduleMeasurements$0(MultiObjectiveIEPOSAgent.java:219)
 	at protopeer.measurement.MeasurementLogger.fireMeasurmentEpochEnded(MeasurementLogger.java:113)
 	at protopeer.measurement.MeasurementLogger.access$300(MeasurementLogger.java:21)
 	at protopeer.measurement.MeasurementLogger$1.timerExpired(MeasurementLogger.java:62)

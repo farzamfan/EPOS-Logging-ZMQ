@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import static org.apache.commons.math3.util.Precision.round;
+
 public class User {
 
     private ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory;
@@ -40,8 +42,8 @@ public class User {
     private int maxNumRuns=5000;
     private List<Integer> numUsersPerRun;
     private int joinLeaveRate = 9;
-    private int maxNumPeers = 200;
-    private int minNumPeers = 100;
+    private int maxNumPeers = 160;
+    private int minNumPeers = 80;
     private int newPlanProb = 9;
     private int newWeightProb = 9;
     private int userChangeProb = 9;
@@ -196,54 +198,24 @@ public class User {
         return possiblePlans;
     }
 
-    public void checkForNewPlans(InformUserMessage informUserMessage){
-        if (Users.get(informUserMessage.peerID).status.equals("hasNewPlans")){
-            PlanSetMessage planSetMessage = new PlanSetMessage("changePlans");
-            planSetMessage.possiblePlans = generatePlans(informUserMessage.peerID);
-            sendPlansMessage(planSetMessage,Users.get(informUserMessage.peerID).assignedPeerAddress);
-        }
-        else {
-        zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new PlanSetMessage("noNewPlans"));}
-    }
-
-    public void checkForNewWeights(InformUserMessage informUserMessage){
-        if (Users.get(informUserMessage.peerID).status.equals("hasNewWeights")){
-            boolean val = new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(2)==0;
-            double oldAlpha = informUserMessage.alpha;
-            double oldBeta = informUserMessage.beta;
-            if (val){
-                // increase alpha
-                double newAlpha = ( new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(20)*(0.05) );
-                if ( !(newAlpha+oldBeta < 1) ){
-                    double newBeta = oldBeta - (1-(newAlpha+oldBeta));
-                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,newBeta));
-                    System.out.println("user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+newBeta);
-                }
-                else {
-                zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,oldBeta));}
-                System.out.println("user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+oldBeta);
-            }
-            else {double newBeta = ( new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(20)*(0.05) );
-                if ( !(oldAlpha+newBeta < 1) ){
-                    double newAlpha = oldBeta - (1-(oldAlpha+newBeta));
-                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,newBeta));
-                    System.out.println("user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+newBeta);
-                }
-                else {
-                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",oldAlpha,newBeta));}
-                System.out.println("user: "+informUserMessage.peerID+ " has new weights of alpha: "+oldAlpha+" beta: "+newBeta);
-            }
-        }
-        else {
-            zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("noNewWeights"));}
-    }
 
     public void usersHavingNewPlans(UserStatus user){
         Random random = new Random(Double.doubleToLongBits(Math.random()));
         if( (random.nextInt(newPlanProb) + 1) == 1){
             user.planStatus = "hasNewPlans";
-            System.out.println("user: "+user.index+ " has new plans.");
         }
+    }
+
+    public void checkForNewPlans(InformUserMessage informUserMessage){
+        if (Users.get(informUserMessage.peerID).planStatus.equals("hasNewPlans")){
+            PlanSetMessage planSetMessage = new PlanSetMessage("changePlans");
+            planSetMessage.possiblePlans = generatePlans(informUserMessage.peerID);
+            sendPlansMessage(planSetMessage,Users.get(informUserMessage.peerID).assignedPeerAddress);
+            System.out.println("user: "+informUserMessage.peerID+ " has new plans.");
+            Users.get(informUserMessage.peerID).planStatus = "noNewPlans";
+        }
+        else {
+            zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new PlanSetMessage("noNewPlans"));}
     }
 
     public void usersHavingNewWeights(UserStatus user){
@@ -251,6 +223,43 @@ public class User {
         if( (random.nextInt(newWeightProb) + 1) == 1){
             user.weightStatus = "hasNewWeights";
         }
+    }
+
+    public void checkForNewWeights(InformUserMessage informUserMessage){
+        if (Users.get(informUserMessage.peerID).weightStatus.equals("hasNewWeights")){
+            boolean val = new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(2)==0;
+            double oldAlpha = informUserMessage.alpha;
+            double oldBeta = informUserMessage.beta;
+            if (val){
+                // increase alpha
+                double newAlpha = round(( new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(20)*(0.05) ),2);
+                if ( !( (newAlpha+oldBeta) < 1) ){
+                    double newBeta = round(oldBeta - Math.abs(1-(newAlpha+oldBeta)),2);
+                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,newBeta));
+                    System.out.println("(inc alpha) user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+newBeta);
+                }
+                else if ( ( (newAlpha+oldBeta) < 1)) {
+                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,oldBeta));
+                    System.out.println("(inc alpha) user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+oldBeta);
+                }
+            }
+            else {
+                // increase beta
+                double newBeta = round(( new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(20)*(0.05) ),2);
+                if ( !( (oldAlpha+newBeta) < 1) ){
+                    double newAlpha = round(oldAlpha - Math.abs(1-(oldAlpha+newBeta)),2);
+                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,newBeta));
+                    System.out.println("(inc beta) user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+newBeta);
+                }
+                else if ( (oldAlpha+newBeta) < 1) {
+                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights", oldAlpha, newBeta));
+                    System.out.println("(inc beta) user: " + informUserMessage.peerID + " has new weights of alpha: " + oldAlpha + " beta: " + newBeta);
+                }
+            }
+            Users.get(informUserMessage.peerID).weightStatus = "noNewWeights";
+        }
+        else {
+            zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("noNewWeights"));}
     }
 
     public void addRemoveUsers(){

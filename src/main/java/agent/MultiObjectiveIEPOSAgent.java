@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
+import Communication.InformUserMessage;
 import agent.logging.*;
 import agent.planselection.MultiObjectiveIeposPlanSelector;
 import agent.planselection.PlanSelectionOptimizationFunctionCollection;
@@ -22,6 +23,7 @@ import org.zeromq.ZMQ;
 import pgpersist.PersistenceClient;
 import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
+import protopeer.MainConfiguration;
 import protopeer.measurement.MeasurementLog;
 import protopeer.measurement.MeasurementLoggerListener;
 import protopeer.network.zmq.SerialisedMessage;
@@ -704,5 +706,11 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
             return 1;								// is this 1 message, or 1 selected plan transmitted?
 													// what is the idea, what is actually counted?
         }
+    }
+
+    @Override
+    public void checkForNewWeights(){
+        System.out.println("checking for new weights for: "+getPeer().getNetworkAddress());
+        getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkNewWeights",this.getUnfairnessWeight(),this.getLocalCostWeight()));
     }
 }

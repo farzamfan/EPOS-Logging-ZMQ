@@ -24,4 +24,12 @@ public class InformUserMessage extends Message implements Serializable {
         run = currentRun;
         status = stat;
     }
+
+    public InformUserMessage(int index, int currentRun, String stat, double a, double b) {
+        peerID = index;
+        run = currentRun;
+        status = stat;
+        alpha = a;
+        beta = b;
+    }
 }

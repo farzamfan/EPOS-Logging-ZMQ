@@ -182,6 +182,7 @@ public class ModifiableTreeServer extends BasePeerlet {
 				this.n = 0;
 				this.peers.clear();
 				this.views.clear();
+				this.ActivePeers.clear();
 				this.ActivePeers = informBootstrap.activePeers;
 				this.N = informBootstrap.numPeers;
 				System.out.println("informing bootstrap: change state to: "+this.state+" the new number of nodes: "+this.N);
@@ -247,7 +248,6 @@ public class ModifiableTreeServer extends BasePeerlet {
         this.state = ServerState.COMPLETED;
         this.shuffleNodes();
         this.n = 0;
-        this.ActivePeers.clear();
     }
     
     /**
