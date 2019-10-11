@@ -5,10 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
-import Communication.PlanSetMessage;
-import Communication.ReadyToRunMessage;
-import Communication.TreeViewChangeMessage;
-import Communication.WeightSetMessage;
+import Communication.*;
 import agent.Agent;
 import agent.MultiObjectiveIEPOSAgent;
 import agent.TreeAgent;
@@ -124,8 +121,9 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
      * The request is sent to the TreeServer. 
      */
     public void requestNewTreeView() {
-    	TreeViewRequest requestMsg = new TreeViewRequest();
+        ExtendedTreeViewRequest requestMsg = new ExtendedTreeViewRequest();
     	requestMsg.sourceDescriptor = this.localDescriptor;
+    	requestMsg.peerID = getPeer().getIndexNumber();
     	this.sendTreeViewRequest(requestMsg);
     }
     
@@ -134,7 +132,7 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
      * 
      * @param requestMsg request Message with Descriptor already set!
      */
-    private void sendTreeViewRequest(TreeViewRequest requestMsg) {
+    private void sendTreeViewRequest(ExtendedTreeViewRequest requestMsg) {
     	this.getPeer().sendMessage(this.bootstrapServerAddress, requestMsg);
     	this.state=ClientState.WAITING;
         System.out.println("BootstrapHello sent to: "+this.bootstrapServerAddress+" by: "+this.getPeer().getNetworkAddress());

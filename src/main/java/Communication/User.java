@@ -96,6 +96,7 @@ public class User {
                         usersWithassignedPeerRunning++;
                         if (usersWithassignedPeerRunning == numUsersPerRun.get(currentRun)){
                             usersWithassignedPeerRunning = 0;
+                            numUsersPerRun.set(currentRun+1,numUsersPerRun.get(currentRun));
                             System.out.println("all users have their assigned peers running for run: "+currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
 
                             if (!userChangeProcessed) {
@@ -216,17 +217,21 @@ public class User {
                 if ( !(newAlpha+oldBeta < 1) ){
                     double newBeta = oldBeta - (1-(newAlpha+oldBeta));
                     zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,newBeta));
+                    System.out.println("user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+newBeta);
                 }
                 else {
                 zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,oldBeta));}
+                System.out.println("user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+oldBeta);
             }
             else {double newBeta = ( new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(20)*(0.05) );
                 if ( !(oldAlpha+newBeta < 1) ){
                     double newAlpha = oldBeta - (1-(oldAlpha+newBeta));
                     zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,newBeta));
+                    System.out.println("user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+newBeta);
                 }
                 else {
                     zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",oldAlpha,newBeta));}
+                System.out.println("user: "+informUserMessage.peerID+ " has new weights of alpha: "+oldAlpha+" beta: "+newBeta);
             }
         }
         else {
@@ -245,7 +250,6 @@ public class User {
         Random random = new Random(Double.doubleToLongBits(Math.random()));
         if( (random.nextInt(newWeightProb) + 1) == 1){
             user.weightStatus = "hasNewWeights";
-            System.out.println("user: "+user.index+ " has new weights.");
         }
     }
 
@@ -285,7 +289,6 @@ public class User {
             addRemoveUsers();
         }
         else {
-            numUsersPerRun.set(currentRun+1,numUsersPerRun.get(currentRun));
             zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage("noChange",currentRun));}
     }
 
