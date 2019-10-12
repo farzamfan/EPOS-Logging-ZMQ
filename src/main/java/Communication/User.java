@@ -36,7 +36,7 @@ public class User {
     private int currentRun =0;
     private int finishedRun=-1;
     private int usersWithassignedPeerRunning =0;
-    private int maxNumRuns=5000;
+    private int maxNumRuns=10000;
     private List<Integer> numUsersPerRun;
     private int joinLeaveRate = 9;
     private int maxNumPeers = 180;
@@ -94,7 +94,7 @@ public class User {
                         if (informUserMessage.status.equals("assignedPeerRunning")) {
                             Users.get(informUserMessage.peerID).status = "assignedPeerRunning";
                             usersWithassignedPeerRunning++;
-                            if (usersWithassignedPeerRunning == numUsersPerRun.get(currentRun) && informUserMessage.run == currentRun) {
+                            if (usersWithassignedPeerRunning == numUsersPerRun.get(currentRun)) {
                                 usersWithassignedPeerRunning = 0;
                                 numUsersPerRun.set(currentRun + 1, numUsersPerRun.get(currentRun));
                                 System.out.println("all users have their assigned peers running for run: " + currentRun + " numPeers: " + numUsersPerRun.get(currentRun));

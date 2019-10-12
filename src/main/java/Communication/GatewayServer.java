@@ -314,8 +314,9 @@ public class GatewayServer {
                 }
             }
             for (UserStatus user : UsersStatus){
+                if (PeersStatus.get(user.index).leaveRun > currentRun){
                 zmqNetworkInterface.sendMessage(user.userAddress, new InformUserMessage(user.index, currentRun,"assignedPeerRunning"));
-                user.status = "assignedPeerRunning";
+                user.status = "assignedPeerRunning";}
             }
             allNodesReady = true;
             readyPeers=0;

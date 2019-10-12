@@ -1,4 +1,4 @@
-[Oct 12 13:07:24] ERROR (TimerTask.java:21) - 
+[Oct 12 21:02:27] ERROR (TimerTask.java:21) - 
 java.lang.NullPointerException
 	at func.IndexCostFunction.calcCost(IndexCostFunction.java:24)
 	at agent.logging.VisualizerLogger.log(VisualizerLogger.java:111)
