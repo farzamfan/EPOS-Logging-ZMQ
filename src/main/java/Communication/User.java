@@ -105,17 +105,18 @@ public class User {
                         }
                     }
                     if (informUserMessage.status.equals("finished")) {
-                        checkCorrectRun(informUserMessage);
-                        if (finishedPeers == numUsersPerRun.get(currentRun)){
-                            finishedPeers =0;
-                            System.out.println("---");
-                            System.out.println("EPOS FINISHED! Run: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
-                            System.out.println("---");
-                            finishedRun=currentRun;
-                            currentRun++;
-                            userChangeProcessed = false;
-                            resetPerRun();
-//                            System.exit(0);
+                        synchronized (this) {
+                            checkCorrectRun(informUserMessage);
+                            if (finishedPeers == numUsersPerRun.get(currentRun)) {
+                                finishedPeers = 0;
+                                System.out.println("---");
+                                System.out.println("EPOS FINISHED! Run: " + currentRun + " numPeers: " + numUsersPerRun.get(currentRun));
+                                System.out.println("---");
+                                finishedRun = currentRun;
+                                currentRun++;
+                                userChangeProcessed = false;
+                                resetPerRun();
+                            }
                         }
                     }
                     if (informUserMessage.status.equals("checkNewPlans")) {
