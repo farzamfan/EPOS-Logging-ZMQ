@@ -17,10 +17,7 @@ import protopeer.time.RealClock;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class GatewayServer {
@@ -127,6 +124,7 @@ public class GatewayServer {
                             UsersStatus.get(0).assignedPeerAddress = peerAddress;
                             UsersStatus.get(0).status = "peerAssigned";
                             PeersStatus.get(0).address = peerAddress;
+                            PeersStatus.get(0).peerPort = bootstrapPort;
                             PeersStatus.get(0).status = "initiated";
 
                         } catch (IOException e) {
@@ -351,7 +349,7 @@ public class GatewayServer {
 
     public void registerPeer(int idx, int run, String status){
 //        System.out.println("new peer registered, id: "+idx+" run: "+run+" status: "+status);
-        EPOSPeerStatus peer = new EPOSPeerStatus(idx,run,status,false,null);
+        EPOSPeerStatus peer = new EPOSPeerStatus(idx,run,status,false,null,-1);
         PeersStatus.add(peer);
     }
 
@@ -359,8 +357,12 @@ public class GatewayServer {
         for (int j=beginRange;j<(beginRange+numPeers);j++) {
             System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
             int peerPort;
-            if (init){ peerPort = (bootstrapPort + UsersStatus.get(j).index); }
-            else {peerPort = findFreePort();}
+            if (init){
+                peerPort = (bootstrapPort + UsersStatus.get(j).index);
+            }
+            else {
+                peerPort = findFreePort();
+            }
             ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",peerPort);
             String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar tutorial.jar "+UsersStatus.get(j).index+
                     " "+peerPort+" "+numUsersPerRun.get(currentRun)+" "+initRun;
@@ -369,6 +371,7 @@ public class GatewayServer {
                 UsersStatus.get(j).assignedPeerAddress = peerAddress;
                 UsersStatus.get(j).status = "peerAssigned";
                 PeersStatus.get(j).address = peerAddress;
+                PeersStatus.get(j).peerPort = peerPort;
                 PeersStatus.get(j).status = "initiated";
             } catch (IOException e) {
                 e.printStackTrace();
@@ -434,7 +437,7 @@ public class GatewayServer {
     }
 
     public int findFreePort() {
-        synchronized (this) {
+        int toReturn = -1;
             ServerSocket socket = null;
             try {
                 socket = new ServerSocket(0);
@@ -445,7 +448,8 @@ public class GatewayServer {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return port;
+                if (checkFreePort(port)){return port;}
+                else{ findFreePort();}
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -457,6 +461,16 @@ public class GatewayServer {
                 }
             }
             throw new IllegalStateException("Could not find a free TCP/IP port to start peer on");
+    }
+
+    public boolean checkFreePort(int port){
+        boolean flag = false;
+        for (EPOSPeerStatus peer:PeersStatus) {
+            if (peer.peerPort == port){
+                flag = false;
+            }
+            else {flag = true;}
         }
+        return flag;
     }
 }

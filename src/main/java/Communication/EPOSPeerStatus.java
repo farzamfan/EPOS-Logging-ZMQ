@@ -10,11 +10,13 @@ public class EPOSPeerStatus {
     String status;
     boolean isleaf;
     NetworkAddress address;
-    public EPOSPeerStatus(int idx, int currentRun, String stat, boolean leaf, NetworkAddress addr){
+    int peerPort;
+    public EPOSPeerStatus(int idx, int currentRun, String stat, boolean leaf, NetworkAddress addr, int port){
         index = idx;
         run = currentRun;
         status = stat;
         isleaf = leaf;
         address = addr;
+        peerPort = port;
     }
 }

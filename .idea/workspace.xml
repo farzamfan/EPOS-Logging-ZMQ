@@ -18,10 +18,11 @@
       <change beforePath="$PROJECT_DIR$/User.jar" beforeDir="false" afterPath="$PROJECT_DIR$/User.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deployments/localhost/log/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/log/server.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/EPOSPeerStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/EPOSPeerStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/EPOSPeerStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/EPOSPeerStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/GatewayServer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/GatewayServer$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Communication/GatewayServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/GatewayServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Communication/User$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/User$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Communication/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tutorial.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/pom.xml" afterDir="false" />
@@ -387,7 +388,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.User">
+  <component name="RunManager" selected="Application.GatewayServer">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="EPOS-Logging-ZMQ" />
@@ -488,8 +489,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.User" />
         <item itemvalue="Application.GatewayServer" />
+        <item itemvalue="Application.User" />
         <item itemvalue="Application.LiveRun" />
         <item itemvalue="Application.EPOSRequester" />
         <item itemvalue="Application.IEPOSExperiment" />
@@ -551,6 +552,7 @@
       <workItem from="1570876252916" duration="1775000" />
       <workItem from="1570885116771" duration="235000" />
       <workItem from="1570892598863" duration="4812000" />
+      <workItem from="1570952139178" duration="3968000" />
     </task>
     <servers />
   </component>
