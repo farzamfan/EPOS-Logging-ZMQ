@@ -362,6 +362,7 @@ public class GatewayServer {
             }
             else {
                 peerPort = findFreePort();
+                if (!checkFreePort(peerPort)){peerPort = findFreePort();}
             }
             ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",peerPort);
             String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar tutorial.jar "+UsersStatus.get(j).index+
@@ -457,6 +458,7 @@ public class GatewayServer {
                     try {
                         socket.close();
                     } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }
