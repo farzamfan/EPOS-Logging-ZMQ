@@ -362,7 +362,9 @@ public class GatewayServer {
             }
             else {
                 peerPort = findFreePort();
-                if (!checkFreePort(peerPort)){peerPort = findFreePort();}
+                while (!checkFreePort(peerPort)){
+                    peerPort = findFreePort();
+                }
             }
             ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",peerPort);
             String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar tutorial.jar "+UsersStatus.get(j).index+
@@ -449,8 +451,7 @@ public class GatewayServer {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (checkFreePort(port)){return port;}
-                else{ findFreePort();}
+                return port;
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -468,7 +469,7 @@ public class GatewayServer {
     public boolean checkFreePort(int port){
         boolean flag = false;
         for (EPOSPeerStatus peer:PeersStatus) {
-            if (peer.peerPort == port){
+            if (peer.peerPort == port && peer.leaveRun < currentRun){
                 flag = false;
             }
             else {flag = true;}
