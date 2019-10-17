@@ -87,7 +87,7 @@ public class TerminationLogger<V extends DataType<V>> extends AgentLogger<Agent<
         if (globalCostFunc == null) {
             globalCostFunc = agent.getGlobalCostFunction();
         }
-        sql_insert_template_custom  = "INSERT INTO TerminationLogger(run,peer,termination) VALUES({run}, {peer}, {termination});";
+        sql_insert_template_custom  = "INSERT INTO TerminationLogger(sim,run,peer,termination) VALUES({sim},{run}, {peer}, {termination});";
         agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "TerminationLogger", sql_insert_template_custom ) );
     }
 
@@ -128,6 +128,7 @@ public class TerminationLogger<V extends DataType<V>> extends AgentLogger<Agent<
         if (agent.isRepresentative()) {
             if (agent.getIteration() == agent.getNumIterations() - 1) {
                 LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
+                record.put("sim", String.valueOf(agent.activeSim));
                 record.put("run", String.valueOf(agent.activeRun));
                 record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
                 record.put("termination", String.valueOf(iter));

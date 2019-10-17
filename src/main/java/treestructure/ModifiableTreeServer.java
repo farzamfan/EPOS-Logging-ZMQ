@@ -10,10 +10,12 @@ import java.util.stream.IntStream;
 import Communication.ExtendedTreeViewRequest;
 import Communication.InformBootstrap;
 import Communication.TreeViewChangeMessage;
+import agent.Agent;
 import dsutil.generic.RankPriority;
 import dsutil.protopeer.FingerDescriptor;
 import dsutil.protopeer.services.topology.trees.DescriptorType;
 import dsutil.protopeer.services.topology.trees.TreeType;
+import loggers.EventLog;
 import protopeer.BasePeerlet;
 import protopeer.Peer;
 import protopeer.network.Message;
@@ -186,6 +188,7 @@ public class ModifiableTreeServer extends BasePeerlet {
 				this.ActivePeers = informBootstrap.activePeers;
 				this.N = informBootstrap.numPeers;
 				System.out.println("informing bootstrap: change state to: "+this.state+" the new number of nodes: "+this.N);
+				EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "informBootstrap" , String.valueOf(informBootstrap.numPeers));
 			}
 		}
     }

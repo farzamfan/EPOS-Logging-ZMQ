@@ -38,7 +38,7 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
 
 	@Override
 	public void init(Agent<V> agent) {
-		sql_insert_template_custom  = "INSERT INTO globalComplexCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost});";
+		sql_insert_template_custom  = "INSERT INTO globalComplexCostLogger(sim,run, peer,iteration,cost) VALUES({sim}, {run}, {peer}, {iteration}, {cost});";
 		agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "globalComplexCostLogger", sql_insert_template_custom ) );
 	}
 
@@ -84,6 +84,7 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
 			parameters.put(OptimizationFactor.NUM_AGENTS, (double) Configuration.numAgents);
 			double cost = Configuration.planOptimizationFunction.apply(parameters);
 
+			record.put("sim", String.valueOf(agent.activeSim));
 			record.put("run", String.valueOf(agent.activeRun));
 			record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 			record.put("iteration", String.valueOf(agent.getIteration()));

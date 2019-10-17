@@ -36,7 +36,7 @@ public class UnfairnessLogger<V extends DataType<V>> extends AgentLogger<Agent<V
 
 	@Override
 	public void init(Agent<V> agent) {
-		sql_insert_template_custom  = "INSERT INTO UnfairnessLogger(run, peer,iteration,unfairness) VALUES({run}, {peer}, {iteration}, {unfairness});";
+		sql_insert_template_custom  = "INSERT INTO UnfairnessLogger(sim,run, peer,iteration,unfairness) VALUES({sim},{run}, {peer}, {iteration}, {unfairness});";
 		agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "UnfairnessLogger", sql_insert_template_custom ) );
 	}
 
@@ -66,6 +66,7 @@ public class UnfairnessLogger<V extends DataType<V>> extends AgentLogger<Agent<V
 		MultiObjectiveIEPOSAgent moieposagent = (MultiObjectiveIEPOSAgent) agent;
 		if(moieposagent.isRoot()) {
 			LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
+			record.put("sim", String.valueOf(agent.activeSim));
 			record.put("run", String.valueOf(agent.activeRun));
 			record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 			record.put("iteration", String.valueOf(agent.getIteration()));

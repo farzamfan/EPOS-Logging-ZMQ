@@ -108,7 +108,7 @@ public class IEPOSExperiment {
 				: confPath;
 
 
-		Configuration config = Configuration.fromFile(confPath);
+		Configuration config = Configuration.fromFile(confPath,true);
 		config.printConfiguration();
 
 

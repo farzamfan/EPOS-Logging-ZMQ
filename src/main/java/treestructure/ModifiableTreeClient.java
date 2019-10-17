@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 import Communication.*;
 import agent.Agent;
+import agent.IterativeTreeAgent;
 import agent.MultiObjectiveIEPOSAgent;
 import agent.TreeAgent;
 import com.sun.source.tree.Tree;
@@ -14,6 +15,7 @@ import dsutil.protopeer.FingerDescriptor;
 import dsutil.protopeer.services.topology.trees.DescriptorType;
 import dsutil.protopeer.services.topology.trees.TreeMiddlewareInterface;
 import dsutil.protopeer.services.topology.trees.TreeProviderInterface;
+import loggers.EventLog;
 import org.apache.regexp.RE;
 import protopeer.BasePeerlet;
 import protopeer.Peer;
@@ -165,7 +167,7 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
             if (planSetMessage.status.equals("changePlans")) {
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans(((PlanSetMessage) message).possiblePlans);
                 System.out.println("plans for peer: "+getPeer().getIndexNumber()+" has changed");
-                getPeer().sendMessage(message.getSourceAddress(), new PlanSetMessage("plansChanged"));
+                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "changePlans" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
             }
             if (planSetMessage.status.equals("noUserChanges")) {
                 ((TreeAgent) this.getPeer().getPeerletOfType(TreeAgent.class)).treeViewIsSet = true;
@@ -179,6 +181,7 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
                 System.out.println("weights for peer: "+getPeer().getIndexNumber()+" has changed");
                 getPeer().sendMessage(message.getSourceAddress(), new WeightSetMessage("weightsChanged"));
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).weightsAreSet = true;
+                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "hasNewWeights" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
 
             }
             if (weightSetMessage.status.equals("noNewWeights")){
@@ -194,10 +197,12 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
             System.out.println("new tree view requested for: " + getPeer().getNetworkAddress());
             TreeViewChangeMessage treeViewChangeMessage = (TreeViewChangeMessage) message;
             if (treeViewChangeMessage.status.equals("deactivate")) {
+                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "deactivate" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
                 System.exit(0);
             }
             if (treeViewChangeMessage.status.equals("requestNewTreeView")) {
                 this.requestNewTreeView();
+//                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "requestNewTreeView" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
             }
         }
     }

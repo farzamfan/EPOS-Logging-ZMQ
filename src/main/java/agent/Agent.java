@@ -56,9 +56,9 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     Plan<V> 								selectedPlan;
     int										selectedPlanID;
     V 										globalResponse;
-    final transient List<Plan<V>> 					possiblePlans 		= 	new ArrayList<>();
-    final transient CostFunction<V> 					globalCostFunc;
-    final transient PlanCostFunction<V> 				localCostFunc;
+    final transient List<Plan<V>> 			possiblePlans 		= 	new ArrayList<>();
+    final transient CostFunction<V> 		globalCostFunc;
+    final transient PlanCostFunction<V> 	localCostFunc;
 
     //For DBLogging
     transient PersistenceClient persistenceClient;
@@ -71,7 +71,8 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     private int 							cumComputed;
     
     int										iterationAfterReorganization =	0;	// iteration at which reorganization was requested and executed
-    public int activeRun;
+    public int activeRun=-1;
+    public int activeSim=-1;
     protected boolean                       alreadyCleanedResponses = false;
     transient ZMQAddress                    GatewayAddress = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
 
@@ -119,7 +120,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     @Override
     public void start() {
         loggingProvider.init(Agent.this);
-//        setUpEventLogger();
+        setUpEventLogger();
 
         if (MainConfiguration.getSingleton().peerIndex == 0) {
             getPeer().sendMessage(GatewayAddress, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "bootsrapPeerInitiated", false));
@@ -143,6 +144,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public void setActiveRun (int initRun){
         activeRun = initRun;
     }
+    public void setActiveSim (int initSim){ activeSim = initSim; }
 
     public void addPlans(List<Plan<V>> possiblePlans){
         this.possiblePlans.clear();

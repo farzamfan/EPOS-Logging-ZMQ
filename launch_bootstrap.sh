@@ -1,1 +1,0 @@
-java -jar tutorial.jar 0 12000

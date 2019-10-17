@@ -78,7 +78,7 @@ public class LocalCostMultiObjectiveLogger<V extends DataType<V>> extends AgentL
         if (costFunction == null) {
             costFunction = agent.getLocalCostFunction();
         }
-        sql_insert_template_custom  = "INSERT INTO LocalCostMultiObjectiveLogger(run,peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost});";
+        sql_insert_template_custom  = "INSERT INTO LocalCostMultiObjectiveLogger(sim,run,peer,iteration,cost) VALUES({sim},{run}, {peer}, {iteration}, {cost});";
         agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "LocalCostMultiObjectiveLogger", sql_insert_template_custom ) );
     }
 
@@ -100,6 +100,7 @@ public class LocalCostMultiObjectiveLogger<V extends DataType<V>> extends AgentL
         MultiObjectiveIEPOSAgent moieposagent = (MultiObjectiveIEPOSAgent) agent;
         if (moieposagent.isRoot()) {
             LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
+            record.put("sim", String.valueOf(agent.activeSim));
             record.put("run", String.valueOf(agent.activeRun));
             record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
             record.put("iteration", String.valueOf(agent.getIteration()));

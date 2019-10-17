@@ -78,11 +78,10 @@ public class GlobalCostLogger<V extends DataType<V>> extends AgentLogger<Agent<V
      * with global cost function of the agent. Otherwise, does nothing.
      */
     public void init(Agent agent) {
-        System.out.println("setting up the GlobalCostLogger - for: "+agent.getPeer().getNetworkAddress());
         if (costFunction == null) {
             costFunction = agent.getGlobalCostFunction();
         }
-        sql_insert_template_custom  = "INSERT INTO GlobalCostLogger(run, peer,iteration,cost) VALUES({run}, {peer}, {iteration}, {cost});";
+        sql_insert_template_custom  = "INSERT INTO GlobalCostLogger(sim,run,peer,iteration,cost) VALUES({sim}, {run}, {peer}, {iteration}, {cost});";
         agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "GlobalCostLogger", sql_insert_template_custom ) );
     }
 
@@ -103,6 +102,7 @@ public class GlobalCostLogger<V extends DataType<V>> extends AgentLogger<Agent<V
     public void DBlog(Agent<V> agent, double cost){
         if (agent.isRepresentative()) {
             LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
+            record.put("sim", String.valueOf(agent.activeSim));
             record.put("run", String.valueOf(agent.activeRun));
             record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
             record.put("iteration", String.valueOf(agent.getIteration()));

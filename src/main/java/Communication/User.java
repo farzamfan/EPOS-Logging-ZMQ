@@ -4,8 +4,12 @@ import agent.dataset.Dataset;
 import agent.dataset.GaussianDataset;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import config.Configuration;
+import config.LiveConfiguration;
 import data.Plan;
 import data.Vector;
+import loggers.EventLog;
+import org.zeromq.ZMQ;
+import pgpersist.PersistenceClient;
 import protopeer.measurement.MeasurementLogger;
 import protopeer.network.Message;
 import protopeer.network.NetworkAddress;
@@ -25,6 +29,7 @@ import static org.apache.commons.math3.util.Precision.round;
 public class User {
 
     private ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory;
+    transient PersistenceClient persistenceClient;
     private ZMQNetworkInterface zmqNetworkInterface;
     private String thisIP;
     private ZMQAddress thisAddress;
@@ -45,19 +50,33 @@ public class User {
     private int newWeightProb = 9;
     private int userChangeProb = 9;
     private boolean userChangeProcessed = false;
+    private int userPort = 15545;
+    private int gateWayPort = 12345;
+    // TODO: 17.10.19
+    int dataSetSize = 100;
+    List<Integer> numberList;
+    List<Integer> userDatasetIndices;
 
     public User(){
         String rootPath = System.getProperty("user.dir");
         String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
-        config = Configuration.fromFile(confPath);
+        config = Configuration.fromFile(confPath,true);
         numUsersPerRun = new ArrayList<Integer>();
+
+        numberList = new ArrayList<>();
+        for(int i=1; i<=dataSetSize; i++){ numberList.add(i); }
+
+        userDatasetIndices = new ArrayList<Integer>();
         numUsersPerRun = new ArrayList<Integer>(Collections.nCopies(maxNumRuns, 0));
         numUsersPerRun.set(0,config.numAgents);
     }
 
     public static void main(String[] args) {
         User user = new User();
+        user.setUpPersistantClient();
+        user.setUpEventLogger();
         user.createInterface();
+        user.selectUsers(user.numUsersPerRun.get(0));
         user.initiateUsers();
         user.registerUsers();
     }
@@ -68,10 +87,10 @@ public class User {
         zmqNetworkInterfaceFactory=new ZMQNetworkInterfaceFactory(measurementLogger);
 
         thisIP = "127.0.0.1";
-        thisAddress = new ZMQAddress(thisIP,15545);
+        thisAddress = new ZMQAddress(thisIP,userPort);
         System.out.println("user entity address : " + thisAddress);
 
-        gateWayAddress = new ZMQAddress("127.0.0.1",12345);
+        gateWayAddress = new ZMQAddress("127.0.0.1",gateWayPort);
         System.out.println("gateway address : " + thisAddress);
 
         zmqNetworkInterface = (ZMQNetworkInterface) zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger, thisAddress);
@@ -159,6 +178,13 @@ public class User {
         }
     }
 
+    public void selectUsers(int size){
+        Collections.shuffle(this.numberList);
+        for(int j=0; j<size; j++){
+            userDatasetIndices.add(this.numberList.get(j));
+        }
+    }
+
     public void registerUsers(){
         for (UserStatus user: Users) {
             zmqNetworkInterface.sendMessage(gateWayAddress, new UserRegisterMessage(user.index, currentRun,user.status,user.userAddress));
@@ -189,9 +215,10 @@ public class User {
     }
 
     public List<Plan<Vector>> generatePlans(int peerIdx){
-        //        List<Plan<Vector>> possiblePlans = conf.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(Index));
-        Dataset gaussianDataset = new GaussianDataset(10,100,10,1,new Random(Double.doubleToLongBits(Math.random())));
-        List<Plan<Vector>> possiblePlans = gaussianDataset.getPlans(peerIdx);
+//                List<Plan<Vector>> possiblePlans = config.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(userDatasetIndices.get(peerIdx)));
+        List<Plan<Vector>> possiblePlans = config.getDataset(Configuration.dataset).getPlans(userDatasetIndices.get(peerIdx));
+//        Dataset gaussianDataset = new GaussianDataset(10,100,10,1,new Random(Double.doubleToLongBits(Math.random())));
+//        List<Plan<Vector>> possiblePlans = gaussianDataset.getPlans(peerIdx);
         return possiblePlans;
     }
 
@@ -206,9 +233,16 @@ public class User {
     public void checkForNewPlans(InformUserMessage informUserMessage){
         if (Users.get(informUserMessage.peerID).planStatus.equals("hasNewPlans")){
             PlanSetMessage planSetMessage = new PlanSetMessage("changePlans");
+            // generates new plans for the user
+            Random randomGenerator = new Random();
+            int randomInt = randomGenerator.nextInt(dataSetSize) + 1;
+            while (userDatasetIndices.contains(randomInt)){
+                randomInt = randomGenerator.nextInt(dataSetSize) + 1;
+            }
+            userDatasetIndices.set(informUserMessage.peerID,randomInt);
             planSetMessage.possiblePlans = generatePlans(informUserMessage.peerID);
             sendPlansMessage(planSetMessage,Users.get(informUserMessage.peerID).assignedPeerAddress);
-//            System.out.println("user: "+informUserMessage.peerID+ " has new plans.");
+
             Users.get(informUserMessage.peerID).planStatus = "noNewPlans";
         }
         else {
@@ -266,9 +300,16 @@ public class User {
             for (int r=0;r<numUsersPerRun.get(currentRun)/joinLeaveRate;r++){
                 UserStatus user = new UserStatus(Users.size(),currentRun+1,"added",thisAddress);
                 Users.add(user);
+
+                Random randomGenerator = new Random();
+                int randomInt = randomGenerator.nextInt(dataSetSize) + 1;
+                while (userDatasetIndices.contains(randomInt)){randomInt = randomGenerator.nextInt(dataSetSize) + 1; }
+                userDatasetIndices.add(randomInt);
+
                 zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage(Users.size()-1,currentRun+1,"join",this.thisAddress));
                 System.out.println("users: "+(Users.size()-1)+" will join the system at run: "+(currentRun+1));
                 countJoined++;
+                EventLog.logEvent("User", "addRemoveUsers", "userJoin" , (Users.size()-1)+"-"+currentRun);
             }
             numUsersPerRun.set(currentRun+1,numUsersPerRun.get(currentRun)+countJoined);
         }
@@ -285,9 +326,11 @@ public class User {
                 if (index !=0 && (currentRun < Users.get(index).leaveRun) ){
                     Users.get(index).run = currentRun+1;
                     Users.get(index).leaveRun = currentRun+1;
+                    userDatasetIndices.set(index,-1);
                     zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage(index, currentRun+1,"leave",this.thisAddress));
                     System.out.println("users: "+index+" will leave the system at run: "+(currentRun+1));
                     countLeft++;
+                    EventLog.logEvent("User", "addRemoveUsers", "userLeave" , index+"-"+currentRun);
                 }
             }
             numUsersPerRun.set(currentRun+1,numUsersPerRun.get(currentRun)-countLeft);
@@ -318,11 +361,31 @@ public class User {
             finishedPeers++;
         }
         else {
+            EventLog.logEvent("User", "checkCorrectRun", "incorrectFinish" , informUserMessage.peerID+"-"+currentRun);
             System.out.println("incorrect finish message received from peer"+informUserMessage.peerID+
                     " reported run: "+informUserMessage.run+" numPeers for incorrect run: "+numUsersPerRun.get(informUserMessage.run));
             System.out.println("current run: "+currentRun+" correct numPeers: "+numUsersPerRun.get(currentRun));
             if (numUsersPerRun.get(currentRun) != numUsersPerRun.get(informUserMessage.run)) {System.exit(1);}
         }
+    }
+
+    public void setUpEventLogger(){
+        EventLog.setPeristenceClient(persistenceClient);
+        EventLog.setPeerId(-200);
+        EventLog.setDIASNetworkId(0);
+    }
+
+    public void setUpPersistantClient(){
+        LiveConfiguration liveConf = new LiveConfiguration();
+        ZMQ.Context zmqContext = ZMQ.context(1);
+        String[] args = new String[2];
+        args[0] = String.valueOf(0);
+        args[1]= String.valueOf(0);
+        liveConf.readConfiguration(args);
+        int persistenceClientOutputQueueSize = 1000;
+        String daemonConnectString = "tcp://" + liveConf.persistenceDaemonIP + ":" + liveConf.persistenceDaemonPort;
+        persistenceClient = new PersistenceClient( zmqContext, daemonConnectString, persistenceClientOutputQueueSize );
+        System.out.println( "persistenceClient created" );
     }
 
 }

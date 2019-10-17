@@ -374,7 +374,7 @@ public class Configuration implements Serializable {
 		}
 	}
 
-	public static Configuration fromFile(String path) {
+	public static Configuration fromFile(String path, boolean prepareDataset) {
 
 		Configuration config = new Configuration();
 
@@ -388,11 +388,12 @@ public class Configuration implements Serializable {
 
 		propertyCleanUp(argMap);
 		setUpEposBasicParams(argMap, config);
-		prepareDataset(argMap);
-		prepareReorganization(argMap, config);
-		prepareCostFunctions(argMap, config);
-		prepareLoggers(argMap, config);
-
+		if (prepareDataset) {
+			prepareDataset(argMap);
+		}
+			prepareReorganization(argMap, config);
+			prepareCostFunctions(argMap, config);
+			prepareLoggers(argMap, config);
 		return config;
 	}
 

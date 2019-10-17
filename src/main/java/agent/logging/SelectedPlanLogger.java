@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 import agent.Agent;
+import agent.MultiObjectiveIEPOSAgent;
 import config.Configuration;
 import data.DataType;
 import pgpersist.SqlDataItem;
@@ -48,7 +49,7 @@ public class SelectedPlanLogger<V extends DataType<V>> extends AgentLogger<Agent
 
 	@Override
 	public void init(Agent<V> agent) {
-		sql_insert_template_custom  = "INSERT INTO SelectedPlanLogger(run,peer,iteration,planID) VALUES({run}, {peer}, {iteration}, {planID});";
+		sql_insert_template_custom  = "INSERT INTO SelectedPlanLogger(sim,run,peer,iteration,planID) VALUES({sim},{run}, {peer}, {iteration}, {planID});";
 		agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "SelectedPlanLogger", sql_insert_template_custom ) );
 	}
 
@@ -61,12 +62,15 @@ public class SelectedPlanLogger<V extends DataType<V>> extends AgentLogger<Agent
 				agent.getSelectedPlanID());										// value
 	}
 
-	public void DBLog(Agent<V> agent){
+	public void DBLog(MultiObjectiveIEPOSAgent<V> agent){
 		LinkedHashMap<String,String> record = new LinkedHashMap<String,String>();
+		record.put("sim", String.valueOf(agent.activeSim));
 		record.put("run", String.valueOf(agent.activeRun));
 		record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 		record.put("iteration", String.valueOf(agent.getIteration()));
 		record.put("planID", String.valueOf(agent.getSelectedPlanID()) );
+		record.put("unfairnessWeight", String.valueOf(agent.getUnfairnessWeight()) );
+		record.put("localcostWeight", String.valueOf(agent.getLocalCostWeight()) );
 		agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "SelectedPlanLogger", record ) );
 	}
 

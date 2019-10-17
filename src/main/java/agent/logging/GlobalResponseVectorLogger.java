@@ -42,7 +42,7 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
 
 	@Override
 	public void init(Agent<V> agent) {
-		sql_insert_template_custom  = "INSERT INTO GlobalResponseVectorLogger(run,peer,iteration,globalresponse) VALUES({run}, {peer}, {iteration}, {globalresponse});";
+		sql_insert_template_custom  = "INSERT INTO GlobalResponseVectorLogger(sim,run,peer,iteration,globalresponse) VALUES({sim},{run}, {peer}, {iteration}, {globalresponse});";
 		agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "GlobalResponseVectorLogger", sql_insert_template_custom ) );
 	}
 
@@ -60,6 +60,7 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
 		public void DBlog(Agent<V> agent, String gr){
 			if (agent.isRepresentative()) {
 				LinkedHashMap<String, String> record = new LinkedHashMap<String, String>();
+				record.put("sim", String.valueOf(agent.activeSim));
 				record.put("run", String.valueOf(agent.activeRun));
 				record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 				record.put("iteration", String.valueOf(agent.getIteration()));

@@ -245,6 +245,7 @@ CREATE TABLE globalComplexCostLogger
 (
     -- required fields
 	seq_id SERIAL NOT NULL		-- auto-increment field
+	,sim NUMERIC NOT NULL
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
@@ -266,11 +267,20 @@ CREATE TABLE GlobalCostLogger
 (
     -- required fields
 	seq_id SERIAL NOT NULL		-- auto-increment field
+	,sim NUMERIC NOT NULL
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
 	,cost NUMERIC
 );
+
+-- indexes
+CREATE INDEX CONCURRENTLY GlobalCostLogger_seq_idx ON GlobalCostLogger USING BRIN(seq_id);	
+CREATE INDEX CONCURRENTLY GlobalCostLogger_seq_sim ON GlobalCostLogger USING BRIN(sim);	
+CREATE INDEX CONCURRENTLY GlobalCostLogger_seq_run ON GlobalCostLogger USING BRIN(run);	
+CREATE INDEX CONCURRENTLY GlobalCostLogger_seq_peer ON GlobalCostLogger USING BRIN(peer);
+CREATE INDEX CONCURRENTLY GlobalCostLogger_seq_iteration ON GlobalCostLogger USING BRIN(iteration);
+CREATE INDEX CONCURRENTLY GlobalCostLogger_seq_cost ON GlobalCostLogger USING BRIN(cost);
 
 --###########
 --###########
@@ -286,6 +296,7 @@ CREATE TABLE GlobalResponseVectorLogger
 (
     -- required fields
 	seq_id SERIAL NOT NULL		-- auto-increment field
+	,sim NUMERIC NOT NULL
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
@@ -307,11 +318,20 @@ CREATE TABLE LocalCostMultiObjectiveLogger
 (
     -- required fields
 	seq_id SERIAL NOT NULL		-- auto-increment field
+	,sim NUMERIC NOT NULL
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
 	,cost NUMERIC
 );
+
+-- indexes
+CREATE INDEX CONCURRENTLY LocalCostMultiObjectiveLogger_seq_idx ON LocalCostMultiObjectiveLogger USING BRIN(seq_id);	
+CREATE INDEX CONCURRENTLY LocalCostMultiObjectiveLogger_seq_sim ON LocalCostMultiObjectiveLogger USING BRIN(sim);
+CREATE INDEX CONCURRENTLY LocalCostMultiObjectiveLogger_seq_run ON LocalCostMultiObjectiveLogger USING BRIN(run);	
+CREATE INDEX CONCURRENTLY LocalCostMultiObjectiveLogger_seq_peer ON LocalCostMultiObjectiveLogger USING BRIN(peer);
+CREATE INDEX CONCURRENTLY LocalCostMultiObjectiveLogger_seq_iteration ON LocalCostMultiObjectiveLogger USING BRIN(iteration);
+CREATE INDEX CONCURRENTLY LocalCostMultiObjectiveLogger_seq_cost ON LocalCostMultiObjectiveLogger USING BRIN(cost);
 
 
 --###########
@@ -328,12 +348,21 @@ CREATE TABLE SelectedPlanLogger
 (
     -- required fields
 	seq_id SERIAL NOT NULL		-- auto-increment field
+	,sim NUMERIC NOT NULL
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
 	,planID NUMERIC
+	,unfairnessWeight NUMERIC
+	,localcostWeight NUMERIC
 );
 
+-- indexes
+CREATE INDEX CONCURRENTLY SelectedPlanLogger_seq_idx ON SelectedPlanLogger USING BRIN(seq_id);	
+CREATE INDEX CONCURRENTLY SelectedPlanLogger_seq_sim ON SelectedPlanLogger USING BRIN(sim);
+CREATE INDEX CONCURRENTLY SelectedPlanLogger_seq_run ON SelectedPlanLogger USING BRIN(run);	
+CREATE INDEX CONCURRENTLY SelectedPlanLogger_seq_peer ON SelectedPlanLogger USING BRIN(peer);
+CREATE INDEX CONCURRENTLY SelectedPlanLogger_seq_iteration ON SelectedPlanLogger USING BRIN(iteration);
 
 --###########
 --###########
@@ -349,10 +378,16 @@ CREATE TABLE TerminationLogger
 (
     -- required fields
 	seq_id SERIAL NOT NULL		-- auto-increment field
+	,sim NUMERIC NOT NULL
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,termination NUMERIC
 );
+
+-- indexes
+CREATE INDEX CONCURRENTLY TerminationLogger_seq_idx ON TerminationLogger USING BRIN(seq_id);	
+CREATE INDEX CONCURRENTLY TerminationLogger_seq_run ON TerminationLogger USING BRIN(run);	
+CREATE INDEX CONCURRENTLY TerminationLogger_seq_peer ON TerminationLogger USING BRIN(peer);
 
 
 --###########
@@ -369,11 +404,27 @@ CREATE TABLE UnfairnessLogger
 (
     -- required fields
 	seq_id SERIAL NOT NULL		-- auto-increment field
+	,sim NUMERIC NOT NULL
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
 	,unfairness NUMERIC
 );
+
+-- indexes
+CREATE INDEX CONCURRENTLY UnfairnessLogger_seq_idx ON UnfairnessLogger USING BRIN(seq_id);	
+CREATE INDEX CONCURRENTLY UnfairnessLogger_seq_run ON UnfairnessLogger USING BRIN(run);	
+CREATE INDEX CONCURRENTLY UnfairnessLogger_seq_peer ON UnfairnessLogger USING BRIN(peer);
+CREATE INDEX CONCURRENTLY UnfairnessLogger_seq_iteration ON UnfairnessLogger USING BRIN(iteration);	
+
+
+--###########
+--###########
+############
+#msgs
+--###########
+--###########
+--###########
 
 DROP TABLE IF EXISTS msgs CASCADE;
 

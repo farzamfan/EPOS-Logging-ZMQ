@@ -28,6 +28,7 @@ public class LiveRun extends ZMQExperiment {
     static int peerPort=0;
     static int numAgents=0;
     static int initRun=0;
+    static int initSim=0;
 
     public static void main(String[] args) {
 
@@ -35,6 +36,7 @@ public class LiveRun extends ZMQExperiment {
         peerPort = (args.length >= 2 ? Integer.parseInt(args [1]) : 0 );
         numAgents = (args.length >= 3 ? Integer.parseInt(args [2]) : 0 );
         initRun = (args.length >= 4 ? Integer.parseInt(args [3]) : 0 );
+        initSim = (args.length >= 5 ? Integer.parseInt(args [4]) : 0 );
         liveRun(idx,peerPort);
         }
 
@@ -45,7 +47,7 @@ public class LiveRun extends ZMQExperiment {
 
             String rootPath = System.getProperty("user.dir");
             String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
-            Configuration config = Configuration.fromFile(confPath);
+            Configuration config = Configuration.fromFile(confPath,false);
             config.printConfiguration();
 
             LiveConfiguration liveConf = new LiveConfiguration();
@@ -62,7 +64,7 @@ public class LiveRun extends ZMQExperiment {
             System.out.println("my port = " + liveConf.myPort  + "(" + port + ")");
             System.out.println("my IP = " + liveConf.myIP);
             System.out.println("\n---- Configuration ---\n" );
-            liveConf.printParameterFile();
+//            liveConf.printParameterFile();
             System.out.println("\n---- End Configuration ---\n" );
 
             protopeer.MainConfiguration			protopeer_conf = protopeer.MainConfiguration.getSingleton();
@@ -100,7 +102,7 @@ public class LiveRun extends ZMQExperiment {
 
             };
 
-            EPOSapp.runEPOS(liveConf,protopeer_conf,zmqContext,numChildren,numIterations,numAgents,initRun,createAgent,config);
+            EPOSapp.runEPOS(liveConf,protopeer_conf,zmqContext,numChildren,numIterations,numAgents,initRun,initSim,createAgent,config);
 //        loggingProvider.print();
         }
 

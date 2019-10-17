@@ -243,7 +243,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
      */
     void initIteration() {
 
-        EventLog.logEvent("MultiObjectiveIEPOSAgent", "initIteration", "start",String.valueOf(iteration) );
+//        EventLog.logEvent("MultiObjectiveIEPOSAgent", "initIteration", "start",String.valueOf(iteration) );
 
     	this.log(Level.FINER, "MultiObjectiveIeposAgent::initIteration()") ;
     	if(!this.isLeaf()) {
@@ -307,7 +307,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         	this.initAtIteration0();
         }
 
-        EventLog.logEvent("MultiObjectiveIEPOSAgent", "initIteration", "end" );
+//        EventLog.logEvent("MultiObjectiveIEPOSAgent", "initIteration", "end" );
 
     }
     
@@ -373,7 +373,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         new GlobalComplexCostLogger<>().DBlog((Agent) this);
         new GlobalResponseVectorLogger<>().DBlog((Agent) this,globalResponse.toString()+"'");
         new LocalCostMultiObjectiveLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.localCost(getGlobalDiscomfortSum(), numAgents));
-        new SelectedPlanLogger<>().DBLog((Agent) this);
+        new SelectedPlanLogger<>().DBLog((MultiObjectiveIEPOSAgent) this);
         if (globalResponse == prevAggregatedResponse){new TerminationLogger<>().DBLog((Agent) this,iteration);}
         if (iteration > 0){new UnfairnessLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.unfairness(getGlobalDiscomfortSum(), getGlobalDiscomfortSumSqr(), numAgents));}
 
