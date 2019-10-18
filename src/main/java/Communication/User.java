@@ -53,7 +53,7 @@ public class User {
     private int userPort = 15545;
     private int gateWayPort = 12345;
     // TODO: 17.10.19
-    int dataSetSize = 100;
+    int dataSetSize;
     List<Integer> numberList;
     List<Integer> userDatasetIndices;
 
@@ -63,6 +63,7 @@ public class User {
         config = Configuration.fromFile(confPath,true);
         numUsersPerRun = new ArrayList<Integer>();
 
+        dataSetSize = 2778;
         numberList = new ArrayList<>();
         for(int i=1; i<=dataSetSize; i++){ numberList.add(i); }
 
