@@ -33,7 +33,7 @@ public class EPOSRequester {
     static Configuration config;
     String thisIP;
     static int numPeers;
-    int maxNumRuns = 500;
+    int maxNumRuns = 250;
     int maxSimulations = 500;
     int currentSim=0;
     ZMQNetworkInterface zmqNetworkInterface;

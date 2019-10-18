@@ -1,7 +1,7 @@
 \c postgres
 DROP DATABASE IF EXISTS epos;
 CREATE DATABASE epos;
-\c epos
+\c epos ;
 
 --###########
 --###########

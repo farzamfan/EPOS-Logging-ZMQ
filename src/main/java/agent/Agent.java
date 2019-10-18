@@ -120,7 +120,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     @Override
     public void start() {
         loggingProvider.init(Agent.this);
-        setUpEventLogger();
+//        setUpEventLogger();
 
         if (MainConfiguration.getSingleton().peerIndex == 0) {
             getPeer().sendMessage(GatewayAddress, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "bootsrapPeerInitiated", false));

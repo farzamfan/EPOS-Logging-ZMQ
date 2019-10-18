@@ -49,7 +49,8 @@ public class SelectedPlanLogger<V extends DataType<V>> extends AgentLogger<Agent
 
 	@Override
 	public void init(Agent<V> agent) {
-		sql_insert_template_custom  = "INSERT INTO SelectedPlanLogger(sim,run,peer,iteration,planID) VALUES({sim},{run}, {peer}, {iteration}, {planID});";
+		sql_insert_template_custom  = "INSERT INTO SelectedPlanLogger(sim,run,peer,iteration,planID,unfairnessWeight,localcostWeight)" +
+				" VALUES({sim},{run}, {peer}, {iteration}, {planID},{unfairnessWeight},{localcostWeight});";
 		agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "SelectedPlanLogger", sql_insert_template_custom ) );
 	}
 
