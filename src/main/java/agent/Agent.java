@@ -48,9 +48,9 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     protected final int						bootstrapPeriod		=	1000;	//ms
     protected final int						activeStatePeriod	=	200;	//ms
     protected final int						readyPeriod		=	1000;	//ms
-    public boolean                          plansAreSet = false;
-    public boolean                          readyToRun = false;
-    public boolean                          weightsAreSet = true;
+    public boolean                          plansAreSet = new Boolean(false);
+    public boolean                          readyToRun = new Boolean(false);
+    public boolean                          weightsAreSet = new Boolean(true);
 
     // combinatorial optimization variables
     Plan<V> 								selectedPlan;
@@ -73,7 +73,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     int										iterationAfterReorganization =	0;	// iteration at which reorganization was requested and executed
     public int activeRun=-1;
     public int activeSim=-1;
-    protected boolean                       alreadyCleanedResponses = false;
+    protected boolean                       alreadyCleanedResponses = new Boolean(false);
     transient ZMQAddress                    GatewayAddress = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
 
     /**
@@ -150,7 +150,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
         this.possiblePlans.clear();
         this.possiblePlans.addAll(possiblePlans);
         plansAreSet = true;
-        System.out.println("plans are set for:" +this.getPeer().getNetworkAddress());
+        System.out.println("DEBUG: new plans are set for:" +this.getPeer().getNetworkAddress());
         getPeer().sendMessage(GatewayAddress, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "plansSet", true));
     }
 

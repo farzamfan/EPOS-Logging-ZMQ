@@ -22,6 +22,7 @@ import protopeer.time.RealClock;
 
 import java.io.File;
 import java.net.UnknownHostException;
+import java.security.SecureRandom;
 import java.util.*;
 
 import static org.apache.commons.math3.util.Precision.round;
@@ -44,12 +45,12 @@ public class User {
     private int maxNumRuns=10000;
     private List<Integer> numUsersPerRun;
     private int joinLeaveRate = 9;
-    private int maxNumPeers = 150;
-    private int minNumPeers = 50;
+    private int maxNumPeers = 130;
+    private int minNumPeers = 70;
     private int newPlanProb = 9;
     private int newWeightProb = 9;
     private int userChangeProb = 9;
-    private boolean userChangeProcessed = false;
+    private boolean userChangeProcessed = new Boolean(false);;;
     private int userPort = 15545;
     private int gateWayPort = 12345;
     // TODO: 17.10.19
@@ -120,7 +121,7 @@ public class User {
                                 System.out.println("all users have their assigned peers running for run: " + currentRun + " numPeers: " + numUsersPerRun.get(currentRun));
 
                                 if (!userChangeProcessed) {
-                                    userChangeProcessed = true;
+                                    userChangeProcessed = new Boolean(true);;;
                                     usersJoiningOrLeaving();
                                 }
                             }
@@ -134,11 +135,12 @@ public class User {
                                 System.out.println("---");
                                 finishedRun = currentRun;
                                 currentRun++;
-                                userChangeProcessed = false;
+                                userChangeProcessed = new Boolean(false);;;
                                 resetPerRun();
                             }
                         }
                         if (informUserMessage.status.equals("checkNewPlans")) {
+                            System.out.println("peer: "+informUserMessage.peerID+" checking for plans");
                             checkForNewPlans(informUserMessage);
                         }
                         if (informUserMessage.status.equals("checkNewWeights")) {
@@ -149,7 +151,10 @@ public class User {
 //                    System.out.println("peer assigned for: "+userRegisterMessage.index+" at run: "+userRegisterMessage.currentRun);
                         Users.get(userRegisterMessage.index).status = "peerAssigned";
                         Users.get(userRegisterMessage.index).assignedPeerAddress = userRegisterMessage.assignedPeerAddress;
-                        sendPlans(userRegisterMessage.index, userRegisterMessage.assignedPeerAddress);
+                        /// TODO: 18.10.19
+                        if (Users.get(userRegisterMessage.index).planStatus.equals("needPlans")){
+                            sendPlans(userRegisterMessage.index, userRegisterMessage.assignedPeerAddress);
+                        }
                         usersWithAssignedPeer++;
                         if (usersWithAssignedPeer == numUsersPerRun.get(currentRun)) {
                             usersWithAssignedPeer = 0;
@@ -160,7 +165,11 @@ public class User {
             }
 
             public void messageSent(NetworkInterface networkInterface, NetworkAddress destinationAddress, Message message) {
-//                System.out.println("Message sent: + " +destinationAddress + " message: "+ message + " messageSize: " + message.getMessageSize());
+                if (message instanceof PlanSetMessage){
+                    PlanSetMessage planSetMessage = (PlanSetMessage) message;
+                    System.out.println(planSetMessage.status+" for: "+message.getDestinationAddress());
+//                    System.out.println("Message sent: + " +destinationAddress + " message: "+ message + " messageClass: " + message.getClass());
+                }
             }
 
 
@@ -199,6 +208,7 @@ public class User {
         try {
             psm = createPlanMessage(config,idx);
             sendPlansMessage(psm,address);
+            Users.get(idx).planStatus = "noNewPlans";
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -225,9 +235,11 @@ public class User {
 
 
     public void usersHavingNewPlans(UserStatus user){
-        Random random = new Random(Double.doubleToLongBits(Math.random()));
-        if( (random.nextInt(newPlanProb) + 1) == 1){
+        SecureRandom random = new SecureRandom();
+        if( (random.nextInt(newPlanProb) + 1) == 1 && user.leaveRun > (currentRun+1)){
             user.planStatus = "hasNewPlans";
+            System.out.println("user: "+user.index+" has new plans");
+            zmqNetworkInterface.sendMessage(user.assignedPeerAddress, new PlanSetMessage("hasNewPlans"));
         }
     }
 
@@ -243,17 +255,18 @@ public class User {
             userDatasetIndices.set(informUserMessage.peerID,randomInt);
             planSetMessage.possiblePlans = generatePlans(informUserMessage.peerID);
             sendPlansMessage(planSetMessage,Users.get(informUserMessage.peerID).assignedPeerAddress);
-
             Users.get(informUserMessage.peerID).planStatus = "noNewPlans";
         }
         else {
-            zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new PlanSetMessage("noNewPlans"));}
+//            zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new PlanSetMessage("noNewPlans"));
+        }
     }
 
     public void usersHavingNewWeights(UserStatus user){
         Random random = new Random(Double.doubleToLongBits(Math.random()));
         if( (random.nextInt(newWeightProb) + 1) == 1){
             user.weightStatus = "hasNewWeights";
+            zmqNetworkInterface.sendMessage(user.assignedPeerAddress, new PlanSetMessage("hasNewWeights"));
         }
     }
 
@@ -267,11 +280,11 @@ public class User {
                 double newAlpha = round(( new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(20)*(0.05) ),2);
                 if ( !( (newAlpha+oldBeta) < 1) ){
                     double newBeta = round(oldBeta - Math.abs(1-(newAlpha+oldBeta)),2);
-                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,newBeta));
+                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("setNewWeights",newAlpha,newBeta));
 //                    System.out.println("(inc alpha) user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+newBeta);
                 }
                 else if ( ( (newAlpha+oldBeta) < 1)) {
-                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,oldBeta));
+                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("setNewWeights",newAlpha,oldBeta));
 //                    System.out.println("(inc alpha) user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+oldBeta);
                 }
             }
@@ -280,18 +293,17 @@ public class User {
                 double newBeta = round(( new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(20)*(0.05) ),2);
                 if ( !( (oldAlpha+newBeta) < 1) ){
                     double newAlpha = round(oldAlpha - Math.abs(1-(oldAlpha+newBeta)),2);
-                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights",newAlpha,newBeta));
+                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("setNewWeights",newAlpha,newBeta));
 //                    System.out.println("(inc beta) user: "+informUserMessage.peerID+ " has new weights of alpha: "+newAlpha+" beta: "+newBeta);
                 }
                 else if ( (oldAlpha+newBeta) < 1) {
-                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("hasNewWeights", oldAlpha, newBeta));
+                    zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("setNewWeights", oldAlpha, newBeta));
 //                    System.out.println("(inc beta) user: " + informUserMessage.peerID + " has new weights of alpha: " + oldAlpha + " beta: " + newBeta);
                 }
             }
             Users.get(informUserMessage.peerID).weightStatus = "noNewWeights";
         }
-        else {
-            zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("noNewWeights"));}
+//        else { zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("noNewWeights"));}
     }
 
     public void addRemoveUsers(){

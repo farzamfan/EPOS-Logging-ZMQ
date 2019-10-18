@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public class GatewayServer {
 
     transient PersistenceClient persistenceClient;
-    private boolean allNodesReady = false;
+    private boolean allNodesReady = new Boolean(false);;;
     private int readyPeers=0;
     private int innerNode=0;
     private int innerNodeRunning=0;
@@ -43,7 +43,7 @@ public class GatewayServer {
     private int bootstrapPort;
     private int maxNumRuns=500;
     private int currentSim=0;
-    private boolean bootstrapInformed = false;
+    private boolean bootstrapInformed = new Boolean(false);;
 
     public GatewayServer(){
         /* constructor, does the following:
@@ -86,178 +86,169 @@ public class GatewayServer {
         gatewayServer.listen();
     }
 
-    public void listen(){
+    public void listen() {
+        synchronized (this) {
+            zmqNetworkInterface.addNetworkListener(new NetworkListener() {
 
-        zmqNetworkInterface.addNetworkListener(new NetworkListener()
-        {
+                public void exceptionHappened(NetworkInterface networkInterface, NetworkAddress remoteAddress,
+                                              Message message, Throwable cause) {
+                    System.out.println("ZmqTestServer::exceptionHappened" + cause);
+                    cause.printStackTrace();
+                }
 
-            public void exceptionHappened(NetworkInterface networkInterface, NetworkAddress remoteAddress,
-                                          Message message, Throwable cause)
-            {
-                System.out.println( "ZmqTestServer::exceptionHappened" + cause );
-                cause.printStackTrace();
-            }
+                public void interfaceDown(NetworkInterface networkInterface) {
+                    System.out.println("ZmqTestServer::interfaceDown");
 
-            public void interfaceDown(NetworkInterface networkInterface)
-            {
-                System.out.println( "ZmqTestServer::interfaceDown" );
+                }
 
-            }
-
-            public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress,
-                                        Message message)
-            {
+                public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress,
+                                            Message message) {
 //                System.out.println("message received from: "+message.getSourceAddress()+" of type: "+message.getClass());
-                if (message instanceof EPOSRequestMessage){
+                    if (message instanceof EPOSRequestMessage) {
                     /*
                     - The epos request message arrives once (todo make it more recurring, such as changing goal function, ...)
                      */
-                    EPOSRequestMessage eposRequestMessage = (EPOSRequestMessage) message;
-                    EPOSRequesterAddress = (ZMQAddress) eposRequestMessage.getSourceAddress();
-                    currentSim = eposRequestMessage.currentSim;
-                    numUsersPerRun.set(0,eposRequestMessage.numPeers);
-                    maxNumRuns = eposRequestMessage.maxRuns;
-                    if (eposRequestMessage.numPeers>1 && UsersStatus.size()>0){
+                        EPOSRequestMessage eposRequestMessage = (EPOSRequestMessage) message;
+                        EPOSRequesterAddress = (ZMQAddress) eposRequestMessage.getSourceAddress();
+                        currentSim = eposRequestMessage.currentSim;
+                        numUsersPerRun.set(0, eposRequestMessage.numPeers);
+                        maxNumRuns = eposRequestMessage.maxRuns;
+                        if (eposRequestMessage.numPeers > 1 && UsersStatus.size() > 0) {
                         /*
                         - records the EPOS requester address
                         - creates the bootstrap server (peer0)
                         - sets initial numUsersPerRun
                          */
-                        System.out.println("initiating the boostrap server with address: "+"127.0.0.1:"+(bootstrapPort + UsersStatus.get(0).index));
-                        ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",(bootstrapPort + UsersStatus.get(0).index));
-                        String command = "screen -S peer"+UsersStatus.get(0).index+" -d -m java -Xmx1024m -jar IEPOSNode.jar "+UsersStatus.get(0).index+
-                                " "+(bootstrapPort + UsersStatus.get(0).index)+" "+numUsersPerRun.get(currentRun)+" "+0+" "+currentSim;
-                        try {
+                            System.out.println("initiating the boostrap server with address: " + "127.0.0.1:" + (bootstrapPort + UsersStatus.get(0).index));
+                            ZMQAddress peerAddress = new ZMQAddress("127.0.0.1", (bootstrapPort + UsersStatus.get(0).index));
+                            String command = "screen -S peer" + UsersStatus.get(0).index + " -d -m java -Xmx1024m -jar IEPOSNode.jar " + UsersStatus.get(0).index +
+                                    " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim;
+                            try {
 //                            System.out.println(command);
-                            Runtime.getRuntime().exec(command);
+                                Runtime.getRuntime().exec(command);
                             /*
                             - initiates the bootstrap server (peer0) and records its status
                             - records the changes in the peerStatus
                              */
-                            UsersStatus.get(0).assignedPeerAddress = peerAddress;
-                            UsersStatus.get(0).status = "peerAssigned";
-                            PeersStatus.get(0).address = peerAddress;
-                            PeersStatus.get(0).peerPort = bootstrapPort;
-                            PeersStatus.get(0).status = "initiated";
+                                UsersStatus.get(0).assignedPeerAddress = peerAddress;
+                                UsersStatus.get(0).status = "peerAssigned";
+                                PeersStatus.get(0).address = peerAddress;
+                                PeersStatus.get(0).peerPort = bootstrapPort;
+                                PeersStatus.get(0).status = "initiated";
 
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            EventLog.logEvent("GateWay", "EPOSRequestMessageReceived", "initiatingBootstrap", String.valueOf(currentRun));
+                        } else if (UsersStatus.size() == 0) {
+                            System.out.println("no user is initiated!");
+                            System.exit(0);
+                        } else if (eposRequestMessage.numPeers == 0) {
+                            System.out.println("only one peer is requested, optimisation is pointless");
+                            System.exit(0);
                         }
-                        EventLog.logEvent("GateWay", "EPOSRequestMessageReceived", "initiatingBootstrap" , String.valueOf(currentRun));
-                    }
-                    else if (UsersStatus.size() == 0) {
-                        System.out.println("no user is initiated!");
-                        System.exit(0);
-                    }
-                    else if (eposRequestMessage.numPeers == 0){
-                        System.out.println("only one peer is requested, optimisation is pointless");
-                        System.exit(0);
-                    }
-                }
-                else if (message instanceof InformGatewayMessage){
+                    } else if (message instanceof InformGatewayMessage) {
                     /*
                     - listens for various updates from peers, and runs the appropriate command
                      */
-                    InformGatewayMessage informGatewayMessage = (InformGatewayMessage) message;
-                    if (informGatewayMessage.status.equals("bootsrapPeerInitiated")) {
+                        InformGatewayMessage informGatewayMessage = (InformGatewayMessage) message;
+                        if (informGatewayMessage.status.equals("bootsrapPeerInitiated")) {
                         /*
                         - the bootstrap server (peer0) is online
                         - initiates the rest of the peers
                         - updates the user and peer status
                         */
-                        initiatePeers(1,UsersStatus.size()-1,currentRun,true);
-                        EventLog.logEvent("GateWay", "InformGatewayMessageReceived", "initiatingRest" , (UsersStatus.size()-1)+"-"+currentRun);
-                    }
-                    if (informGatewayMessage.status.equals("treeViewSet")) {
-                        // all peers have sent their bootstrap hello and received the treeView from the server
-//                        System.out.println("tree view set for: "+informGatewayMessage.getSourceAddress()+" at run: "+informGatewayMessage.run);
-                        PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
-                        PeersStatus.get(informGatewayMessage.peerID).isleaf = informGatewayMessage.isLeaf;
-                        peersWithTreeViewSet++;
-                    }
-                    else if (informGatewayMessage.status.equals("plansSet")) {
-                        // all peers have received their plans from the corresponding user
-//                        System.out.println("plan set for: "+informGatewayMessage.getSourceAddress()+" at run: "+informGatewayMessage.run);
-                        peersWithPlansSet++;
-                    }
-                    else if (informGatewayMessage.status.equals("ready")) {
-                        // update peer status based on the ready message received
-//                        System.out.println("ready message received for: "+informGatewayMessage.getSourceAddress()+" at run: "+informGatewayMessage.run);
-                        PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
-                        PeersStatus.get(informGatewayMessage.peerID).address = informGatewayMessage.getSourceAddress();
-                        // the peer has it treeView and plans set, and is ready to start epos process
-                        if (informGatewayMessage.isLeaf == false) {
-                            // records the number of inner (non-leaf) peers
-                            innerNode++;
+                            initiatePeers(1, UsersStatus.size() - 1, currentRun, true);
+                            EventLog.logEvent("GateWay", "InformGatewayMessageReceived", "initiatingRest", (UsersStatus.size() - 1) + "-" + currentRun);
                         }
-                        readyPeers++;
-                    }
-                    else if (informGatewayMessage.status.equals("innerRunning")) {
-                        // the inner peer has executed the "initIteration" and are listening to the leafs (its children)
+                        if (informGatewayMessage.status.equals("treeViewSet")) {
+                            // all peers have sent their bootstrap hello and received the treeView from the server
+//                            System.out.println("tree view set for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
+                            PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
+                            PeersStatus.get(informGatewayMessage.peerID).isleaf = informGatewayMessage.isLeaf;
+                            peersWithTreeViewSet++;
+                        } else if (informGatewayMessage.status.equals("plansSet")) {
+                            // all peers have received their plans from the corresponding user
+//                            System.out.println("plan set for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
+                            peersWithPlansSet++;
+                        } else if (informGatewayMessage.status.equals("ready") && informGatewayMessage.run == currentRun) {
+                            // update peer status based on the ready message received
+                            System.out.println("ready message received for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
+                            PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
+                            PeersStatus.get(informGatewayMessage.peerID).address = informGatewayMessage.getSourceAddress();
+                            // the peer has it treeView and plans set, and is ready to start epos process
+                            if (informGatewayMessage.isLeaf == false) {
+                                // records the number of inner (non-leaf) peers
+                                innerNode++;
+                            }
+                            readyPeers++;
+                        } else if (informGatewayMessage.status.equals("innerRunning")) {
+                            // the inner peer has executed the "initIteration" and are listening to the leafs (its children)
 //                        System.out.println("innerRunning message received for: "+informGatewayMessage.getSourceAddress()+" at run: "+informGatewayMessage.run);
-                        innerNodeRunning++;
-                    }
-                    else if (informGatewayMessage.status.equals("finished")) {
-                        // the peer has finished its run (numIteration)
+                            innerNodeRunning++;
+                        } else if (informGatewayMessage.status.equals("finished")) {
+                            // the peer has finished its run (numIteration)
 //                        System.out.println("finished message received for: "+informGatewayMessage.getSourceAddress()+" at run: "+informGatewayMessage.run);
-                        finishedPeers++;
-                        if (numUsersPerRun.get(currentRun+1) != numUsersPerRun.get(currentRun) && bootstrapInformed == false)
-                        {
-                            bootstrapInformed = true;
-                            treeViewShouldChange();
+                            finishedPeers++;
+                            if (numUsersPerRun.get(currentRun + 1) != numUsersPerRun.get(currentRun) && bootstrapInformed == false) {
+                                bootstrapInformed = new Boolean(true);
+                                ;
+                                ;
+                                treeViewShouldChange();
+                            }
                         }
-                    }
-                    if (informGatewayMessage.status.equals("checkUserChanges")) {
-                        checkUserChanges(informGatewayMessage);
-                    }
-                }
-                else if (message instanceof UserRegisterMessage){
+                        if (informGatewayMessage.status.equals("checkUserChanges")) {
+                            checkUserChanges(informGatewayMessage);
+                        }
+                    } else if (message instanceof UserRegisterMessage) {
                     /*
                     - receives the user register message from each user
                     - creates a userStatus entry for each user and sets the status as "registered"
                     - creates a EPOSPeerStatus entry for each user and sets the status as "registered"
                      */
-                    UserRegisterMessage userRegisterMessage = (UserRegisterMessage) message;
-                    registerUser(userRegisterMessage.index,"registered",(ZMQAddress) userRegisterMessage.getSourceAddress());
-                    registerPeer(userRegisterMessage.index,currentRun,"registered");
-                    registeredUsers++;
-                    if (registeredUsers == numUsersPerRun.get(0)){
-                        registeredUsers =0;
-                        zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"usersRegistered"));
+                        UserRegisterMessage userRegisterMessage = (UserRegisterMessage) message;
+                        registerUser(userRegisterMessage.index, "registered", (ZMQAddress) userRegisterMessage.getSourceAddress());
+                        registerPeer(userRegisterMessage.index, currentRun, "registered");
+                        registeredUsers++;
+                        if (registeredUsers == numUsersPerRun.get(0)) {
+                            registeredUsers = 0;
+                            // tells the epos requester that the users are registered
+                            zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun, UsersStatus.size(), "usersRegistered"));
+                        }
+                    } else if (message instanceof UserJoinLeaveMessage) {
+                        UserJoinLeaveMessage userJoinLeaveMessage = (UserJoinLeaveMessage) message;
+                        if (userJoinLeaveMessage.joinLeaveStatus.equals("join")) {
+                            registerUser(userJoinLeaveMessage.userIndex, "registered", userJoinLeaveMessage.userAddress);
+                            registerPeer(userJoinLeaveMessage.userIndex, userJoinLeaveMessage.currentRun, "registered");
+                            numUsersPerRun.set(userJoinLeaveMessage.currentRun, numUsersPerRun.get(userJoinLeaveMessage.currentRun) + 1);
+                            System.out.println("peer: " + userJoinLeaveMessage.userIndex + " will join at run: " + userJoinLeaveMessage.currentRun + " current run:" + currentRun);
+                            EventLog.logEvent("GateWay", "UserJoinLeaveMessage", "userJoin", userJoinLeaveMessage.userIndex + "-" + currentRun);
+                        } else if (userJoinLeaveMessage.joinLeaveStatus.equals("leave")) {
+                            UsersStatus.get(userJoinLeaveMessage.userIndex).status = "left";
+                            PeersStatus.get(userJoinLeaveMessage.userIndex).status = "left";
+                            PeersStatus.get(userJoinLeaveMessage.userIndex).leaveRun = userJoinLeaveMessage.currentRun;
+                            numUsersPerRun.set(userJoinLeaveMessage.currentRun, numUsersPerRun.get(userJoinLeaveMessage.currentRun) - 1);
+                            System.out.println("peer: " + userJoinLeaveMessage.userIndex + " will leave at run: " + userJoinLeaveMessage.currentRun + " current run:" + currentRun);
+                            EventLog.logEvent("GateWay", "UserJoinLeaveMessage", "userLeave", userJoinLeaveMessage.userIndex + "-" + currentRun);
+                        }
+                        if (userJoinLeaveMessage.joinLeaveStatus.equals("noChange")) {
+                            // no action needed
+                        }
                     }
+                    checkStatus();
                 }
-                else if (message instanceof UserJoinLeaveMessage){
-                    UserJoinLeaveMessage userJoinLeaveMessage = (UserJoinLeaveMessage) message;
-                    if (userJoinLeaveMessage.joinLeaveStatus.equals("join")){
-                        registerUser(userJoinLeaveMessage.userIndex,"registered",userJoinLeaveMessage.userAddress);
-                        registerPeer(userJoinLeaveMessage.userIndex, userJoinLeaveMessage.currentRun,"registered");
-                        numUsersPerRun.set(userJoinLeaveMessage.currentRun,numUsersPerRun.get(userJoinLeaveMessage.currentRun)+1);
-                        System.out.println("peer: "+userJoinLeaveMessage.userIndex+" will join at run: "+userJoinLeaveMessage.currentRun+" current run:"+currentRun);
-                        EventLog.logEvent("GateWay", "UserJoinLeaveMessage", "userJoin" , userJoinLeaveMessage.userIndex+"-"+currentRun);
-                    }
-                    else if (userJoinLeaveMessage.joinLeaveStatus.equals("leave")){
-                        UsersStatus.get(userJoinLeaveMessage.userIndex).status = "left";
-                        PeersStatus.get(userJoinLeaveMessage.userIndex).status = "left";
-                        PeersStatus.get(userJoinLeaveMessage.userIndex).leaveRun = userJoinLeaveMessage.currentRun;
-                        numUsersPerRun.set(userJoinLeaveMessage.currentRun,numUsersPerRun.get(userJoinLeaveMessage.currentRun)-1);
-                        System.out.println("peer: "+userJoinLeaveMessage.userIndex+" will leave at run: "+userJoinLeaveMessage.currentRun+" current run:"+currentRun);
-                        EventLog.logEvent("GateWay", "UserJoinLeaveMessage", "userLeave" , userJoinLeaveMessage.userIndex+"-"+currentRun);
-                    }
-                    if (userJoinLeaveMessage.joinLeaveStatus.equals("noChange")){
-                        // no action needed
-                    }
-                }
-                checkStatus();
-            }
 
-            public void messageSent(NetworkInterface networkInterface, NetworkAddress destinationAddress, Message message) {
+                public void messageSent(NetworkInterface networkInterface, NetworkAddress destinationAddress, Message message) {
 //                System.out.println("Message sent: + " +destinationAddress + " message: "+ message);
-            }
+                }
 
-            public void interfaceUp(NetworkInterface networkInterface) { System.out.println( "ZmqTestServer::interfaceUp" ); }
+                public void interfaceUp(NetworkInterface networkInterface) {
+                    System.out.println("ZmqTestServer::interfaceUp");
+                }
 
-        });
-        zmqNetworkInterface.bringUp();
+            });
+            zmqNetworkInterface.bringUp();
+        }
     }
 
     public void checkStatus(){
@@ -339,7 +330,7 @@ public class GatewayServer {
                 zmqNetworkInterface.sendMessage(user.userAddress, new InformUserMessage(user.index, currentRun,"assignedPeerRunning"));
                 user.status = "assignedPeerRunning";}
             }
-            allNodesReady = true;
+            allNodesReady = new Boolean(true);;;
             readyPeers=0;
             // already setting up the next run parameters
             numUsersPerRun.set(currentRun+1,numUsersPerRun.get(currentRun));
@@ -361,7 +352,7 @@ public class GatewayServer {
                 user.status = "peerRunning";
             }
             innerNodeRunning = 0;
-            allNodesReady = false;
+            allNodesReady = new Boolean(false);;;
         }
     }
 
@@ -446,12 +437,12 @@ public class GatewayServer {
     }
 
     public void resetPerRun(){
-        allNodesReady = false;
+        allNodesReady = new Boolean(false);;;
         readyPeers=0;
         innerNode=0;
         innerNodeRunning=0;
         finishedPeers=0;
-        bootstrapInformed = false;
+        bootstrapInformed = new Boolean(false);;;
     }
 
     public List<Integer> findActivePeers(List<Integer> actPeers){
@@ -491,12 +482,12 @@ public class GatewayServer {
     }
 
     public boolean checkFreePort(int port){
-        boolean flag = false;
+        boolean flag = new Boolean(false);;;
         for (EPOSPeerStatus peer:PeersStatus) {
             if (peer.peerPort == port && peer.leaveRun < currentRun){
-                flag = false;
+                flag = new Boolean(false);;;
             }
-            else {flag = true;}
+            else {flag = new Boolean(true);;;}
         }
         return flag;
     }

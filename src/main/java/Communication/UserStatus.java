@@ -8,7 +8,7 @@ public class UserStatus {
     int run;
     int leaveRun = Integer.MAX_VALUE;
     String status;
-    String planStatus = "noNewPlans";
+    String planStatus = "needPlans";
     String weightStatus = "noNewWeights";
     ZMQAddress assignedPeerAddress;
     ZMQAddress userAddress;

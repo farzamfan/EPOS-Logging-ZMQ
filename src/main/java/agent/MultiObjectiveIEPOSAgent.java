@@ -213,7 +213,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
 //        this.log(Level.FINER, "prevSelectedPlan's score is: " + this.prevSelectedPlan.getScore());
     }
 
-     void scheduleMeasurements() {
+    void scheduleMeasurements() {
 
         getPeer().getMeasurementLogger().addMeasurementLoggerListener((MeasurementLog log, int epochNumber) -> {
             loggingProvider.log(log, epochNumber, this);
@@ -710,7 +710,9 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
 
     @Override
     public void checkForNewWeights(){
+        if (weightsAreSet == false){
         System.out.println("checking for new weights for: "+getPeer().getNetworkAddress());
         getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkNewWeights",this.getUnfairnessWeight(),this.getLocalCostWeight()));
+        }
     }
 }

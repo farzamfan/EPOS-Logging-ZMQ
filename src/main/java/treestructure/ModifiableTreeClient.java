@@ -161,12 +161,12 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).userAddress = message.getSourceAddress();
                 getPeer().sendMessage(message.getSourceAddress(), new PlanSetMessage("plansSet"));
             }
-            if (planSetMessage.status.equals("noNewPlans")) {
-                ((Agent) this.getPeer().getPeerletOfType(Agent.class)).plansAreSet = true;
+            if (planSetMessage.status.equals("hasNewPlans")) {
+                ((Agent) this.getPeer().getPeerletOfType(Agent.class)).plansAreSet = false;
+                System.out.println("peer: "+this.getPeer().getIndexNumber()+" has new plans, next run: "+String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
             }
             if (planSetMessage.status.equals("changePlans")) {
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans(((PlanSetMessage) message).possiblePlans);
-                System.out.println("plans for peer: "+getPeer().getIndexNumber()+" has changed");
                 EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "changePlans" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
             }
             if (planSetMessage.status.equals("noUserChanges")) {
@@ -176,10 +176,12 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
         if (message instanceof WeightSetMessage){
             WeightSetMessage weightSetMessage = (WeightSetMessage) message;
             if (weightSetMessage.status.equals("hasNewWeights")){
+                ((Agent) this.getPeer().getPeerletOfType(Agent.class)).weightsAreSet = false;
+            }
+            if (weightSetMessage.status.equals("setNewWeights")){
                 ((MultiObjectiveIEPOSAgent) this.getPeer().getPeerletOfType(MultiObjectiveIEPOSAgent.class)).setUnfairnessWeight(((WeightSetMessage) message).alpha);
                 ((MultiObjectiveIEPOSAgent) this.getPeer().getPeerletOfType(MultiObjectiveIEPOSAgent.class)).setLocalCostWeight(((WeightSetMessage) message).beta);
                 System.out.println("weights for peer: "+getPeer().getIndexNumber()+" has changed");
-                getPeer().sendMessage(message.getSourceAddress(), new WeightSetMessage("weightsChanged"));
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).weightsAreSet = true;
                 EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "hasNewWeights" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
 

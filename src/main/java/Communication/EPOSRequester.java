@@ -33,7 +33,7 @@ public class EPOSRequester {
     static Configuration config;
     String thisIP;
     static int numPeers;
-    int maxNumRuns = 250;
+    int maxNumRuns = 400;
     int maxSimulations = 500;
     int currentSim=0;
     ZMQNetworkInterface zmqNetworkInterface;
@@ -92,7 +92,7 @@ public class EPOSRequester {
                 System.out.println( "ZmqTestClient::interfaceDown" );
             }
 
-            public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress, Message message) throws InterruptedException {
+            public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress, Message message) {
 //                System.out.println("Message received from: + " +message.getSourceAddress() + " message: "+ message + " messageSize: " + message.getMessageSize());
                 if (message instanceof EPOSRequestMessage){
                     EPOSRequestMessage eposRequestMessage = (EPOSRequestMessage) message;
@@ -116,13 +116,21 @@ public class EPOSRequester {
                         if (currentSim == maxSimulations){
                             EventLog.logEvent("EPOSRequester", "messageReceived", "SIMULATIONS Done" , eposRequestMessage.run+"-"+currentSim);
                             terminate();
-                            TimeUnit.SECONDS.sleep(5);
+                            try {
+                                TimeUnit.SECONDS.sleep(5);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             System.exit(0);
                         }
                         EventLog.logEvent("EPOSRequester", "messageReceived", "SIMULATION Over" , eposRequestMessage.run+"-"+currentSim);
                         currentSim++;
                         terminate();
-                        TimeUnit.SECONDS.sleep(5);
+                        try {
+                            TimeUnit.SECONDS.sleep(5);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         startSimulation();
                     }
                 }
