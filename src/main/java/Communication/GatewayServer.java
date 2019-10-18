@@ -125,10 +125,10 @@ public class GatewayServer {
                          */
                         System.out.println("initiating the boostrap server with address: "+"127.0.0.1:"+(bootstrapPort + UsersStatus.get(0).index));
                         ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",(bootstrapPort + UsersStatus.get(0).index));
-                        String command = "screen -S peer"+UsersStatus.get(0).index+" -d -m java -Xmx1024m -jar IEPOSnode.jar "+UsersStatus.get(0).index+
+                        String command = "screen -S peer"+UsersStatus.get(0).index+" -d -m java -Xmx1024m -jar IEPOSNode.jar "+UsersStatus.get(0).index+
                                 " "+(bootstrapPort + UsersStatus.get(0).index)+" "+numUsersPerRun.get(currentRun)+" "+0+" "+currentSim;
                         try {
-//                            System.out.println(command);
+                            System.out.println(command);
                             Runtime.getRuntime().exec(command);
                             /*
                             - initiates the bootstrap server (peer0) and records its status
@@ -393,7 +393,7 @@ public class GatewayServer {
             String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar IEPOSNode.jar "+UsersStatus.get(j).index+
                     " "+peerPort+" "+numUsersPerRun.get(currentRun)+" "+initRun+" "+currentSim;
             try {
-//                System.out.println(command);
+                System.out.println(command);
                 Runtime.getRuntime().exec(command);
                 UsersStatus.get(j).assignedPeerAddress = peerAddress;
                 UsersStatus.get(j).status = "peerAssigned";
