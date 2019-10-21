@@ -1,8 +1,5 @@
 package Communication;
 
-import agent.dataset.Dataset;
-import agent.dataset.GaussianDataset;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import config.Configuration;
 import config.LiveConfiguration;
 import data.Plan;
@@ -30,33 +27,44 @@ import static org.apache.commons.math3.util.Precision.round;
 public class User {
 
     private ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory;
-    transient PersistenceClient persistenceClient;
     private ZMQNetworkInterface zmqNetworkInterface;
-    private String thisIP;
-    private ZMQAddress thisAddress;
+    transient PersistenceClient persistenceClient;
+    private String UserIP;
+    private int userPort;
+    private ZMQAddress UserAddress;
+    private String gateWayIP;
+    private int gateWayPort;
     private ZMQAddress gateWayAddress;
     private Configuration config;
     private List<UserStatus> Users;
+    private List<Integer> numUsersPerRun;
     private int usersWithAssignedPeer;
     private int finishedPeers=0;
-    private int currentRun =0;
+    private int currentRun = 0;
     private int finishedRun=-1;
-    private int usersWithassignedPeerRunning =0;
-    private int maxNumRuns=10000;
-    private List<Integer> numUsersPerRun;
-    private int joinLeaveRate = 9;
-    private int maxNumPeers = 130;
-    private int minNumPeers = 70;
-    private int newPlanProb = 9;
-    private int newWeightProb = 9;
-    private int userChangeProb = 9;
-    private boolean userChangeProcessed = new Boolean(false);;;
-    private int userPort = 15545;
-    private int gateWayPort = 12345;
-    // TODO: 17.10.19
-    int dataSetSize;
-    List<Integer> numberList;
-    List<Integer> userDatasetIndices;
+    private int usersWithAssignedPeerRunning =0;
+
+    private int maxNumRuns;
+
+    private Boolean userChange;
+    private boolean userChangeProcessed = new Boolean(false);
+    private int joinLeaveRate;
+    private int userChangeProb;
+    private int maxNumPeers;
+    private int minNumPeers;
+
+    private Boolean planChange;
+    private int newPlanProb;
+    private Boolean weightChange;
+    private int newWeightProb;
+
+    private int dataSetSize;
+    private List<Integer> numberList;
+    private Boolean randomiseUsers;
+    private List<Integer> userDatasetIndices;
+
+    int persistenceClientOutputQueueSize;
+    int UserPeerID;
 
     public User(){
         String rootPath = System.getProperty("user.dir");
@@ -64,13 +72,36 @@ public class User {
         config = Configuration.fromFile(confPath,true);
         numUsersPerRun = new ArrayList<Integer>();
 
-        dataSetSize = 2778;
+        UserIP = config.UserIP;
+        userPort = config.UserPort;
+        gateWayIP = config.GateWayIP;
+        gateWayPort = config.GateWayPort;
+        UserPeerID = config.UserPeerID;
+
+        maxNumRuns = config.maxNumRuns;
+        //dynamic settings
+        userChange = new Boolean(config.userChange);
+        planChange = new Boolean(config.planChange);
+        weightChange = new Boolean(config.weightChange);
+        randomiseUsers = new Boolean(config.randomiseUsers);
+
+        joinLeaveRate = config.joinLeaveRate;
+        userChangeProb = config.userChangeProb;
+        maxNumPeers = config.maxNumPeers;
+        minNumPeers = config.minNumPeers;
+        newPlanProb = config.newPlanProb;
+        newWeightProb = config.newWeightProb;
+
+        dataSetSize = config.dataSetSize;
         numberList = new ArrayList<>();
         for(int i=1; i<=dataSetSize; i++){ numberList.add(i); }
-
         userDatasetIndices = new ArrayList<Integer>();
-        numUsersPerRun = new ArrayList<Integer>(Collections.nCopies(maxNumRuns, 0));
-        numUsersPerRun.set(0,config.numAgents);
+
+        numUsersPerRun = new ArrayList<Integer>();
+        numUsersPerRun = new ArrayList<Integer>(Collections.nCopies(maxNumRuns+2, 0));
+        numUsersPerRun.set(0, Configuration.numAgents);
+
+        persistenceClientOutputQueueSize = config.persistenceClientOutputQueueSize;
     }
 
     public static void main(String[] args) {
@@ -78,7 +109,7 @@ public class User {
         user.setUpPersistantClient();
         user.setUpEventLogger();
         user.createInterface();
-        user.selectUsers(user.numUsersPerRun.get(0));
+        user.selectUsers(user.numUsersPerRun.get(0), user.randomiseUsers);
         user.initiateUsers();
         user.registerUsers();
     }
@@ -88,14 +119,13 @@ public class User {
         MeasurementLogger measurementLogger=new MeasurementLogger(clock);
         zmqNetworkInterfaceFactory=new ZMQNetworkInterfaceFactory(measurementLogger);
 
-        thisIP = "127.0.0.1";
-        thisAddress = new ZMQAddress(thisIP,userPort);
-        System.out.println("user entity address : " + thisAddress);
+        UserAddress = new ZMQAddress(UserIP,userPort);
+        System.out.println("user entity address : " + UserAddress);
 
-        gateWayAddress = new ZMQAddress("127.0.0.1",gateWayPort);
-        System.out.println("gateway address : " + thisAddress);
+        gateWayAddress = new ZMQAddress(gateWayIP,gateWayPort);
+        System.out.println("gateway address : " + UserAddress);
 
-        zmqNetworkInterface = (ZMQNetworkInterface) zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger, thisAddress);
+        zmqNetworkInterface = (ZMQNetworkInterface) zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger, UserAddress);
         zmqNetworkInterface.addNetworkListener(new NetworkListener()
         {
             public void exceptionHappened(NetworkInterface networkInterface, NetworkAddress remoteAddress,
@@ -114,13 +144,13 @@ public class User {
                         InformUserMessage informUserMessage = (InformUserMessage) message;
                         if (informUserMessage.status.equals("assignedPeerRunning")) {
                             Users.get(informUserMessage.peerID).status = "assignedPeerRunning";
-                            usersWithassignedPeerRunning++;
-                            if (usersWithassignedPeerRunning == numUsersPerRun.get(currentRun)) {
-                                usersWithassignedPeerRunning = 0;
+                            usersWithAssignedPeerRunning++;
+                            if (usersWithAssignedPeerRunning == numUsersPerRun.get(currentRun)) {
+                                usersWithAssignedPeerRunning = 0;
                                 numUsersPerRun.set(currentRun + 1, numUsersPerRun.get(currentRun));
                                 System.out.println("all users have their assigned peers running for run: " + currentRun + " numPeers: " + numUsersPerRun.get(currentRun));
 
-                                if (!userChangeProcessed) {
+                                if (!userChangeProcessed && userChange) {
                                     userChangeProcessed = new Boolean(true);;;
                                     usersJoiningOrLeaving();
                                 }
@@ -151,7 +181,6 @@ public class User {
 //                    System.out.println("peer assigned for: "+userRegisterMessage.index+" at run: "+userRegisterMessage.currentRun);
                         Users.get(userRegisterMessage.index).status = "peerAssigned";
                         Users.get(userRegisterMessage.index).assignedPeerAddress = userRegisterMessage.assignedPeerAddress;
-                        /// TODO: 18.10.19
                         if (Users.get(userRegisterMessage.index).planStatus.equals("needPlans")){
                             sendPlans(userRegisterMessage.index, userRegisterMessage.assignedPeerAddress);
                         }
@@ -183,13 +212,13 @@ public class User {
     public void initiateUsers(){
         Users = new ArrayList<UserStatus>(numUsersPerRun.get(currentRun));
         for (int i=0;i<numUsersPerRun.get(currentRun);i++){
-            UserStatus user = new UserStatus(i,0,"initiated",thisAddress);
+            UserStatus user = new UserStatus(i,0,"initiated", UserAddress);
             Users.add(user);
         }
     }
 
-    public void selectUsers(int size){
-        Collections.shuffle(this.numberList);
+    public void selectUsers(int size, boolean randomise){
+        if (randomise){ Collections.shuffle(this.numberList);}
         for(int j=0; j<size; j++){
             userDatasetIndices.add(this.numberList.get(j));
         }
@@ -311,7 +340,7 @@ public class User {
         if (random.nextInt(2) == 0 && numUsersPerRun.get(currentRun) < maxNumPeers){
             int countJoined=0;
             for (int r=0;r<numUsersPerRun.get(currentRun)/joinLeaveRate;r++){
-                UserStatus user = new UserStatus(Users.size(),currentRun+1,"added",thisAddress);
+                UserStatus user = new UserStatus(Users.size(),currentRun+1,"added", UserAddress);
                 Users.add(user);
 
                 Random randomGenerator = new Random();
@@ -319,7 +348,7 @@ public class User {
                 while (userDatasetIndices.contains(randomInt)){randomInt = randomGenerator.nextInt(dataSetSize) + 1; }
                 userDatasetIndices.add(randomInt);
 
-                zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage(Users.size()-1,currentRun+1,"join",this.thisAddress));
+                zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage(Users.size()-1,currentRun+1,"join",this.UserAddress));
                 System.out.println("users: "+(Users.size()-1)+" will join the system at run: "+(currentRun+1));
                 countJoined++;
                 EventLog.logEvent("User", "addRemoveUsers", "userJoin" , (Users.size()-1)+"-"+currentRun);
@@ -340,7 +369,7 @@ public class User {
                     Users.get(index).run = currentRun+1;
                     Users.get(index).leaveRun = currentRun+1;
                     userDatasetIndices.set(index,-1);
-                    zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage(index, currentRun+1,"leave",this.thisAddress));
+                    zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage(index, currentRun+1,"leave",this.UserAddress));
                     System.out.println("users: "+index+" will leave the system at run: "+(currentRun+1));
                     countLeft++;
                     EventLog.logEvent("User", "addRemoveUsers", "userLeave" , index+"-"+currentRun);
@@ -361,7 +390,7 @@ public class User {
 
     public void resetPerRun(){
         finishedPeers=0;
-        usersWithassignedPeerRunning =0;
+        usersWithAssignedPeerRunning =0;
         usersWithAssignedPeer=0;
     }
 
@@ -369,8 +398,8 @@ public class User {
         if (informUserMessage.run == finishedRun+1){
             Users.get(informUserMessage.peerID).status = "finished";
             Users.get(informUserMessage.peerID).run = informUserMessage.run;
-            usersHavingNewPlans(Users.get(informUserMessage.peerID));
-            usersHavingNewWeights(Users.get(informUserMessage.peerID));
+            if (planChange) {usersHavingNewPlans(Users.get(informUserMessage.peerID));}
+            if (weightChange) {usersHavingNewWeights(Users.get(informUserMessage.peerID));}
             finishedPeers++;
         }
         else {
@@ -384,19 +413,13 @@ public class User {
 
     public void setUpEventLogger(){
         EventLog.setPeristenceClient(persistenceClient);
-        EventLog.setPeerId(-200);
+        EventLog.setPeerId(UserPeerID);
         EventLog.setDIASNetworkId(0);
     }
 
     public void setUpPersistantClient(){
-        LiveConfiguration liveConf = new LiveConfiguration();
         ZMQ.Context zmqContext = ZMQ.context(1);
-        String[] args = new String[2];
-        args[0] = String.valueOf(0);
-        args[1]= String.valueOf(0);
-        liveConf.readConfiguration(args);
-        int persistenceClientOutputQueueSize = 1000;
-        String daemonConnectString = "tcp://" + liveConf.persistenceDaemonIP + ":" + liveConf.persistenceDaemonPort;
+        String daemonConnectString = "tcp://" + config.persistenceDaemonIP + ":" + config.persistenceDaemonPort;
         persistenceClient = new PersistenceClient( zmqContext, daemonConnectString, persistenceClientOutputQueueSize );
         System.out.println( "persistenceClient created" );
     }

@@ -24,9 +24,21 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class GatewayServer {
-
+    private ZMQNetworkInterface zmqNetworkInterface;
     transient PersistenceClient persistenceClient;
-    private boolean allNodesReady = new Boolean(false);;;
+    Configuration config;
+
+    private String GateWayIP;
+    private int GateWayPort;
+    private ZMQAddress GateWayAddress;
+    private int GateWayPeerID;
+    private String EPOSRequesterIP;
+    private int EPOSRequesterPort;
+    private ZMQAddress EPOSRequesterAddress;
+    private static String peerIP;
+
+    private boolean bootstrapInformed = new Boolean(false);
+    private boolean allNodesReady = new Boolean(false);
     private int readyPeers=0;
     private int innerNode=0;
     private int innerNodeRunning=0;
@@ -35,15 +47,16 @@ public class GatewayServer {
     private int peersWithTreeViewSet=0;
     private int currentRun =0;
     private int registeredUsers=0;
-    private ZMQNetworkInterface zmqNetworkInterface;
+
+    private List<UserStatus> UsersStatus;
     private List<EPOSPeerStatus> PeersStatus;
     private List<Integer> numUsersPerRun;
-    private List<UserStatus> UsersStatus;
-    private ZMQAddress EPOSRequesterAddress;
+
     private int bootstrapPort;
-    private int maxNumRuns=500;
+    private int maxNumRuns;
     private int currentSim=0;
-    private boolean bootstrapInformed = new Boolean(false);;
+
+    int persistenceClientOutputQueueSize;
 
     public GatewayServer(){
         /* constructor, does the following:
@@ -55,25 +68,31 @@ public class GatewayServer {
          */
         String rootPath = System.getProperty("user.dir");
         String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
-        Configuration config = Configuration.fromFile(confPath,false);
+        config = Configuration.fromFile(confPath,false);
 
-        String		thisIP = "127.0.0.1";
-        ZMQAddress zmqAddress = new ZMQAddress(thisIP,12345);
-        System.out.println("gateway address : " + zmqAddress );
-        EPOSRequesterAddress = new ZMQAddress(thisIP,54321);
-        System.out.println("gateway address : " + zmqAddress );
-        LiveConfiguration liveConfiguration = new LiveConfiguration();
-        bootstrapPort = liveConfiguration.bootstrapPort;
+        GateWayIP = config.GateWayIP;
+        GateWayPort = config.GateWayPort;
+        GateWayPeerID = config.GateWayPeerID;
+        EPOSRequesterPort = config.EPOSRequesterPort;
+        GateWayAddress = new ZMQAddress(GateWayIP,GateWayPort);
+        System.out.println("gateway address : " + GateWayAddress );
+        EPOSRequesterIP = config.EPOSRequesterIP;
+        EPOSRequesterAddress = new ZMQAddress(EPOSRequesterIP,EPOSRequesterPort);
+        peerIP = config.UserIP;
 
+        bootstrapPort = config.bootstrapPort;
+        maxNumRuns = config.maxNumRuns;
         PeersStatus = new ArrayList<EPOSPeerStatus>();
         UsersStatus = new ArrayList<UserStatus>();
-        numUsersPerRun = new ArrayList<Integer>(Collections.nCopies(maxNumRuns, 0));
+        numUsersPerRun = new ArrayList<Integer>(Collections.nCopies(maxNumRuns+2, 0));
         numUsersPerRun.set(0,config.numAgents);
 
         RealClock clock=new RealClock();
         MeasurementLogger measurementLogger=new MeasurementLogger(clock);
         ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory=new ZMQNetworkInterfaceFactory(measurementLogger);
-        zmqNetworkInterface = (ZMQNetworkInterface)zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger,zmqAddress);
+        zmqNetworkInterface = (ZMQNetworkInterface)zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger,GateWayAddress);
+
+        persistenceClientOutputQueueSize = config.persistenceClientOutputQueueSize;
     }
 
     public static void main(String[] args) {
@@ -119,13 +138,14 @@ public class GatewayServer {
                         - creates the bootstrap server (peer0)
                         - sets initial numUsersPerRun
                          */
-                            System.out.println("initiating the boostrap server with address: " + "127.0.0.1:" + (bootstrapPort + UsersStatus.get(0).index));
-                            ZMQAddress peerAddress = new ZMQAddress("127.0.0.1", (bootstrapPort + UsersStatus.get(0).index));
+                            System.out.println("initiating the boostrap server with address: " + peerIP+":" + (bootstrapPort + UsersStatus.get(0).index));
+                            ZMQAddress peerAddress = new ZMQAddress(peerIP, (bootstrapPort + UsersStatus.get(0).index));
+                            // idx, port, numAgent, initRun, initSim
                             String command = "screen -S peer" + UsersStatus.get(0).index + " -d -m java -Xmx1024m -jar IEPOSNode.jar " + UsersStatus.get(0).index +
                                     " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim;
                             try {
 //                            System.out.println(command);
-                                Runtime.getRuntime().exec(command);
+                            Runtime.getRuntime().exec(command);
                             /*
                             - initiates the bootstrap server (peer0) and records its status
                             - records the changes in the peerStatus
@@ -173,7 +193,7 @@ public class GatewayServer {
                             peersWithPlansSet++;
                         } else if (informGatewayMessage.status.equals("ready") && informGatewayMessage.run == currentRun) {
                             // update peer status based on the ready message received
-                            System.out.println("ready message received for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
+//                            System.out.println("ready message received for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
                             PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
                             PeersStatus.get(informGatewayMessage.peerID).address = informGatewayMessage.getSourceAddress();
                             // the peer has it treeView and plans set, and is ready to start epos process
@@ -192,8 +212,6 @@ public class GatewayServer {
                             finishedPeers++;
                             if (numUsersPerRun.get(currentRun + 1) != numUsersPerRun.get(currentRun) && bootstrapInformed == false) {
                                 bootstrapInformed = new Boolean(true);
-                                ;
-                                ;
                                 treeViewShouldChange();
                             }
                         }
@@ -367,35 +385,36 @@ public class GatewayServer {
         PeersStatus.add(peer);
     }
 
-    public void initiatePeers(int beginRange, int numPeers, int initRun, boolean init){
-        for (int j=beginRange;j<(beginRange+numPeers);j++) {
-            System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
+    public void initiatePeers(int beginRange, int numPeers, int initRun, boolean init) {
+        synchronized (this) {
             int peerPort;
-            if (init){
-                peerPort = (bootstrapPort + UsersStatus.get(j).index);
-            }
-            else {
-                peerPort = findFreePort();
-                while (!checkFreePort(peerPort)){
+            for (int j = beginRange; j < (beginRange + numPeers); j++) {
+                System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
+                if (init) {
+                    peerPort = (bootstrapPort + UsersStatus.get(j).index);
+                } else {
                     peerPort = findFreePort();
+                    while (!checkFreePort(peerPort)) {
+                        peerPort = findFreePort();
+                    }
                 }
-            }
-            ZMQAddress peerAddress = new ZMQAddress("127.0.0.1",peerPort);
-            String command = "screen -S peer"+UsersStatus.get(j).index+" -d -m java -Xmx1024m -jar IEPOSNode.jar "+UsersStatus.get(j).index+
-                    " "+peerPort+" "+numUsersPerRun.get(currentRun)+" "+initRun+" "+currentSim;
-            try {
-//                System.out.println(command);
-                Runtime.getRuntime().exec(command);
+                ZMQAddress peerAddress = new ZMQAddress(peerIP, peerPort);
+                // idx, port, numAgent, initRun, initSim
+                String command = "screen -S peer" + UsersStatus.get(j).index + " -d -m java -Xmx1024m -jar IEPOSNode.jar " + UsersStatus.get(j).index +
+                        " " + peerPort + " " + numUsersPerRun.get(currentRun) + " " + initRun + " " + currentSim;
                 UsersStatus.get(j).assignedPeerAddress = peerAddress;
                 UsersStatus.get(j).status = "peerAssigned";
                 PeersStatus.get(j).address = peerAddress;
                 PeersStatus.get(j).peerPort = peerPort;
                 PeersStatus.get(j).status = "initiated";
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+//                System.out.println(command);
+                Runtime.getRuntime().exec(command);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
     }
 
     public void informUserTreeSet(UserStatus user){
@@ -437,12 +456,12 @@ public class GatewayServer {
     }
 
     public void resetPerRun(){
-        allNodesReady = new Boolean(false);;;
+        allNodesReady = false;
         readyPeers=0;
         innerNode=0;
         innerNodeRunning=0;
         finishedPeers=0;
-        bootstrapInformed = new Boolean(false);;;
+        bootstrapInformed = false;
     }
 
     public List<Integer> findActivePeers(List<Integer> actPeers){
@@ -482,31 +501,25 @@ public class GatewayServer {
     }
 
     public boolean checkFreePort(int port){
-        boolean flag = new Boolean(false);;;
+        boolean flag = new Boolean(false);
         for (EPOSPeerStatus peer:PeersStatus) {
             if (peer.peerPort == port && peer.leaveRun < currentRun){
-                flag = new Boolean(false);;;
+                flag = false;
             }
-            else {flag = new Boolean(true);;;}
+            else {flag = true;}
         }
         return flag;
     }
 
     public void setUpEventLogger(){
         EventLog.setPeristenceClient(persistenceClient);
-        EventLog.setPeerId(-300);
+        EventLog.setPeerId(GateWayPeerID);
         EventLog.setDIASNetworkId(0);
     }
 
     public void setUpPersistantClient(){
-        LiveConfiguration liveConf = new LiveConfiguration();
         ZMQ.Context zmqContext = ZMQ.context(1);
-        String[] args = new String[2];
-        args[0] = String.valueOf(0);
-        args[1]= String.valueOf(0);
-        liveConf.readConfiguration(args);
-        int persistenceClientOutputQueueSize = 1000;
-        String daemonConnectString = "tcp://" + liveConf.persistenceDaemonIP + ":" + liveConf.persistenceDaemonPort;
+        String daemonConnectString = "tcp://" + config.persistenceDaemonIP + ":" + config.persistenceDaemonPort;
         persistenceClient = new PersistenceClient( zmqContext, daemonConnectString, persistenceClientOutputQueueSize );
         System.out.println( "persistenceClient created" );
     }

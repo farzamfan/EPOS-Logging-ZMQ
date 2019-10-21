@@ -26,17 +26,10 @@ import config.ConfigurationReader;
 //import consistency.BloomFilterType;
 //import diasguimsg.SensorDescription;
 import dsutil.protopeer.services.aggregation.AggregationType;
-//import enums.PeerSelectionPolicy;
-//import enums.ViewPropagationPolicy;
-//
 public class LiveConfiguration {
 
     /*
-     * jovan:100:50:25:0:25:PUSHPull:r:250:1000:6000:1000:255:15:10:15:15:15:E:c:DOUBLE:16:24:DOUBLE_HASH:16:24:DOUBLE:16:24:DOUBLE:16:24:ARITHMETIC:15000:100000:5:0:1:1.0:1.0:200000:b:c:10:50:2:10
-     */
-
-    /*
-     * jovan:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,:,
+    Farzam
      */
 
     public String reportPath = "reports/numOfAggregators/";

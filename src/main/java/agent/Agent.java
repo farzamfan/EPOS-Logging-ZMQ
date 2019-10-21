@@ -150,7 +150,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
         this.possiblePlans.clear();
         this.possiblePlans.addAll(possiblePlans);
         plansAreSet = true;
-        System.out.println("DEBUG: new plans are set for:" +this.getPeer().getNetworkAddress());
+//        System.out.println("DEBUG: new plans are set for:" +this.getPeer().getNetworkAddress());
         getPeer().sendMessage(GatewayAddress, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "plansSet", true));
     }
 

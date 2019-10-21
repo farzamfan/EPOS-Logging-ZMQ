@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.xpath.operations.Bool;
 import org.reflections.Reflections;
 
 import com.google.common.collect.Sets;
@@ -108,6 +109,47 @@ public class Configuration implements Serializable {
 	public static Supplier<Vector> goalSignalSupplier = null;
 	public static UnaryOperator<Vector> normalizer = Vector.standard_normalization;
 	public static PlanSelectionOptimizationFunction planOptimizationFunction = PlanSelectionOptimizationFunctionCollection.complexFunction1;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// LiveConf:
+	// EPOSRequester
+	public static String EPOSRequesterIP = "127.0.0.1";
+	public static int EPOSRequesterPort = 54321;
+	public static int EPOSRequesterPeerID = -100;
+	public static int maxNumRuns = 5;
+	public static int maxSimulations = 0;
+	public static int sleepSecondBetweenRuns = 5;
+
+	// GateWayServer
+	public static String GateWayIP = "127.0.0.1";
+	public static int GateWayPort = 12345;
+	public static int GateWayPeerID = -300;
+	public static int bootstrapPort = 12000;
+
+	// Users
+	public static String UserIP = "127.0.0.1";
+	public static int UserPort = 15545;
+	public static int UserPeerID = -200;
+	// Dynamic User changes:
+	public static Boolean userChange = false;
+	public static int joinLeaveRate = 9;
+	public static int userChangeProb = 9;
+	public static int maxNumPeers = 130;
+	public static int minNumPeers = 70;
+	// Dynamic User plan/weight change
+	public static Boolean planChange = false;
+	public static int newPlanProb = 9;
+	public static Boolean weightChange = false;
+	public static int newWeightProb = 9;
+	// randomly selecting users from the dataset (if numPeers < dataSetSize)
+	public static int dataSetSize = 2778;
+	public static Boolean randomiseUsers = false;
+
+
+	//Shared
+	public static String persistenceDaemonIP = "localhost";
+	public static int persistenceDaemonPort =6433;
+	public static int persistenceClientOutputQueueSize = 1000;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// SEEDS:
@@ -391,10 +433,118 @@ public class Configuration implements Serializable {
 		if (prepareDataset) {
 			prepareDataset(argMap);
 		}
-			prepareReorganization(argMap, config);
-			prepareCostFunctions(argMap, config);
-			prepareLoggers(argMap, config);
+		prepareReorganization(argMap, config);
+		prepareCostFunctions(argMap, config);
+		prepareLiveConfig(argMap, config);
+		prepareLoggers(argMap, config);
+
 		return config;
+	}
+
+	public static void prepareLiveConfig(Properties argMap, Configuration config){
+		// EPOS Requester
+		if (argMap.get("EPOSRequesterIP") != null) {
+			Configuration.EPOSRequesterIP = ((String) argMap.get("EPOSRequesterIP"));
+		}
+		if (argMap.get("EPOSRequesterPort") != null) {
+			Configuration.EPOSRequesterPort = Helper.clearInt((String) argMap.get("EPOSRequesterPort"));
+		}
+		if (argMap.get("EPOSRequesterPeerID") != null) {
+			Configuration.EPOSRequesterPeerID = Helper.clearInt((String) argMap.get("EPOSRequesterPeerID"));
+		}
+		if (argMap.get("maxNumRuns") != null) {
+			Configuration.maxNumRuns = Helper.clearInt((String) argMap.get("maxNumRuns"));
+		}
+		if (argMap.get("maxSimulations") != null) {
+			Configuration.maxSimulations = Helper.clearInt((String) argMap.get("maxSimulations"));
+		}
+		if (argMap.get("sleepSecondBetweenRuns") != null) {
+			Configuration.sleepSecondBetweenRuns = Helper.clearInt((String) argMap.get("sleepSecondBetweenRuns"));
+		}
+		// Gateway
+		if (argMap.get("GateWayIP") != null) {
+			Configuration.GateWayIP = ((String) argMap.get("GateWayIP"));
+		}
+		if (argMap.get("GateWayPort") != null) {
+			Configuration.GateWayPort = Helper.clearInt((String) argMap.get("GateWayPort"));
+		}
+		if (argMap.get("GateWayPeerID") != null) {
+			Configuration.GateWayPeerID = Helper.clearInt((String) argMap.get("GateWayPeerID"));
+		}
+		if (argMap.get("bootstrapPort") != null) {
+			Configuration.bootstrapPort = Helper.clearInt((String) argMap.get("bootstrapPort"));
+		}
+		// Users
+		if (argMap.get("UserIP") != null) {
+			Configuration.UserIP = ((String) argMap.get("UserIP"));
+		}
+		if (argMap.get("UserPort") != null) {
+			Configuration.UserPort = Helper.clearInt((String) argMap.get("UserPort"));
+		}
+		if (argMap.get("UserPeerID") != null) {
+			Configuration.UserPeerID = Helper.clearInt((String) argMap.get("UserPeerID"));
+		}
+		if (argMap.get("bootstrapPort") != null) {
+			Configuration.bootstrapPort = Helper.clearInt((String) argMap.get("bootstrapPort"));
+		}
+		// Dynamic User changes:
+		if (argMap.get("userChange") != null) {
+			Configuration.userChange = (Boolean.parseBoolean( (String) argMap.get("userChange")));
+		}
+		if (argMap.get("joinLeaveRate") != null) {
+			Configuration.joinLeaveRate = Helper.clearInt((String) argMap.get("joinLeaveRate"));
+		}
+		if (argMap.get("userChangeProb") != null) {
+			Configuration.userChangeProb = Helper.clearInt((String) argMap.get("userChangeProb"));
+		}
+		if (argMap.get("maxNumPeers") != null) {
+			Configuration.maxNumPeers = Helper.clearInt((String) argMap.get("maxNumPeers"));
+		}
+		if (argMap.get("minNumPeers") != null) {
+			Configuration.minNumPeers = Helper.clearInt((String) argMap.get("minNumPeers"));
+		}
+		// Dynamic User plan/weight change
+		if (argMap.get("planChange") != null) {
+			Configuration.planChange = (Boolean.parseBoolean( (String) argMap.get("planChange")));
+		}
+		if (argMap.get("newPlanProb") != null) {
+			Configuration.newPlanProb = Helper.clearInt((String) argMap.get("newPlanProb"));
+		}
+		if (argMap.get("weightChange") != null) {
+			Configuration.weightChange = (Boolean.parseBoolean( (String) argMap.get("weightChange")));
+		}if (argMap.get("newWeightProb") != null) {
+			Configuration.newWeightProb = Helper.clearInt((String) argMap.get("newWeightProb"));
+		}
+		// randomly selecting users from the dataset (if numPeers < dataSetSize)
+		if (argMap.get("randomiseUsers") != null) {
+			Configuration.randomiseUsers = (Boolean.parseBoolean( (String) argMap.get("randomiseUsers")));
+		}
+		if (argMap.get("dataSetSize") != null) {
+			Configuration.dataSetSize = Helper.clearInt((String) argMap.get("dataSetSize"));
+		}
+		// shared
+		if (argMap.get("persistenceDaemonIP") != null) {
+			Configuration.persistenceDaemonIP = ((String) argMap.get("persistenceDaemonIP"));
+		}
+		if (argMap.get("persistenceDaemonPort") != null) {
+			Configuration.persistenceDaemonPort = Helper.clearInt((String) argMap.get("persistenceDaemonPort"));
+		}
+		if (argMap.get("persistenceClientOutputQueueSize") != null) {
+		Configuration.persistenceClientOutputQueueSize = Helper.clearInt((String) argMap.get("persistenceClientOutputQueueSize"));
+		}
+	}
+
+	public static void changeConfig(String path, String key, String val) throws IOException {
+		Properties argMap = new Properties();
+		try (InputStream input = new FileInputStream(new File(path))) {
+			argMap.load(input);
+		} catch (IOException e1) {
+			Configuration.log.log(Level.SEVERE, e1.getMessage());
+			throw new IllegalStateException(e1);
+		}
+		propertyCleanUp(argMap);
+		argMap.setProperty(key,val);
+		argMap.store(new FileWriter(path,false),"store to properties file");
 	}
 
 	public static boolean checkMethodExistence(Class cl, String methodName) {

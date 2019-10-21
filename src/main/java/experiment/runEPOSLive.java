@@ -44,14 +44,6 @@ public class runEPOSLive extends ZMQExperiment {
 
         synchronized (MainConfiguration.getSingleton()) {
             // get Protopeer configuration values
-            liveConf.Tpss = MainConfiguration.getSingleton().Tpss;
-
-
-            System.out.println("Tpss (Peersampling period) = " + liveConf.Tpss);
-            System.out.println("Tdias (DIAS period) = " + liveConf.Tdias);
-            System.out.println("Tbootpss (Peersampling timeout) = " + liveConf.Tbootpss);
-            System.out.println("c (Peersampling view size) = " + liveConf.c);
-
             MainConfiguration.getSingleton().peerIndex = liveConf.myIndex;
             MainConfiguration.getSingleton().peerPort = liveConf.myPort;
             MainConfiguration.getSingleton().peerZeroPort = liveConf.bootstrapPort;
@@ -83,8 +75,8 @@ public class runEPOSLive extends ZMQExperiment {
                 Peer newPeer = new Peer(peerIndex);
                 // create a class for persisting message to PostgreSQL
                 final int persistenceClientOutputQueueSize = 1000;
-                final int diasNetworkId = ( liveConf.hasSensorDescription ? liveConf.diasNetworkId : 0 );
-                final String daemonConnectString = "tcp://" + liveConf.persistenceDaemonIP + ":" + liveConf.persistenceDaemonPort;
+                final int diasNetworkId = 0;
+                final String daemonConnectString = "tcp://" + config.persistenceDaemonIP + ":" + config.persistenceDaemonPort;
                 PersistenceClient persistenceClient = null;
                 final boolean persistenceActive = liveConf.persistenceActive,		// all perisistence will be disabled if this is false
                         persistMessages = liveConf.persistMessages,
@@ -99,8 +91,6 @@ public class runEPOSLive extends ZMQExperiment {
                 System.out.println( "persistenceActive: " + persistenceActive );
                 System.out.println( "eventLogging: " + eventLogging );
                 System.out.println( "vizPersistence: " + vizPersistence );
-                System.out.println( "persistPSSSamples: " + persistPSSSamples );
-                System.out.println( "persistAggregationEvent: " + persistAggregationEvent );
                 System.out.println( "rawLog: " + rawLog );
                 System.out.println( "rawLogLevel: " + rawLogLevel );
 

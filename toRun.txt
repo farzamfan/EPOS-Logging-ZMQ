@@ -27,6 +27,7 @@ Truncate globalresponsevectorlogger;
 Truncate globalcomplexcostlogger ;
 Truncate selectedplanlogger;
 Truncate localcostmultiobjectivelogger;
+Truncate terminationlogger;
 Truncate eventlog;
 
 #if the process limit is reached

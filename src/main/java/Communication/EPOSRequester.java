@@ -1,14 +1,10 @@
 package Communication;
 
-import agent.Agent;
 import config.Configuration;
 import config.LiveConfiguration;
-import data.Plan;
-import data.Vector;
 import loggers.EventLog;
 import org.zeromq.ZMQ;
 import pgpersist.PersistenceClient;
-import protopeer.MainConfiguration;
 import protopeer.measurement.MeasurementLogger;
 import protopeer.network.Message;
 import protopeer.network.NetworkAddress;
@@ -22,35 +18,54 @@ import protopeer.time.RealClock;
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class EPOSRequester {
 
     ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory;
-    static Configuration config;
-    String thisIP;
-    static int numPeers;
-    int maxNumRuns = 400;
-    int maxSimulations = 500;
-    int currentSim=0;
     ZMQNetworkInterface zmqNetworkInterface;
     transient PersistenceClient persistenceClient;
+    static String rootPath = System.getProperty("user.dir");
+    static String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
+    static Configuration config;
+    static String EPOSRequesterIP;
+    static int EPOSRequesterPort;
+    static int EPOSRequesterPeerID;
+    static String GateWayIP;
+    static int GateWayPort;
+    static int maxSimulations;
+    int currentSim = 0;
+    static int maxNumRuns;
+    static int numPeers;
+    static int persistenceClientOutputQueueSize;
+    static int sleepSecondBetweenRuns;
 
     public static void main(String[] args) throws UnknownHostException {
-        String rootPath = System.getProperty("user.dir");
-        String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
-        config = Configuration.fromFile(confPath,false);
-        numPeers = config.numAgents;
 
         EPOSRequester eposRequester = new EPOSRequester();
+        eposRequester.readConfig();
         eposRequester.bringUp();
         eposRequester.setUpPersistantClient();
         eposRequester.setUpEventLogger();
         eposRequester.listen();
         eposRequester.startSimulation();
+    }
+
+    public void readConfig(){
+        config = Configuration.fromFile(confPath,false);
+
+        EPOSRequesterIP = config.EPOSRequesterIP;
+        EPOSRequesterPort = config.EPOSRequesterPort;
+        EPOSRequesterPeerID = config.EPOSRequesterPeerID;
+        GateWayIP = config.GateWayIP;
+        GateWayPort = config.GateWayPort;
+
+        maxSimulations = config.maxSimulations;
+        maxNumRuns = config.maxNumRuns;
+        numPeers = config.numAgents;
+
+        sleepSecondBetweenRuns = config.sleepSecondBetweenRuns;
+        persistenceClientOutputQueueSize = config.persistenceClientOutputQueueSize;
     }
 
     public void startSimulation() {
@@ -73,11 +88,10 @@ public class EPOSRequester {
         MeasurementLogger measurementLogger=new MeasurementLogger(clock);
         zmqNetworkInterfaceFactory=new ZMQNetworkInterfaceFactory(measurementLogger);
 
-        thisIP = "127.0.0.1";
-        ZMQAddress zmqAddress = new ZMQAddress(thisIP,54321);
-        System.out.println("zmqAddress : " + zmqAddress );
+        ZMQAddress EPOSRequesterAddress = new ZMQAddress(EPOSRequesterIP,EPOSRequesterPort);
+        System.out.println("zmqAddress : " + EPOSRequesterAddress );
 
-        zmqNetworkInterface=(ZMQNetworkInterface)zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger, zmqAddress);
+        zmqNetworkInterface=(ZMQNetworkInterface)zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger, EPOSRequesterAddress);
     }
 
     public void listen(){
@@ -115,23 +129,24 @@ public class EPOSRequester {
                         System.out.println("---");
                         if (currentSim == maxSimulations){
                             EventLog.logEvent("EPOSRequester", "messageReceived", "SIMULATIONS Done" , eposRequestMessage.run+"-"+currentSim);
-                            terminate();
                             try {
-                                TimeUnit.SECONDS.sleep(5);
+                                terminate();
+                                TimeUnit.SECONDS.sleep(sleepSecondBetweenRuns);
+                                System.exit(0);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            System.exit(0);
                         }
                         EventLog.logEvent("EPOSRequester", "messageReceived", "SIMULATION Over" , eposRequestMessage.run+"-"+currentSim);
                         currentSim++;
-                        terminate();
                         try {
-                            TimeUnit.SECONDS.sleep(5);
-                        } catch (InterruptedException e) {
+                            terminate();
+                            checkConfigChanges();
+                            TimeUnit.SECONDS.sleep(sleepSecondBetweenRuns);
+                            startSimulation();
+                        } catch (InterruptedException | IOException e) {
                             e.printStackTrace();
                         }
-                        startSimulation();
                     }
                 }
             }
@@ -150,9 +165,27 @@ public class EPOSRequester {
     }
 
     public void requestEPOS(EPOSRequestMessage ERM){
-        ZMQAddress destination = new ZMQAddress(thisIP ,12345);
+        ZMQAddress destination = new ZMQAddress(GateWayIP,GateWayPort);
 //        System.out.println( "destination : " + destination );
         zmqNetworkInterface.sendMessage(destination, ERM);
+    }
+
+    public void checkConfigChanges() throws IOException {
+        if (currentSim==1) {
+            config.changeConfig(confPath,"numAgents","20");
+        }
+        else if (currentSim==2) {
+            config.changeConfig(confPath,"numAgents","50");
+            config.changeConfig(confPath,"weightsString","0.5,0.0");
+        }
+        else if (currentSim==3) {
+            config.changeConfig(confPath,"weightsString","0.5,0.5");
+        }
+        else if (currentSim==4) {
+            config.changeConfig(confPath,"weightsString","0.0,0.0");
+            config.changeConfig(confPath,"numChildren","4");
+        }
+        readConfig();
     }
 
     public void terminate(){
@@ -165,19 +198,13 @@ public class EPOSRequester {
 
     public void setUpEventLogger(){
         EventLog.setPeristenceClient(persistenceClient);
-        EventLog.setPeerId(-100);
+        EventLog.setPeerId(EPOSRequesterPeerID);
         EventLog.setDIASNetworkId(0);
     }
 
     public void setUpPersistantClient(){
-        LiveConfiguration liveConf = new LiveConfiguration();
         ZMQ.Context zmqContext = ZMQ.context(1);
-        String[] args = new String[2];
-        args[0] = String.valueOf(0);
-        args[1]= String.valueOf(0);
-        liveConf.readConfiguration(args);
-        int persistenceClientOutputQueueSize = 1000;
-        String daemonConnectString = "tcp://" + liveConf.persistenceDaemonIP + ":" + liveConf.persistenceDaemonPort;
+        String daemonConnectString = "tcp://" + config.persistenceDaemonIP + ":" + config.persistenceDaemonPort;
         persistenceClient = new PersistenceClient( zmqContext, daemonConnectString, persistenceClientOutputQueueSize );
         System.out.println( "persistenceClient created" );
     }
