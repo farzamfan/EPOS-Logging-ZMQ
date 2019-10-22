@@ -10,6 +10,7 @@
       <change afterPath="$PROJECT_DIR$/../Protopeer/Protopeer1.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLogger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLoggerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLoggerListener.java" afterDir="false" />
@@ -90,7 +91,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.EPOSRequester">
+  <component name="RunManager" selected="Application.IEPOSExperiment">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="EPOS-Logging-ZMQ" />
@@ -191,11 +192,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.IEPOSExperiment" />
         <item itemvalue="Application.EPOSRequester" />
         <item itemvalue="Application.User" />
         <item itemvalue="Application.GatewayServer" />
         <item itemvalue="Application.LiveRun" />
-        <item itemvalue="Application.IEPOSExperiment" />
       </list>
     </recent_temporary>
   </component>
@@ -265,6 +266,8 @@
       <workItem from="1571647083689" duration="19892000" />
       <workItem from="1571729102653" duration="2499000" />
       <workItem from="1571757404025" duration="324000" />
+      <workItem from="1571757946853" duration="51000" />
+      <workItem from="1571758713688" duration="712000" />
     </task>
     <servers />
   </component>
