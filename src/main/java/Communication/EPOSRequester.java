@@ -171,21 +171,19 @@ public class EPOSRequester {
     }
 
     public void checkConfigChanges() throws IOException {
-//        if (currentSim==1) {
-//            config.changeConfig(confPath,"numAgents","20");
-//        }
-//        else if (currentSim==2) {
-//            config.changeConfig(confPath,"numAgents","50");
-//            config.changeConfig(confPath,"weightsString","0.5,0.0");
-//        }
-//        else if (currentSim==3) {
-//            config.changeConfig(confPath,"weightsString","0.5,0.5");
-//        }
-//        else if (currentSim==4) {
-//            config.changeConfig(confPath,"weightsString","0.0,0.0");
-//            config.changeConfig(confPath,"numChildren","4");
-//        }
-//        readConfig();
+        if (currentSim==1) {
+            config.changeConfig(confPath,"numAgents","80");
+        }
+        else if (currentSim==2) {
+            config.changeConfig(confPath,"numAgents","60");
+        }
+        else if (currentSim==3) {
+            config.changeConfig(confPath,"numAgents","40");
+        }
+        else if (currentSim==4) {
+            config.changeConfig(confPath,"numAgents","20");
+        }
+        readConfig();
     }
 
     public void terminate(){
