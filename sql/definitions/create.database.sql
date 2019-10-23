@@ -249,7 +249,7 @@ CREATE TABLE globalComplexCostLogger
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
-	,cost NUMERIC
+	,cost NUMERIC(30,15)
 );
 
 
@@ -271,7 +271,7 @@ CREATE TABLE GlobalCostLogger
 	,run NUMERIC NOT NULL
 	,peer NUMERIC NOT NULL
 	,iteration NUMERIC NOT NULL
-	,cost NUMERIC
+	,cost NUMERIC(30,15)
 );
 
 -- indexes
