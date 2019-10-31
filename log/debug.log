@@ -1,4 +1,4 @@
-[Oct 31 12:12:44] ERROR (TimerTask.java:21) - 
+[Oct 31 18:31:13] ERROR (TimerTask.java:21) - 
 java.lang.NullPointerException
 	at agent.logging.PlanFrequencyLogger.log(PlanFrequencyLogger.java:64)
 	at agent.logging.AgentLoggingProvider.log(AgentLoggingProvider.java:85)

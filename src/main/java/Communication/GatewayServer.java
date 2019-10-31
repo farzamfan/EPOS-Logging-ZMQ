@@ -339,8 +339,7 @@ public class GatewayServer {
             System.out.println("sending run message to inner nodes at run: "+currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
             for (EPOSPeerStatus peer : PeersStatus) {
                 if (peer.isleaf == false && peer.run == currentRun && peer.leaveRun > currentRun){
-                    zmqNetworkInterface.sendMessage(peer.address, new ReadyToRunMessage(peer.index, currentRun));
-//                    System.out.println("ready innerNode message send to: "+peer.address);
+//                    zmqNetworkInterface.sendMessage(peer.address, new ReadyToRunMessage(peer.index, currentRun));
                 }
             }
             for (UserStatus user : UsersStatus){

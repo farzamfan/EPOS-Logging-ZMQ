@@ -236,7 +236,7 @@ public class User {
         PlanSetMessage psm = null;
         try {
             psm = createPlanMessage(config,idx);
-            System.out.println("users: "+idx+" gets the plans for agent: "+userDatasetIndices.get(idx));
+            EventLog.logEvent("User", "sendPlans", "set user plans" , idx+"-"+userDatasetIndices.get(idx));
             sendPlansMessage(psm,address);
             Users.get(idx).planStatus = "noNewPlans";
         } catch (UnknownHostException e) {

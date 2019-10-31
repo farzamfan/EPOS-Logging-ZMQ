@@ -66,7 +66,6 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     public IterativeTreeAgent(int numIterations, CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends IterativeTreeAgent<V, UP, DOWN>> loggingProvider, long seed) {
         super(globalCostFunc, localCostFunc, loggingProvider, seed);
         this.numIterations = numIterations;
-        // TODO: 09.08.19
         this.iteration = 0;
 //        this.iteration = numIterations;
     }
