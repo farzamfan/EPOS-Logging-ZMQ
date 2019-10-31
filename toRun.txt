@@ -20,6 +20,9 @@ PID=`ps -ef | grep IEPOSnode | awk '{ print $2 }'`; kill -9 $PID;
 #all row counts in DB
 SELECT schemaname,relname,n_live_tup FROM pg_stat_user_tables ORDER BY n_live_tup DESC;
 
+#save DB as CSV
+COPY globalcostlogger TO '/tmp/GLC.csv' DELIMITER ',' CSV HEADER;
+
 #truncate all tables
 Truncate unfairnesslogger;
 Truncate globalcostlogger;

@@ -14,9 +14,11 @@
       <change beforePath="$PROJECT_DIR$/IEPOSNode.jar" beforeDir="false" afterPath="$PROJECT_DIR$/IEPOSNode.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IEPOSUsers.jar" beforeDir="false" afterPath="$PROJECT_DIR$/IEPOSUsers.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/definitions/create.database.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/definitions/create.database.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/EPOSRequester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Communication/EPOSRequester.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/EPOSRequester.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/localhost/log/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/log/server.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Communication/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/toRun.txt" beforeDir="false" afterPath="$PROJECT_DIR$/toRun.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLogger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLoggerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLoggerListener.java" afterDir="false" />
@@ -97,7 +99,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.IEPOSExperiment">
+  <component name="RunManager" selected="Application.EPOSRequester">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="EPOS-Logging-ZMQ" />
@@ -198,8 +200,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.IEPOSExperiment" />
         <item itemvalue="Application.EPOSRequester" />
+        <item itemvalue="Application.IEPOSExperiment" />
         <item itemvalue="Application.User" />
         <item itemvalue="Application.GatewayServer" />
         <item itemvalue="Application.LiveRun" />
@@ -274,7 +276,8 @@
       <workItem from="1571757404025" duration="324000" />
       <workItem from="1571757946853" duration="51000" />
       <workItem from="1571758713688" duration="712000" />
-      <workItem from="1571817489711" duration="1303000" />
+      <workItem from="1571817489711" duration="3300000" />
+      <workItem from="1572511199385" duration="3635000" />
     </task>
     <servers />
   </component>

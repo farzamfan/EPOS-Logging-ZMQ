@@ -94,7 +94,7 @@ public class User {
 
         dataSetSize = config.dataSetSize;
         numberList = new ArrayList<>();
-        for(int i=1; i<=dataSetSize; i++){ numberList.add(i); }
+        for(int i=0; i<=dataSetSize; i++){ numberList.add(i); }
         userDatasetIndices = new ArrayList<Integer>();
 
         numUsersPerRun = new ArrayList<Integer>();
@@ -236,6 +236,7 @@ public class User {
         PlanSetMessage psm = null;
         try {
             psm = createPlanMessage(config,idx);
+            System.out.println("users: "+idx+" gets the plans for agent: "+userDatasetIndices.get(idx));
             sendPlansMessage(psm,address);
             Users.get(idx).planStatus = "noNewPlans";
         } catch (UnknownHostException e) {
@@ -255,7 +256,6 @@ public class User {
     }
 
     public List<Plan<Vector>> generatePlans(int peerIdx){
-//                List<Plan<Vector>> possiblePlans = config.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(userDatasetIndices.get(peerIdx)));
         List<Plan<Vector>> possiblePlans = config.getDataset(Configuration.dataset).getPlans(userDatasetIndices.get(peerIdx));
 //        Dataset gaussianDataset = new GaussianDataset(10,100,10,1,new Random(Double.doubleToLongBits(Math.random())));
 //        List<Plan<Vector>> possiblePlans = gaussianDataset.getPlans(peerIdx);
