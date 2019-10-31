@@ -148,7 +148,7 @@ public class Configuration implements Serializable {
 
 	//Shared
 	public static String persistenceDaemonIP = "localhost";
-	public static int persistenceDaemonPort =6433;
+	public static int persistenceDaemonPort = 6433;
 	public static int persistenceClientOutputQueueSize = 1000;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -535,6 +535,8 @@ public class Configuration implements Serializable {
 	}
 
 	public static void changeConfig(String path, String key, String val) throws IOException {
+		Files.deleteIfExists(Paths.get(path));
+
 		Properties argMap = new Properties();
 		try (InputStream input = new FileInputStream(new File(path))) {
 			argMap.load(input);
