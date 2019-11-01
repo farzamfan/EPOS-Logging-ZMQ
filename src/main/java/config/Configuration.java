@@ -535,7 +535,6 @@ public class Configuration implements Serializable {
 	}
 
 	public static void changeConfig(String path, String key, String val) throws IOException {
-		Files.deleteIfExists(Paths.get(path));
 
 		Properties argMap = new Properties();
 		try (InputStream input = new FileInputStream(new File(path))) {
@@ -546,6 +545,7 @@ public class Configuration implements Serializable {
 		}
 		propertyCleanUp(argMap);
 		argMap.setProperty(key,val);
+		Files.deleteIfExists(Paths.get(path));
 		argMap.store(new FileWriter(path,false),"store to properties file");
 	}
 
