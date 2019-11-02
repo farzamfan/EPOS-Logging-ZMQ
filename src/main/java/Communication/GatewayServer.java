@@ -210,7 +210,8 @@ public class GatewayServer {
                             // the peer has finished its run (numIteration)
 //                        System.out.println("finished message received for: "+informGatewayMessage.getSourceAddress()+" at run: "+informGatewayMessage.run);
                             finishedPeers++;
-                            if (numUsersPerRun.get(currentRun + 1) != numUsersPerRun.get(currentRun) && bootstrapInformed == false) {
+//                            if (numUsersPerRun.get(currentRun + 1) != numUsersPerRun.get(currentRun) && bootstrapInformed == false) {
+                            if (bootstrapInformed == false) {
                                 bootstrapInformed = new Boolean(true);
                                 treeViewShouldChange();
                             }
@@ -426,9 +427,9 @@ public class GatewayServer {
         if (PeersStatus.get(informGatewayMessage.peerID).leaveRun == informGatewayMessage.run){
             zmqNetworkInterface.sendMessage(informGatewayMessage.getSourceAddress(), new TreeViewChangeMessage(currentRun,"deactivate"));
         }
-        else if (numUsersPerRun.get(informGatewayMessage.run) == numUsersPerRun.get(informGatewayMessage.run-1)){
-            zmqNetworkInterface.sendMessage(informGatewayMessage.getSourceAddress(), new PlanSetMessage("noUserChanges"));
-        }
+//        else if (numUsersPerRun.get(informGatewayMessage.run) == numUsersPerRun.get(informGatewayMessage.run-1)){
+//            zmqNetworkInterface.sendMessage(informGatewayMessage.getSourceAddress(), new PlanSetMessage("noUserChanges"));
+//        }
         else { zmqNetworkInterface.sendMessage(informGatewayMessage.getSourceAddress(), new TreeViewChangeMessage(currentRun,"requestNewTreeView"));}
     }
 

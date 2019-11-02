@@ -14,6 +14,8 @@ import agent.logging.AgentLoggingProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import loggers.EventLog;
 import protopeer.Finger;
 import data.DataType;
 import protopeer.MainConfiguration;

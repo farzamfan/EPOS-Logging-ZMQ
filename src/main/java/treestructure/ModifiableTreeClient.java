@@ -235,6 +235,7 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
     		this.logger.log(Level.FINER, "TREE VIEW - NODE: " + this.getPeer().getIndexNumber() + " " + ModifiableTreeClient.printParent(parent) + "   " + ModifiableTreeClient.printChildren(children));
     	}
         System.out.println("I am: "+getPeer().getNetworkAddress()+" parent: "+printParent(parent)+" children: "+printChildren(children));
+        EventLog.logEvent("ModifiableTreeClient", "deliverTreeView", "parent-children" , printParent(parent)+"-"+printChildren(children));
     	this.getTreeProvider().provideTreeView(parent, children);
 	}
     
