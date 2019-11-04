@@ -218,10 +218,12 @@ public class User {
     }
 
     public void selectUsers(int size, boolean randomise){
-        if (randomise){ Collections.shuffle(this.numberList);}
+        List<Integer> defaultMapping = new ArrayList<Integer>(size);
         for(int j=0; j<size; j++){
-            userDatasetIndices.add(this.numberList.get(j));
+            defaultMapping.add(this.numberList.get(j));
         }
+        if (randomise){ Collections.shuffle(defaultMapping);}
+        userDatasetIndices.addAll(defaultMapping);
     }
 
     public void registerUsers(){
