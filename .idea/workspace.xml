@@ -14,9 +14,6 @@
       <change beforePath="$PROJECT_DIR$/GateWay.jar" beforeDir="false" afterPath="$PROJECT_DIR$/GateWay.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IEPOSNode.jar" beforeDir="false" afterPath="$PROJECT_DIR$/IEPOSNode.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IEPOSUsers.jar" beforeDir="false" afterPath="$PROJECT_DIR$/IEPOSUsers.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployments/localhost/log/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/log/server.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/debug.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Communication/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Communication/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Communication/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
@@ -289,6 +286,9 @@
       <workItem from="1572859746936" duration="40000" />
       <workItem from="1572862728328" duration="3979000" />
       <workItem from="1572870684372" duration="243000" />
+      <workItem from="1572943619146" duration="59000" />
+      <workItem from="1572951602040" duration="34000" />
+      <workItem from="1572951654763" duration="107000" />
     </task>
     <servers />
   </component>

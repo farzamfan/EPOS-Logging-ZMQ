@@ -222,7 +222,7 @@ public class User {
         for(int j=0; j<size; j++){
             defaultMapping.add(this.numberList.get(j));
         }
-        if (randomise){ Collections.shuffle(defaultMapping);}
+        if (randomise){ Collections.shuffle(defaultMapping,new Random(config.permutationSeed));}
         userDatasetIndices.addAll(defaultMapping);
     }
 
