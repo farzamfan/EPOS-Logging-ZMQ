@@ -49,7 +49,7 @@ public class ModifiableTreeServer extends BasePeerlet {
     }
     
     private Random								random;
-    private List<FingerDescriptor> 				orderedPeers;
+//    private List<FingerDescriptor> 				orderedPeers;
     private LinkedHashSet<FingerDescriptor> 	peers;			// it maintains the insertion order!
     private TreeTopologyGenerator 				generator;
     private ServerState 						state;
@@ -88,7 +88,7 @@ public class ModifiableTreeServer extends BasePeerlet {
         this.state = ServerState.INIT;
         this.N = N;
         this.n = 0;
-        this.orderedPeers = new ArrayList<FingerDescriptor>(Collections.nCopies(N, null));
+//        this.orderedPeers = new ArrayList<FingerDescriptor>(Collections.nCopies(N, null));
         this.peers = new LinkedHashSet<FingerDescriptor>();
         this.generator = new TreeTopologyGenerator(priority, descrType, treeType, balanceType);
         this.random = random;
@@ -213,11 +213,10 @@ public class ModifiableTreeServer extends BasePeerlet {
     private void runPassiveState(ExtendedTreeViewRequest request) {
     	switch(this.state) {
     	case GATHERING_PEERS:
-			this.orderedPeers.set(request.peerID,request.sourceDescriptor);
+			this.peers.add(request.sourceDescriptor);
     		//this.logger.log(Level.FINER, "Descriptor received: " + request.sourceDescriptor);
    	     	this.n++;
 	   	    if(this.n == this.N){
-				this.peers.addAll(orderedPeers);
 	   	    	//this.logger.log(Level.INFO, "Number of requests gathered reached expected number: " + this.N);
 	            this.generateTreeTopology();
 	        }
@@ -229,13 +228,12 @@ public class ModifiableTreeServer extends BasePeerlet {
     		if (ActivePeers.contains(request.peerID) && !( this.peers.contains(request.sourceDescriptor) )){
 //    			request.sourceDescriptor.replaceDescriptor(DescriptorType.RANK,(double) n);
 				request.sourceDescriptor.replaceDescriptor(DescriptorType.RANK, (double) request.peerID);
-				this.orderedPeers.set(request.peerID,request.sourceDescriptor);
+				this.peers.add(request.sourceDescriptor);
 				//this.logger.log(Level.FINER, "Descriptor received: " + request.sourceDescriptor);
 				this.n++;
     		}
     		else {System.out.println("peer: "+request.peerID+" is NOT active peer. numPeersReceived: "+n+"total: "+N);}
 			if(this.n == this.N){
-				this.peers.addAll(orderedPeers);
 				//this.logger.log(Level.INFO, "Number of requests gathered reached expected number: " + this.N);
 				this.generateTreeTopology();
 			}
