@@ -171,55 +171,9 @@ public class EPOSRequester {
     }
 
     public void checkConfigChanges() throws IOException {
-        if (currentSim==1) {
-            config.changeConfig(confPath,"weightsString","0.5,0.0");
-        }
-        else if (currentSim==2) {
-            config.changeConfig(confPath,"weightsString","0.0,0.5");
-        }
-        else if (currentSim==3) {
-            config.changeConfig(confPath,"weightsString","0.5,0.5");
-        }
-        else if (currentSim==4) {
-            config.changeConfig(confPath,"numAgents","120");
-            config.changeConfig(confPath,"weightsString","0.0,0.0");
-        }
-        else if (currentSim==5) {
-            config.changeConfig(confPath,"weightsString","0.0,0.5");
-        }
-        else if (currentSim==6) {
-            config.changeConfig(confPath,"weightsString","0.5,0.5");
-        }
-        else if (currentSim==7) {
-            config.changeConfig(confPath,"numAgents","100");
-            config.changeConfig(confPath,"weightsString","0.0,0.0");
-        }
-        else if (currentSim==8) {
-            config.changeConfig(confPath,"weightsString","0.0,0.5");
-        }
-        else if (currentSim==9) {
-            config.changeConfig(confPath,"weightsString","0.5,0.5");
-        }
-        else if (currentSim==10) {
-            config.changeConfig(confPath,"numAgents","80");
-            config.changeConfig(confPath,"weightsString","0.0,0.0");
-        }
-        else if (currentSim==11) {
-            config.changeConfig(confPath,"weightsString","0.0,0.5");
-        }
-        else if (currentSim==12) {
-            config.changeConfig(confPath,"weightsString","0.5,0.5");
-        }
-        else if (currentSim==13) {
-            config.changeConfig(confPath,"numAgents","60");
-            config.changeConfig(confPath,"weightsString","0.0,0.0");
-        }
-        else if (currentSim==14) {
-            config.changeConfig(confPath,"weightsString","0.0,0.5");
-        }
-        else if (currentSim==15) {
-            config.changeConfig(confPath,"weightsString","0.5,0.5");
-        }
+//        if (currentSim==1) {
+//            config.changeConfig(confPath,"weightsString","0.5,0.0");
+//        }
         readConfig();
     }
 
