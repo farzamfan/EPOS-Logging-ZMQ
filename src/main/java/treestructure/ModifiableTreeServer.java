@@ -55,12 +55,12 @@ public class ModifiableTreeServer extends BasePeerlet {
     private ServerState 						state;
     private int 								N;
     private int 								n;
-    
+
     private Set<Entry<FingerDescriptor,TreeViewFacilitator>> views;
 
 	List<Integer> ActivePeers = new ArrayList<Integer>();
-    
-    
+
+
     /**
      * Initializes the server and the topology generator with the required
      * information.
@@ -69,19 +69,19 @@ public class ModifiableTreeServer extends BasePeerlet {
      * 						 tree topology. Essentially, this should be total number of nodes, no more no less.
      * @param priority 		higher or lower ranks preferred during the sorting. This
      * 						 parameter is fed in the <code>TreeTopologyGenerator</code>.
-     * @param descrType 	the descriptor type based on which the sorting is performed: 
-     * 						 <code>RANK</code> or <code>NODE_DEGREE</code>. This parameter 
+     * @param descrType 	the descriptor type based on which the sorting is performed:
+     * 						 <code>RANK</code> or <code>NODE_DEGREE</code>. This parameter
      * 						 is fed in the <code>TreeTopologyGenerator</code>.
      * @param treeType 		the type of tree to be built: <code>RANDOM</code>, <code>SORTED_HtL</code>
      * 						 and <code>SORTED_LtH</code>. This parameter is fed in the <code>TreeTopologyGenerator</code>.
-     * @param balanceType 	the balance of the tree to be built: <code>WEIGHT_BALANCED</code> or <code>LIST</code>. 
+     * @param balanceType 	the balance of the tree to be built: <code>WEIGHT_BALANCED</code> or <code>LIST</code>.
      * 						 This parameter is fed in the <code>TreeTopologyGenerator</code>.
      * @param random		random number generator to be used for permuting the list.
      */
-    public ModifiableTreeServer(int N, 
-    		                    RankPriority priority, 
-    		                    DescriptorType descrType, 
-    		                    TreeType treeType, 
+    public ModifiableTreeServer(int N,
+    		                    RankPriority priority,
+    		                    DescriptorType descrType,
+    		                    TreeType treeType,
     		                    BalanceType balanceType ,
     		                    Random random
     		                   ){
@@ -93,7 +93,7 @@ public class ModifiableTreeServer extends BasePeerlet {
         this.generator = new TreeTopologyGenerator(priority, descrType, treeType, balanceType);
         this.random = random;
     }
-    
+
     /**
      * Initializes the server and the topology generator with the required
      * information.
@@ -102,19 +102,19 @@ public class ModifiableTreeServer extends BasePeerlet {
      * 						 tree topology. Essentially, this should be total number of nodes, no more no less.
      * @param priority 		higher or lower ranks preferred during the sorting. This
      * 						 parameter is fed in the <code>TreeTopologyGenerator</code>.
-     * @param descrType 	the descriptor type based on which the sorting is performed: 
-     * 						 <code>RANK</code> or <code>NODE_DEGREE</code>. This parameter 
+     * @param descrType 	the descriptor type based on which the sorting is performed:
+     * 						 <code>RANK</code> or <code>NODE_DEGREE</code>. This parameter
      * 						 is fed in the <code>TreeTopologyGenerator</code>.
      * @param treeType 		the type of tree to be built: <code>RANDOM</code>, <code>SORTED_HtL</code>
      * 						 and <code>SORTED_LtH</code>. This parameter is fed in the <code>TreeTopologyGenerator</code>.
-     * @param balanceType 	the balance of the tree to be built: <code>WEIGHT_BALANCED</code> or <code>LIST</code>. 
+     * @param balanceType 	the balance of the tree to be built: <code>WEIGHT_BALANCED</code> or <code>LIST</code>.
      * 						 This parameter is fed in the <code>TreeTopologyGenerator</code>.
      * @param seed			seed value for random numbers generator to be used for permutations.
      */
-    public ModifiableTreeServer(int N, 
-    		                    RankPriority priority, 
-    		                    DescriptorType descrType, 
-    		                    TreeType treeType, 
+    public ModifiableTreeServer(int N,
+    		                    RankPriority priority,
+    		                    DescriptorType descrType,
+    		                    TreeType treeType,
     		                    BalanceType balanceType ,
     		                    long seed
     		                   ){
@@ -125,7 +125,7 @@ public class ModifiableTreeServer extends BasePeerlet {
         this.generator = new TreeTopologyGenerator(priority, descrType, treeType, balanceType);
         this.random = new Random(seed);
     }
-    
+
     /**
      * Initializes the server and the topology generator with the required
      * information.
@@ -134,20 +134,20 @@ public class ModifiableTreeServer extends BasePeerlet {
      * 						 tree topology
      * @param priority 		higher or lower ranks preferred during the sorting. This
      * 						 parameter is fed in the <code>TreeTopologyGenerator</code>.
-     * @param descrType 	the descriptor type based on which the sorting is performed: 
-     * 						 <code>RANK</code> or <code>NODE_DEGREE</code>. This parameter 
+     * @param descrType 	the descriptor type based on which the sorting is performed:
+     * 						 <code>RANK</code> or <code>NODE_DEGREE</code>. This parameter
      * 						 is fed in the <code>TreeTopologyGenerator</code>.
      * @param treeType 		the type of tree to be built: <code>RANDOM</code>, <code>SORTED_HtL</code>
      * 						 and <code>SORTED_LtH</code>. This parameter is fed in the <code>TreeTopologyGenerator</code>.
      */
-    public ModifiableTreeServer(int N, 
-    		 					RankPriority priority, 
-    		 					DescriptorType descrType, 
+    public ModifiableTreeServer(int N,
+    		 					RankPriority priority,
+    		 					DescriptorType descrType,
     		 					TreeType treeType
     		 				   ){
         this(N, priority, descrType, treeType, BalanceType.WEIGHT_BALANCED, new Random(0));
     }
-    
+
     @Override
     public void init(Peer peer) {
         super.init(peer);
@@ -158,19 +158,19 @@ public class ModifiableTreeServer extends BasePeerlet {
         super.start();
         this.runActiveState();
     }
-    
+
     public ServerState getState() {
     	return this.state;
     }
-    
+
     private void runActiveState(){
         this.state=ServerState.GATHERING_PEERS;
     }
-    
+
     //																								ACTIVE STATE  //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //																								PASSIVE STATE //
-    
+
     @Override
     /**
      * Handles only messages of type <code>TreeViewRequest</code>
@@ -195,7 +195,7 @@ public class ModifiableTreeServer extends BasePeerlet {
 			}
 		}
     }
-    
+
     /**
      * It operates in 2 different modes:
      *  1. if state is <code>GATHERING PEERS</code>:
@@ -213,10 +213,12 @@ public class ModifiableTreeServer extends BasePeerlet {
     private void runPassiveState(ExtendedTreeViewRequest request) {
     	switch(this.state) {
     	case GATHERING_PEERS:
-			this.peers.add(request.sourceDescriptor);
+//			this.orderedPeers.set(request.peerID,request.sourceDescriptor);
+			peers.add(request.sourceDescriptor);
     		//this.logger.log(Level.FINER, "Descriptor received: " + request.sourceDescriptor);
    	     	this.n++;
 	   	    if(this.n == this.N){
+//				this.peers.addAll(orderedPeers);
 	   	    	//this.logger.log(Level.INFO, "Number of requests gathered reached expected number: " + this.N);
 	            this.generateTreeTopology();
 	        }
@@ -228,12 +230,14 @@ public class ModifiableTreeServer extends BasePeerlet {
     		if (ActivePeers.contains(request.peerID) && !( this.peers.contains(request.sourceDescriptor) )){
 //    			request.sourceDescriptor.replaceDescriptor(DescriptorType.RANK,(double) n);
 				request.sourceDescriptor.replaceDescriptor(DescriptorType.RANK, (double) request.peerID);
-				this.peers.add(request.sourceDescriptor);
+//				this.orderedPeers.set(request.peerID,request.sourceDescriptor);
+				peers.add(request.sourceDescriptor);
 				//this.logger.log(Level.FINER, "Descriptor received: " + request.sourceDescriptor);
 				this.n++;
     		}
     		else {System.out.println("peer: "+request.peerID+" is NOT active peer. numPeersReceived: "+n+"total: "+N);}
 			if(this.n == this.N){
+//				this.peers.addAll(orderedPeers);
 				//this.logger.log(Level.INFO, "Number of requests gathered reached expected number: " + this.N);
 				this.generateTreeTopology();
 			}
