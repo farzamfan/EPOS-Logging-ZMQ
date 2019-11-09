@@ -386,8 +386,7 @@ public class GatewayServer {
     }
 
     public void initiatePeers(int beginRange, int numPeers, int initRun, boolean init) {
-        synchronized (this) {
-            int peerPort;
+            int peerPort = -1;
             for (int j = beginRange; j < (beginRange + numPeers); j++) {
                 System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
                 if (init) {
@@ -396,6 +395,7 @@ public class GatewayServer {
                     peerPort = findFreePort();
                     while (!checkFreePort(peerPort)) {
                         peerPort = findFreePort();
+                        EventLog.logEvent("GateWay", "initiatePeers", "checkFreePort", "peer: "+UsersStatus.get(j).index+"-"+peerPort);
                     }
                 }
                 ZMQAddress peerAddress = new ZMQAddress(peerIP, peerPort);
@@ -414,7 +414,6 @@ public class GatewayServer {
                     e.printStackTrace();
                 }
             }
-        }
     }
 
     public void informUserTreeSet(UserStatus user){
@@ -503,10 +502,9 @@ public class GatewayServer {
     public boolean checkFreePort(int port){
         boolean flag = new Boolean(false);
         for (EPOSPeerStatus peer:PeersStatus) {
-            if (peer.peerPort == port && peer.leaveRun < currentRun){
-                flag = false;
+            if (!(peer.peerPort == port && peer.leaveRun < currentRun)){
+                flag = true;
             }
-            else {flag = true;}
         }
         return flag;
     }
