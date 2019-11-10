@@ -1,6 +1,6 @@
 # EPOS-Logging-ZMQ
 ## This is the repository for the live version of I-EPOS.
-To have a running version, you need to set up few modules first: \
+To have a running version, you need to set up few modules first \
 ################  
 1) Epos Database \
 ################  
