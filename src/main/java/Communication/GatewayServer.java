@@ -501,7 +501,7 @@ public class GatewayServer {
     public boolean checkFreePort(int idx, int port){
         boolean flag = new Boolean(true);
         for (EPOSPeerStatus peer:PeersStatus) {
-            if (peer.peerPort == port && peer.leaveRun < currentRun && peer.run != currentRun+1){
+            if (peer.peerPort == port && peer.leaveRun < currentRun && !peer.status.equals("initiated")){
                 flag = false;
                 break;
             }
