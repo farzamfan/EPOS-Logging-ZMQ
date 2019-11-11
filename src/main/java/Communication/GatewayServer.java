@@ -501,8 +501,10 @@ public class GatewayServer {
     public boolean checkFreePort(int port){
         boolean flag = new Boolean(true);
         for (EPOSPeerStatus peer:PeersStatus) {
-            if (peer.peerPort == port && peer.leaveRun < currentRun){}
-            else {flag = false;}
+            if (peer.peerPort == port && peer.leaveRun < currentRun){
+                flag = false;
+                break;
+            }
         }
         EventLog.logEvent("GateWay", "checkFreePort", "checkFreePort", "port: "+port+"-"+flag);
         return flag;
