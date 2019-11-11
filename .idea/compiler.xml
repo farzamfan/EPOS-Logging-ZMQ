@@ -10,8 +10,5 @@
         <module name="EPOS-Logging-ZMQ" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Protopeer" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
