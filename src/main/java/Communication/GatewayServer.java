@@ -178,7 +178,7 @@ public class GatewayServer {
                         - initiates the rest of the peers
                         - updates the user and peer status
                         */
-                            initiatePeers(1, UsersStatus.size() - 1, currentRun, true);
+                            initiatePeers(1, UsersStatus.size() - 1, currentRun, true, -1);
                             EventLog.logEvent("GateWay", "InformGatewayMessageReceived", "initiatingRest", (UsersStatus.size() - 1) + "-" + currentRun);
                         }
                         if (informGatewayMessage.status.equals("treeViewSet")) {
@@ -385,18 +385,44 @@ public class GatewayServer {
         PeersStatus.add(peer);
     }
 
-    public void initiatePeers(int beginRange, int numPeers, int initRun, boolean init) {
+    public void treeViewShouldChange(){
+        List<Integer> activePeers = new ArrayList<>();
+        activePeers = findActivePeers(activePeers);
+        zmqNetworkInterface.sendMessage(UsersStatus.get(0).assignedPeerAddress,new InformBootstrap(currentRun, "informBootstrap",numUsersPerRun.get(currentRun+1),activePeers));
+
+        int numNewPeers = 0;
+        for (EPOSPeerStatus peer: PeersStatus){
+            if (peer.run == currentRun+1){
+                numNewPeers++;
+            }
+        }
+        Set<Integer> ports = new HashSet<Integer>();
+        for (int p=0;p<numNewPeers;p++){
+             ports.add(findFreePort());
+             if (ports.size() == numNewPeers){
+                 Integer[] freePorts = new Integer[ports.size()];
+                 ports.toArray(freePorts);
+                 int k =0;
+                 for (EPOSPeerStatus peer: PeersStatus){
+                     if (peer.run == currentRun+1){
+                         initiatePeers(peer.index,1,peer.run,false,freePorts[k]);
+                         k++;
+                     }
+                 }
+             }
+        }
+        System.out.println("informing the treeGateway ("+UsersStatus.get(0).assignedPeerAddress+") " +
+                "of the users change. New number of users: "+numUsersPerRun.get(currentRun+1)+" for run: "+(currentRun+1));
+    }
+
+    public void initiatePeers(int beginRange, int numPeers, int initRun, boolean init, int freePort) {
             int peerPort = -1;
             for (int j = beginRange; j < (beginRange + numPeers); j++) {
                 System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
                 if (init) {
                     peerPort = (bootstrapPort + UsersStatus.get(j).index);
                 } else {
-                    peerPort = findFreePort();
-                    while (!checkFreePort(peerPort)) {
-                        peerPort = findFreePort();
-                        EventLog.logEvent("GateWay", "initiatePeers", "checkFreePort", "peer: "+UsersStatus.get(j).index+"-"+peerPort);
-                    }
+                    peerPort = freePort;
                 }
                 ZMQAddress peerAddress = new ZMQAddress(peerIP, peerPort);
                 // idx, port, numAgent, initRun, initSim
@@ -432,19 +458,6 @@ public class GatewayServer {
         else { zmqNetworkInterface.sendMessage(informGatewayMessage.getSourceAddress(), new TreeViewChangeMessage(currentRun,"requestNewTreeView"));}
     }
 
-    public void treeViewShouldChange(){
-        List<Integer> activePeers = new ArrayList<>();
-        activePeers = findActivePeers(activePeers);
-        zmqNetworkInterface.sendMessage(UsersStatus.get(0).assignedPeerAddress,new InformBootstrap(currentRun, "informBootstrap",numUsersPerRun.get(currentRun+1),activePeers));
-        for (EPOSPeerStatus peer: PeersStatus){
-            if (peer.run == currentRun+1){
-                initiatePeers(peer.index,1,peer.run,false);
-            }
-        }
-        System.out.println("informing the treeGateway ("+UsersStatus.get(0).assignedPeerAddress+") " +
-                "of the users change. New number of users: "+numUsersPerRun.get(currentRun+1)+" for run: "+(currentRun+1));
-    }
-
     public void terminate(){
         try {
             Runtime.getRuntime().exec("./killAll.sh");
@@ -473,7 +486,6 @@ public class GatewayServer {
     }
 
     public int findFreePort() {
-        int toReturn = -1;
             ServerSocket socket = null;
             try {
                 socket = new ServerSocket(0);
