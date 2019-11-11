@@ -382,7 +382,7 @@ public class GatewayServer {
     public void registerPeer(int idx, int run, String status){
 //        System.out.println("new peer registered, id: "+idx+" run: "+run+" status: "+status);
         EPOSPeerStatus peer = new EPOSPeerStatus(idx,run,status,false,null,-1);
-        peer.initRun = currentRun;
+        peer.initRun = run;
         PeersStatus.add(peer);
     }
 
@@ -506,7 +506,7 @@ public class GatewayServer {
                 flag = false;
                 break;
             }
-            if (peer.peerPort == port && peer.initRun+1 < currentRun){
+            if (peer.peerPort == port && peer.initRun >= currentRun){
                 flag = false;
                 break;
             }
