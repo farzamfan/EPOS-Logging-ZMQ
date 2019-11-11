@@ -393,7 +393,7 @@ public class GatewayServer {
                 peerPort = (bootstrapPort + UsersStatus.get(j).index);
             } else {
                 peerPort = findFreePort();
-                while (checkFreePort(peerPort)) {
+                while (!checkFreePort(peerPort)) {
                     peerPort = findFreePort();
                 }
             }
@@ -499,10 +499,10 @@ public class GatewayServer {
     }
 
     public boolean checkFreePort(int port){
-        boolean flag = new Boolean(false);
+        boolean flag = new Boolean(true);
         for (EPOSPeerStatus peer:PeersStatus) {
             if (peer.peerPort == port && peer.leaveRun < currentRun){}
-            else {flag = true;}
+            else {flag = false;}
         }
         EventLog.logEvent("GateWay", "checkFreePort", "checkFreePort", "port: "+port+"-"+flag);
         return flag;
