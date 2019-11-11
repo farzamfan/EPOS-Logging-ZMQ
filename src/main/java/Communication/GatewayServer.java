@@ -393,7 +393,7 @@ public class GatewayServer {
                 peerPort = (bootstrapPort + UsersStatus.get(j).index);
             } else {
                 peerPort = findFreePort();
-                while (!checkFreePort(peerPort)) {
+                while (!checkFreePort(UsersStatus.get(j).index,peerPort)) {
                     peerPort = findFreePort();
                 }
             }
@@ -498,15 +498,15 @@ public class GatewayServer {
         throw new IllegalStateException("Could not find a free TCP/IP port to start peer on");
     }
 
-    public boolean checkFreePort(int port){
+    public boolean checkFreePort(int idx, int port){
         boolean flag = new Boolean(true);
         for (EPOSPeerStatus peer:PeersStatus) {
-            if (peer.peerPort == port && peer.leaveRun < currentRun){
+            if (peer.peerPort == port && peer.leaveRun < currentRun && peer.run != currentRun+1){
                 flag = false;
                 break;
             }
         }
-        EventLog.logEvent("GateWay", "checkFreePort", "checkFreePort", "port: "+port+"-"+flag);
+        EventLog.logEvent("GateWay", "checkFreePort", String.valueOf(idx),port+"-"+flag );
         return flag;
     }
 
