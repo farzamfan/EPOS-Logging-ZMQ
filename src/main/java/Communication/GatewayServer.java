@@ -145,7 +145,7 @@ public class GatewayServer {
                                     " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim;
                             try {
 //                            System.out.println(command);
-                            Runtime.getRuntime().exec(command);
+                                Runtime.getRuntime().exec(command);
                             /*
                             - initiates the bootstrap server (peer0) and records its status
                             - records the changes in the peerStatus
@@ -178,7 +178,7 @@ public class GatewayServer {
                         - initiates the rest of the peers
                         - updates the user and peer status
                         */
-                            initiatePeers(1, UsersStatus.size() - 1, currentRun, true, -1);
+                            initiatePeers(1, UsersStatus.size() - 1, currentRun, true);
                             EventLog.logEvent("GateWay", "InformGatewayMessageReceived", "initiatingRest", (UsersStatus.size() - 1) + "-" + currentRun);
                         }
                         if (informGatewayMessage.status.equals("treeViewSet")) {
@@ -212,7 +212,7 @@ public class GatewayServer {
                             finishedPeers++;
 //                            if (numUsersPerRun.get(currentRun + 1) != numUsersPerRun.get(currentRun) && bootstrapInformed == false) {
                             if (bootstrapInformed == false) {
-                                bootstrapInformed = new Boolean(true);
+                                bootstrapInformed = true;
                                 treeViewShouldChange();
                             }
                         }
@@ -287,8 +287,8 @@ public class GatewayServer {
             }
             for (EPOSPeerStatus eposPeerStatus: PeersStatus){
                 if (eposPeerStatus.leaveRun > currentRun){
-                eposPeerStatus.status = "treeViewSet";
-                eposPeerStatus.run = currentRun;}
+                    eposPeerStatus.status = "treeViewSet";
+                    eposPeerStatus.run = currentRun;}
             }
             peersWithTreeViewSet=0;
         }
@@ -345,8 +345,8 @@ public class GatewayServer {
             }
             for (UserStatus user : UsersStatus){
                 if (PeersStatus.get(user.index).leaveRun > currentRun){
-                zmqNetworkInterface.sendMessage(user.userAddress, new InformUserMessage(user.index, currentRun,"assignedPeerRunning"));
-                user.status = "assignedPeerRunning";}
+                    zmqNetworkInterface.sendMessage(user.userAddress, new InformUserMessage(user.index, currentRun,"assignedPeerRunning"));
+                    user.status = "assignedPeerRunning";}
             }
             allNodesReady = new Boolean(true);;;
             readyPeers=0;
@@ -385,63 +385,34 @@ public class GatewayServer {
         PeersStatus.add(peer);
     }
 
-    public void treeViewShouldChange(){
-        List<Integer> activePeers = new ArrayList<>();
-        activePeers = findActivePeers(activePeers);
-        zmqNetworkInterface.sendMessage(UsersStatus.get(0).assignedPeerAddress,new InformBootstrap(currentRun, "informBootstrap",numUsersPerRun.get(currentRun+1),activePeers));
-
-        int numNewPeers = 0;
-        for (EPOSPeerStatus peer: PeersStatus){
-            if (peer.run == currentRun+1){
-                numNewPeers++;
-            }
-            System.out.println("number of new peers: "+numNewPeers);
-            EventLog.logEvent("GateWay", "treeViewShouldChange", "numNewPeers", currentRun+"-"+numNewPeers);
-        }
-        Set<Integer> ports = new HashSet<Integer>();
-        while (ports.size() < numNewPeers){
-             ports.add(findFreePort());
-             if (ports.size() == numNewPeers){
-                 Integer[] freePorts = new Integer[ports.size()];
-                 ports.toArray(freePorts);
-                 int k =0;
-                 for (EPOSPeerStatus peer: PeersStatus){
-                     if (peer.run == currentRun+1){
-                         initiatePeers(peer.index,1,peer.run,false,freePorts[k]);
-                         k++;
-                     }
-                 }
-             }
-        }
-        System.out.println("informing the treeGateway ("+UsersStatus.get(0).assignedPeerAddress+") " +
-                "of the users change. New number of users: "+numUsersPerRun.get(currentRun+1)+" for run: "+(currentRun+1));
-    }
-
-    public void initiatePeers(int beginRange, int numPeers, int initRun, boolean init, int freePort) {
-            int peerPort = -1;
-            for (int j = beginRange; j < (beginRange + numPeers); j++) {
-                System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
-                if (init) {
-                    peerPort = (bootstrapPort + UsersStatus.get(j).index);
-                } else {
-                    peerPort = freePort;
+    public void initiatePeers(int beginRange, int numPeers, int initRun, boolean init) {
+        int peerPort = -1;
+        for (int j = beginRange; j < (beginRange + numPeers); j++) {
+            System.out.println("liveNode " + UsersStatus.get(j).index + " initiated");
+            if (init) {
+                peerPort = (bootstrapPort + UsersStatus.get(j).index);
+            } else {
+                peerPort = findFreePort();
+                while (checkFreePort(peerPort)) {
+                    peerPort = findFreePort();
                 }
-                ZMQAddress peerAddress = new ZMQAddress(peerIP, peerPort);
-                // idx, port, numAgent, initRun, initSim
-                String command = "screen -S peer" + UsersStatus.get(j).index + " -d -m java -Xmx1024m -jar IEPOSNode.jar " + UsersStatus.get(j).index +
-                        " " + peerPort + " " + numUsersPerRun.get(currentRun) + " " + initRun + " " + currentSim;
-                UsersStatus.get(j).assignedPeerAddress = peerAddress;
-                UsersStatus.get(j).status = "peerAssigned";
-                PeersStatus.get(j).address = peerAddress;
-                PeersStatus.get(j).peerPort = peerPort;
-                PeersStatus.get(j).status = "initiated";
-                try {
+            }
+            ZMQAddress peerAddress = new ZMQAddress(peerIP, peerPort);
+            // idx, port, numAgent, initRun, initSim
+            String command = "screen -S peer" + UsersStatus.get(j).index + " -d -m java -Xmx1024m -jar IEPOSNode.jar " + UsersStatus.get(j).index +
+                    " " + peerPort + " " + numUsersPerRun.get(currentRun) + " " + initRun + " " + currentSim;
+            UsersStatus.get(j).assignedPeerAddress = peerAddress;
+            UsersStatus.get(j).status = "peerAssigned";
+            PeersStatus.get(j).address = peerAddress;
+            PeersStatus.get(j).peerPort = peerPort;
+            PeersStatus.get(j).status = "initiated";
+            try {
 //                System.out.println(command);
                 Runtime.getRuntime().exec(command);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
     }
 
     public void informUserTreeSet(UserStatus user){
@@ -458,6 +429,19 @@ public class GatewayServer {
 //            zmqNetworkInterface.sendMessage(informGatewayMessage.getSourceAddress(), new PlanSetMessage("noUserChanges"));
 //        }
         else { zmqNetworkInterface.sendMessage(informGatewayMessage.getSourceAddress(), new TreeViewChangeMessage(currentRun,"requestNewTreeView"));}
+    }
+
+    public void treeViewShouldChange(){
+        List<Integer> activePeers = new ArrayList<>();
+        activePeers = findActivePeers(activePeers);
+        zmqNetworkInterface.sendMessage(UsersStatus.get(0).assignedPeerAddress,new InformBootstrap(currentRun, "informBootstrap",numUsersPerRun.get(currentRun+1),activePeers));
+        for (EPOSPeerStatus peer: PeersStatus){
+            if (peer.run == currentRun+1){
+                initiatePeers(peer.index,1,peer.run,false);
+            }
+        }
+        System.out.println("informing the treeGateway ("+UsersStatus.get(0).assignedPeerAddress+") " +
+                "of the users change. New number of users: "+numUsersPerRun.get(currentRun+1)+" for run: "+(currentRun+1));
     }
 
     public void terminate(){
@@ -488,38 +472,39 @@ public class GatewayServer {
     }
 
     public int findFreePort() {
-            ServerSocket socket = null;
+        int toReturn = -1;
+        ServerSocket socket = null;
+        try {
+            socket = new ServerSocket(0);
+            socket.setReuseAddress(true);
+            int port = socket.getLocalPort();
             try {
-                socket = new ServerSocket(0);
-                socket.setReuseAddress(true);
-                int port = socket.getLocalPort();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return port;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (socket != null) {
                 try {
                     socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return port;
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (socket != null) {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
-            throw new IllegalStateException("Could not find a free TCP/IP port to start peer on");
+        }
+        throw new IllegalStateException("Could not find a free TCP/IP port to start peer on");
     }
 
     public boolean checkFreePort(int port){
         boolean flag = new Boolean(false);
         for (EPOSPeerStatus peer:PeersStatus) {
-            if (!(peer.peerPort == port && peer.leaveRun < currentRun)){
-                flag = true;
-            }
+            if (peer.peerPort == port && peer.leaveRun < currentRun){}
+            else {flag = true;}
         }
+        EventLog.logEvent("GateWay", "checkFreePort", "checkFreePort", "port: "+port+"-"+flag);
         return flag;
     }
 
