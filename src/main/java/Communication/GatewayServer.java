@@ -395,9 +395,11 @@ public class GatewayServer {
             if (peer.run == currentRun+1){
                 numNewPeers++;
             }
+            System.out.println("number of new peers: "+numNewPeers);
+            EventLog.logEvent("GateWay", "treeViewShouldChange", "numNewPeers", currentRun+"-"+numNewPeers);
         }
         Set<Integer> ports = new HashSet<Integer>();
-        for (int p=0;p<numNewPeers;p++){
+        while (ports.size() < numNewPeers){
              ports.add(findFreePort());
              if (ports.size() == numNewPeers){
                  Integer[] freePorts = new Integer[ports.size()];

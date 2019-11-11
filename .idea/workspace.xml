@@ -10,6 +10,7 @@
       <change afterPath="$PROJECT_DIR$/../Protopeer/Protopeer.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Protopeer/Protopeer1.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLogger.java" afterDir="false" />
@@ -287,7 +288,7 @@
       <workItem from="1573222661032" duration="985000" />
       <workItem from="1573299391648" duration="113000" />
       <workItem from="1573299592360" duration="2092000" />
-      <workItem from="1573460435054" duration="1227000" />
+      <workItem from="1573460435054" duration="1946000" />
     </task>
     <servers />
   </component>
