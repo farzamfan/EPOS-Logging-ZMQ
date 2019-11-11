@@ -382,6 +382,7 @@ public class GatewayServer {
     public void registerPeer(int idx, int run, String status){
 //        System.out.println("new peer registered, id: "+idx+" run: "+run+" status: "+status);
         EPOSPeerStatus peer = new EPOSPeerStatus(idx,run,status,false,null,-1);
+        peer.initRun = currentRun;
         PeersStatus.add(peer);
     }
 
@@ -501,12 +502,12 @@ public class GatewayServer {
     public boolean checkFreePort(int idx, int port){
         boolean flag = new Boolean(true);
         for (EPOSPeerStatus peer:PeersStatus) {
-            if (peer.peerPort == port && peer.leaveRun < currentRun && !peer.status.equals("initiated")){
+            if (peer.peerPort == port && peer.leaveRun < currentRun && (peer.initRun == currentRun || peer.initRun+1 == currentRun)){
                 flag = false;
                 break;
             }
         }
-        EventLog.logEvent("GateWay", "checkFreePort", String.valueOf(idx),port+"-"+flag );
+        EventLog.logEvent("GateWay", "checkFreePort", idx+"-"+currentRun+"-"+PeersStatus.get(idx).initRun,port+"-"+flag );
         return flag;
     }
 
