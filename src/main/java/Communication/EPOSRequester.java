@@ -53,7 +53,6 @@ public class EPOSRequester {
 
     public void readConfig(){
         config = Configuration.fromFile(confPath,false);
-
         EPOSRequesterIP = config.EPOSRequesterIP;
         EPOSRequesterPort = config.EPOSRequesterPort;
         EPOSRequesterPeerID = config.EPOSRequesterPeerID;

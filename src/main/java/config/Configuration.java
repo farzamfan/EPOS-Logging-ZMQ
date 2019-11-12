@@ -433,6 +433,7 @@ public class Configuration implements Serializable {
 		if (prepareDataset) {
 			prepareDataset(argMap);
 		}
+		else {prepareDatasetPath(argMap);}
 		prepareReorganization(argMap, config);
 		prepareCostFunctions(argMap, config);
 		prepareLiveConfig(argMap, config);
@@ -602,6 +603,13 @@ public class Configuration implements Serializable {
 				.collect(Collectors.toSet());
 
 		Configuration.loggers = initializeLoggers(selectedLoggers);
+	}
+
+	public static void prepareDatasetPath(Properties argMap){
+		String dataset = (String) argMap.get("dataset");
+		Configuration.dataset = dataset;
+		Configuration.selectedDataset = new DatasetDescriptor(dataset, Configuration.planDim,
+				Configuration.numAgents, Configuration.numPlans);
 	}
 
 	public static void prepareDataset(Properties argMap) {
