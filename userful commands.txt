@@ -14,7 +14,7 @@ sudo -u postgres psql
 
 #launch rest:
 
-jova -jar EPOSRequester.jar
+java -jar EPOSRequester.jar
 
 #kill EPOS
 PID=`ps -ef | grep IEPOSnode | awk '{ print $2 }'`; kill -9 $PID;
