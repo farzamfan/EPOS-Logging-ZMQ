@@ -46,7 +46,7 @@ public class runEPOSLive extends ZMQExperiment {
             // get Protopeer configuration values
             MainConfiguration.getSingleton().peerIndex = liveConf.myIndex;
             MainConfiguration.getSingleton().peerPort = liveConf.myPort;
-            MainConfiguration.getSingleton().peerZeroPort = liveConf.bootstrapPort;
+            MainConfiguration.getSingleton().peerZeroPort = config.bootstrapPort;
             System.out.println("Hi, I'm peer with the index " + MainConfiguration.getSingleton().peerIndex);
             // set IP addresses
             try {
