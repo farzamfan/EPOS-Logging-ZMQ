@@ -6,6 +6,9 @@ pg_ctl -D /usr/local/var/postgres start
 cd /tmp
 sudo -u postgres psql
 
+#change db:
+\c <db_name>
+
 #Launch the daemon 
 ./start.daemon.sh deployments/localhost
 
