@@ -75,7 +75,6 @@ public class GatewayServer {
         GateWayPeerID = config.GateWayPeerID;
         EPOSRequesterPort = config.EPOSRequesterPort;
         GateWayAddress = new ZMQAddress(GateWayIP,GateWayPort);
-        System.out.println("gateway address : " + GateWayAddress );
         EPOSRequesterIP = config.EPOSRequesterIP;
         EPOSRequesterAddress = new ZMQAddress(EPOSRequesterIP,EPOSRequesterPort);
         peerIP = config.UserIP;
@@ -144,7 +143,7 @@ public class GatewayServer {
                             String command = "screen -S peer" + UsersStatus.get(0).index + " -d -m java -Xmx1024m -jar IEPOSNode.jar " + UsersStatus.get(0).index +
                                     " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim;
                             try {
-//                            System.out.println(command);
+//                                System.out.println(command);
                                 Runtime.getRuntime().exec(command);
                             /*
                             - initiates the bootstrap server (peer0) and records its status

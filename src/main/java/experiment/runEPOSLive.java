@@ -46,7 +46,7 @@ public class runEPOSLive extends ZMQExperiment {
             // get Protopeer configuration values
             MainConfiguration.getSingleton().peerIndex = liveConf.myIndex;
             MainConfiguration.getSingleton().peerPort = liveConf.myPort;
-            MainConfiguration.getSingleton().peerZeroPort = liveConf.bootstrapPort;
+            MainConfiguration.getSingleton().peerZeroPort = config.bootstrapPort;
             System.out.println("Hi, I'm peer with the index " + MainConfiguration.getSingleton().peerIndex);
             // set IP addresses
             try {
@@ -132,11 +132,11 @@ public class runEPOSLive extends ZMQExperiment {
             System.out.println("Waiting before sending BootstrapHello");
             try {
                 Thread.currentThread().sleep(2000);
+                ((ModifiableTreeClient) thisPeer.getPeerletOfType(ModifiableTreeClient.class)).requestNewTreeView();
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            ((ModifiableTreeClient) thisPeer.getPeerletOfType(ModifiableTreeClient.class)).requestNewTreeView();
         }
 
         //set plans

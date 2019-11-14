@@ -194,10 +194,10 @@ public class User {
             }
 
             public void messageSent(NetworkInterface networkInterface, NetworkAddress destinationAddress, Message message) {
+//                System.out.println("Message sent: + " +destinationAddress + " message: "+ message + " messageClass: " + message.getClass());
                 if (message instanceof PlanSetMessage){
                     PlanSetMessage planSetMessage = (PlanSetMessage) message;
                     System.out.println(planSetMessage.status+" for: "+message.getDestinationAddress());
-//                    System.out.println("Message sent: + " +destinationAddress + " message: "+ message + " messageClass: " + message.getClass());
                 }
             }
 
@@ -230,7 +230,7 @@ public class User {
         for (UserStatus user: Users) {
             zmqNetworkInterface.sendMessage(gateWayAddress, new UserRegisterMessage(user.index, currentRun,user.status,user.userAddress));
         }
-        System.out.println("user register message send for all of the users: "+currentRun);
+        System.out.println("user register message send for all of the users, run: "+currentRun);
     }
 
     public void sendPlans(int idx, ZMQAddress address){

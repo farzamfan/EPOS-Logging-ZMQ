@@ -113,43 +113,43 @@ public class Configuration implements Serializable {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// LiveConf:
 	// EPOSRequester
-	public static String EPOSRequesterIP = "127.0.0.1";
-	public static int EPOSRequesterPort = 54321;
-	public static int EPOSRequesterPeerID = -100;
-	public static int maxNumRuns = 5;
-	public static int maxSimulations = 0;
-	public static int sleepSecondBetweenRuns = 5;
+	public static String EPOSRequesterIP;
+	public static int EPOSRequesterPort;
+	public static int EPOSRequesterPeerID;
+	public static int maxNumRuns;
+	public static int maxSimulations;
+	public static int sleepSecondBetweenRuns;
 
 	// GateWayServer
-	public static String GateWayIP = "127.0.0.1";
-	public static int GateWayPort = 12345;
-	public static int GateWayPeerID = -300;
-	public static int bootstrapPort = 12000;
+	public static String GateWayIP;
+	public static int GateWayPort;
+	public static int GateWayPeerID;
+	public static int bootstrapPort;
 
 	// Users
-	public static String UserIP = "127.0.0.1";
-	public static int UserPort = 15545;
-	public static int UserPeerID = -200;
+	public static String UserIP;
+	public static int UserPort;
+	public static int UserPeerID;
 	// Dynamic User changes:
-	public static Boolean userChange = false;
-	public static int joinLeaveRate = 9;
-	public static int userChangeProb = 9;
-	public static int maxNumPeers = 130;
-	public static int minNumPeers = 70;
+	public static Boolean userChange;
+	public static int joinLeaveRate;
+	public static int userChangeProb;
+	public static int maxNumPeers;
+	public static int minNumPeers;
 	// Dynamic User plan/weight change
-	public static Boolean planChange = false;
-	public static int newPlanProb = 9;
-	public static Boolean weightChange = false;
-	public static int newWeightProb = 9;
+	public static Boolean planChange;
+	public static int newPlanProb;
+	public static Boolean weightChange;
+	public static int newWeightProb;
 	// randomly selecting users from the dataset (if numPeers < dataSetSize)
-	public static int dataSetSize = 2778;
-	public static Boolean randomiseUsers = false;
+	public static int dataSetSize;
+	public static Boolean randomiseUsers;
 
 
 	//Shared
-	public static String persistenceDaemonIP = "localhost";
-	public static int persistenceDaemonPort = 6433;
-	public static int persistenceClientOutputQueueSize = 1000;
+	public static String persistenceDaemonIP;
+	public static int persistenceDaemonPort;
+	public static int persistenceClientOutputQueueSize;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// SEEDS:
@@ -322,6 +322,7 @@ public class Configuration implements Serializable {
 		sb.append("numIterations = ").append(Configuration.numIterations).append(System.lineSeparator());
 		sb.append("numChildren = ").append(Configuration.numChildren).append(System.lineSeparator());
 		sb.append("--------------").append(System.lineSeparator());
+		sb.append("gateway = ").append(Configuration.GateWayPort).append(System.lineSeparator());
 		sb.append("alpha = ").append(this.weights[0]).append(System.lineSeparator());
 		sb.append("beta = ").append(this.weights[1]).append(System.lineSeparator());
 		sb.append("global cost function = ").append(Configuration.globalCostFunc.toString())
@@ -348,14 +349,14 @@ public class Configuration implements Serializable {
 		sb.append("Selected Loggers: " + selectedLoggers).append(System.lineSeparator());
 		System.out.println(sb.toString());
 
-		try (PrintWriter out = new PrintWriter(new BufferedWriter(
-				new java.io.FileWriter(this.outputDirectory + File.separator + "used_conf.txt", true)))) {
-			out.append(sb.toString());
-		} catch (FileNotFoundException ex) {
-			Logger.getLogger(GlobalCostLogger.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (IOException e) {
-			Logger.getLogger(GlobalCostLogger.class.getName()).log(Level.SEVERE, null, e);
-		}
+//		try (PrintWriter out = new PrintWriter(new BufferedWriter(
+//				new java.io.FileWriter(this.outputDirectory + File.separator + "used_conf.txt", true)))) {
+//			out.append(sb.toString());
+//		} catch (FileNotFoundException ex) {
+//			Logger.getLogger(GlobalCostLogger.class.getName()).log(Level.SEVERE, null, ex);
+//		} catch (IOException e) {
+//			Logger.getLogger(GlobalCostLogger.class.getName()).log(Level.SEVERE, null, e);
+//		}
 	}
 
 	private static void propertyCleanUp(Properties argMap) {
@@ -471,9 +472,6 @@ public class Configuration implements Serializable {
 		}
 		if (argMap.get("GateWayPeerID") != null) {
 			Configuration.GateWayPeerID = Helper.clearInt((String) argMap.get("GateWayPeerID"));
-		}
-		if (argMap.get("bootstrapPort") != null) {
-			Configuration.bootstrapPort = Helper.clearInt((String) argMap.get("bootstrapPort"));
 		}
 		// Users
 		if (argMap.get("UserIP") != null) {

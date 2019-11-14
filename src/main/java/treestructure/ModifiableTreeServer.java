@@ -174,6 +174,7 @@ public class ModifiableTreeServer extends BasePeerlet {
      * Handles only messages of type <code>TreeViewRequest</code>
      */
     public void handleIncomingMessage(Message message) {
+		System.out.println("received from "+message.getSourceAddress());
         if (message instanceof ExtendedTreeViewRequest) {
 			System.out.println("TreeViewRequest received from "+message.getSourceAddress());
                 this.runPassiveState((ExtendedTreeViewRequest) message);

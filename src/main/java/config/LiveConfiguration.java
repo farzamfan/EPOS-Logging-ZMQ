@@ -133,7 +133,7 @@ public class LiveConfiguration {
 
     // device gateway, so that devices can obtain IP address of peers
     public String deviceGatewayIP = "127.0.0.1";
-    public int deviceGatewayPort = 3427;
+    public int deviceGatewayPort = 54321;
 
     // Persistence Daemon server, for logging to Postgres
     public String persistenceDaemonIP = "127.0.0.1";
