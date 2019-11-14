@@ -183,17 +183,17 @@ public class GatewayServer {
                         }
                         if (informGatewayMessage.status.equals("treeViewSet")) {
                             // all peers have sent their bootstrap hello and received the treeView from the server
-//                            System.out.println("tree view set for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
+                            EventLog.logEvent("GateWay", "messageReceived", "treeViewSet", String.valueOf(informGatewayMessage.getSourceAddress()));
                             PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
                             PeersStatus.get(informGatewayMessage.peerID).isleaf = informGatewayMessage.isLeaf;
                             peersWithTreeViewSet++;
                         } else if (informGatewayMessage.status.equals("plansSet")) {
+                            EventLog.logEvent("GateWay", "messageReceived", "plansSet", String.valueOf(informGatewayMessage.getSourceAddress()));
                             // all peers have received their plans from the corresponding user
-//                            System.out.println("plan set for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
                             peersWithPlansSet++;
                         } else if (informGatewayMessage.status.equals("ready") && informGatewayMessage.run == currentRun) {
                             // update peer status based on the ready message received
-//                            System.out.println("ready message received for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
+                            EventLog.logEvent("GateWay", "messageReceived", "readyMessage", String.valueOf(informGatewayMessage.getSourceAddress()));
                             PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
                             PeersStatus.get(informGatewayMessage.peerID).address = informGatewayMessage.getSourceAddress();
                             // the peer has it treeView and plans set, and is ready to start epos process
@@ -204,7 +204,7 @@ public class GatewayServer {
                             readyPeers++;
                         } else if (informGatewayMessage.status.equals("innerRunning")) {
                             // the inner peer has executed the "initIteration" and are listening to the leafs (its children)
-//                        System.out.println("innerRunning message received for: "+informGatewayMessage.getSourceAddress()+" at run: "+informGatewayMessage.run);
+                            EventLog.logEvent("GateWay", "messageReceived", "innerRunning", String.valueOf(informGatewayMessage.getSourceAddress()));
                             innerNodeRunning++;
                         } else if (informGatewayMessage.status.equals("finished")) {
                             // the peer has finished its run (numIteration)
@@ -363,7 +363,7 @@ public class GatewayServer {
             for (EPOSPeerStatus peer : PeersStatus) {
                 if (peer.isleaf == true && peer.run == currentRun && peer.leaveRun > currentRun){
                     zmqNetworkInterface.sendMessage(peer.address, new ReadyToRunMessage(peer.index, currentRun));
-//                    System.out.println("ready leaf message send to: "+peer.address);
+                    EventLog.logEvent("GateWay", "checkStatus", "sending RUN message", peer.index+"-"+peer.address);
                 }
             }
             for (UserStatus user:UsersStatus) {
