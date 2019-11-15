@@ -312,6 +312,7 @@ public class GatewayServer {
              */
             System.out.println("---");
             System.out.println("EPOS Successfully executed for run: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
+            EventLog.logEvent("GateWay", "UserJoinLeaveMessage", "EPOSFinished", currentRun+"-"+numUsersPerRun.get(currentRun));
             System.out.println("---");
             zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"finished"));
             for (EPOSPeerStatus eposPeerStatus: PeersStatus){
