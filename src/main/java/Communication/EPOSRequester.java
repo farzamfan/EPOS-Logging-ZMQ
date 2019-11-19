@@ -72,7 +72,7 @@ public class EPOSRequester {
 
         try {
             Runtime.getRuntime().exec("screen -S GateWay -d -m java -Xmx1024m -jar GateWay.jar");
-            Runtime.getRuntime().exec("screen -S Users -d -m java -Xmx2048m -jar IEPOSUsers.jar");
+            Runtime.getRuntime().exec("screen -S Users -d -m java -Xmx2048m -jar IEPOSUsers.jar "+currentSim);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -171,9 +171,27 @@ public class EPOSRequester {
     }
 
     public void checkConfigChanges() throws IOException {
-//        if (currentSim==1) {
-//            config.changeConfig(confPath,"weightsString","0.5,0.0");
-//        }
+        if (currentSim%3 == 0) {
+            config.changeConfig(confPath,"globalCostFunction","RMSE");
+            config.changeConfig(confPath,"userChangeProb","9");
+            config.changeConfig(confPath,"GCFChangeProb","9");
+            config.changeConfig(confPath,"newWeightProb","9");
+            config.changeConfig(confPath,"newPlanProb","9");
+        }
+        if (currentSim%3 == 1) {
+            config.changeConfig(confPath,"globalCostFunction","RMSE");
+            config.changeConfig(confPath,"userChangeProb","4");
+            config.changeConfig(confPath,"GCFChangeProb","4");
+            config.changeConfig(confPath,"newWeightProb","4");
+            config.changeConfig(confPath,"newPlanProb","4");
+        }
+        if (currentSim%3 == 2) {
+            config.changeConfig(confPath,"globalCostFunction","RMSE");
+            config.changeConfig(confPath,"userChangeProb","2");
+            config.changeConfig(confPath,"GCFChangeProb","2");
+            config.changeConfig(confPath,"newWeightProb","2");
+            config.changeConfig(confPath,"newPlanProb","2");
+        }
         readConfig();
     }
 
