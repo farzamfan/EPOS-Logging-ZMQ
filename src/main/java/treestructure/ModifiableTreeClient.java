@@ -163,11 +163,12 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
             }
             if (planSetMessage.status.equals("hasNewPlans")) {
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).plansAreSet = false;
-                System.out.println("peer: "+this.getPeer().getIndexNumber()+" has new plans, next run: "+String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
+                System.out.println("peer: "+this.getPeer().getIndexNumber()+" has new plans, next run: "+((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun);
             }
             if (planSetMessage.status.equals("changePlans")) {
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans(((PlanSetMessage) message).possiblePlans);
-                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "changePlans" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
+                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "changePlans" ,
+                        this.getPeer().getIndexNumber()+"-"+((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun);
             }
             if (planSetMessage.status.equals("noUserChanges")) {
                 ((TreeAgent) this.getPeer().getPeerletOfType(TreeAgent.class)).treeViewIsSet = true;
@@ -183,7 +184,8 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
                 ((MultiObjectiveIEPOSAgent) this.getPeer().getPeerletOfType(MultiObjectiveIEPOSAgent.class)).setLocalCostWeight(((WeightSetMessage) message).beta);
                 System.out.println("weights for peer: "+getPeer().getIndexNumber()+" has changed");
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).weightsAreSet = true;
-                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "hasNewWeights" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
+                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "hasNewWeights" ,
+                        this.getPeer().getIndexNumber()+"-"+((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun);
 
             }
             if (weightSetMessage.status.equals("noNewWeights")){
@@ -199,13 +201,21 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
             System.out.println("new tree view requested for: " + getPeer().getNetworkAddress());
             TreeViewChangeMessage treeViewChangeMessage = (TreeViewChangeMessage) message;
             if (treeViewChangeMessage.status.equals("deactivate")) {
-                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "deactivate" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
+                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "deactivate" ,
+                        this.getPeer().getIndexNumber()+"-"+((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun);
                 System.exit(0);
             }
             if (treeViewChangeMessage.status.equals("requestNewTreeView")) {
                 this.requestNewTreeView();
 //                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "requestNewTreeView" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
             }
+        }
+        if (message instanceof ChangeGFCMessage){
+            ChangeGFCMessage changeGFCMessage = (ChangeGFCMessage) message;
+            System.out.println("change GFC message received for: " + getPeer().getNetworkAddress()+" new func: "+changeGFCMessage.status);
+            EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "ChangeGFCMessage" ,
+                    this.getPeer().getIndexNumber()+"-"+((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun);
+            ((Agent) this.getPeer().getPeerletOfType(Agent.class)).changeGlobalCostFunc(changeGFCMessage.status);
         }
     }
     

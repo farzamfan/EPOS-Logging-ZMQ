@@ -141,6 +141,7 @@ public class Configuration implements Serializable {
 	public static int newPlanProb = 9;
 	public static Boolean weightChange = false;
 	public static int newWeightProb = 9;
+	public static int GCFChangeProb=9;
 	// randomly selecting users from the dataset (if numPeers < dataSetSize)
 	public static int dataSetSize = 2778;
 	public static Boolean randomiseUsers = false;
@@ -433,6 +434,7 @@ public class Configuration implements Serializable {
 		if (prepareDataset) {
 			prepareDataset(argMap);
 		}
+		else {prepareDatasetPath(argMap);}
 		prepareReorganization(argMap, config);
 		prepareCostFunctions(argMap, config);
 		prepareLiveConfig(argMap, config);
@@ -512,8 +514,12 @@ public class Configuration implements Serializable {
 		}
 		if (argMap.get("weightChange") != null) {
 			Configuration.weightChange = (Boolean.parseBoolean( (String) argMap.get("weightChange")));
-		}if (argMap.get("newWeightProb") != null) {
+		}
+		if (argMap.get("newWeightProb") != null) {
 			Configuration.newWeightProb = Helper.clearInt((String) argMap.get("newWeightProb"));
+		}
+		if (argMap.get("GCFChangeProb") != null) {
+			Configuration.GCFChangeProb = Helper.clearInt((String) argMap.get("GCFChangeProb"));
 		}
 		// randomly selecting users from the dataset (if numPeers < dataSetSize)
 		if (argMap.get("randomiseUsers") != null) {
@@ -557,7 +563,7 @@ public class Configuration implements Serializable {
 			return false;
 		}
 	}
-	
+
 	private static void prepareLoggers(Properties argMap, Configuration config) {
 		if (argMap.get("logLevel") != null) {
 			String level = (String) argMap.get("logLevel");
@@ -602,6 +608,13 @@ public class Configuration implements Serializable {
 				.collect(Collectors.toSet());
 
 		Configuration.loggers = initializeLoggers(selectedLoggers);
+	}
+
+	public static void prepareDatasetPath(Properties argMap){
+		String dataset = (String) argMap.get("dataset");
+		Configuration.dataset = dataset;
+		Configuration.selectedDataset = new DatasetDescriptor(dataset, Configuration.planDim,
+				Configuration.numAgents, Configuration.numPlans);
 	}
 
 	public static void prepareDataset(Properties argMap) {

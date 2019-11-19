@@ -20,7 +20,14 @@ import protopeer.time.RealClock;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class GatewayServer {
@@ -48,6 +55,9 @@ public class GatewayServer {
     private int currentRun =0;
     private int registeredUsers=0;
 
+    private int GFCChangeProb=9;
+    private boolean changeGCF = new Boolean(false);
+
     private List<UserStatus> UsersStatus;
     private List<EPOSPeerStatus> PeersStatus;
     private List<Integer> numUsersPerRun;
@@ -55,6 +65,8 @@ public class GatewayServer {
     private int bootstrapPort;
     private int maxNumRuns;
     private int currentSim=0;
+
+    Instant initRunTime;
 
     int persistenceClientOutputQueueSize;
 
@@ -86,6 +98,8 @@ public class GatewayServer {
         UsersStatus = new ArrayList<UserStatus>();
         numUsersPerRun = new ArrayList<Integer>(Collections.nCopies(maxNumRuns+2, 0));
         numUsersPerRun.set(0,config.numAgents);
+
+        GFCChangeProb = config.GCFChangeProb;
 
         RealClock clock=new RealClock();
         MeasurementLogger measurementLogger=new MeasurementLogger(clock);
@@ -167,7 +181,10 @@ public class GatewayServer {
                             System.out.println("only one peer is requested, optimisation is pointless");
                             System.exit(0);
                         }
-                    } else if (message instanceof InformGatewayMessage) {
+                        initRunTime = Instant.now();
+                    }
+
+                    else if (message instanceof InformGatewayMessage) {
                     /*
                     - listens for various updates from peers, and runs the appropriate command
                      */
@@ -208,9 +225,11 @@ public class GatewayServer {
                             innerNodeRunning++;
                         } else if (informGatewayMessage.status.equals("finished")) {
                             // the peer has finished its run (numIteration)
-//                        System.out.println("finished message received for: "+informGatewayMessage.getSourceAddress()+" at run: "+informGatewayMessage.run);
                             finishedPeers++;
-//                            if (numUsersPerRun.get(currentRun + 1) != numUsersPerRun.get(currentRun) && bootstrapInformed == false) {
+                            if (changeGCF == true){
+                                zmqNetworkInterface.sendMessage(informGatewayMessage.getSourceAddress(), new ChangeGFCMessage(config.globalCostFunc.getLabel()));
+//                                System.out.println("change GFC message sent to: "+informGatewayMessage.getSourceAddress()+" run: "+currentRun);
+                            }
                             if (bootstrapInformed == false) {
                                 bootstrapInformed = true;
                                 treeViewShouldChange();
@@ -312,7 +331,7 @@ public class GatewayServer {
              */
             System.out.println("---");
             System.out.println("EPOS Successfully executed for run: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
-            EventLog.logEvent("GateWay", "UserJoinLeaveMessage", "EPOSFinished", currentRun+"-"+numUsersPerRun.get(currentRun));
+            EventLog.logEvent("GateWay", "checkStatus", "EPOSFinished", currentRun+"-"+numUsersPerRun.get(currentRun));
             System.out.println("---");
             zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"finished"));
             for (EPOSPeerStatus eposPeerStatus: PeersStatus){
@@ -327,6 +346,13 @@ public class GatewayServer {
                 System.out.println("MAX NUM RUN REACHED: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
                 System.out.println("---------------");
                 zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"maxRunReached"));
+            }
+            if (Duration.between(initRunTime, Instant.now()).toHours() > 4){
+                System.out.println("---------------");
+                System.out.println("MAX NUM RUN REACHED: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
+                System.out.println("---------------");
+                zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"maxRunReached"));
+                EventLog.logEvent("GateWay", "changeIntensity", "EPOSFinished", currentRun+"-"+numUsersPerRun.get(currentRun));
             }
             // resets the local variables for checking per run status
             resetPerRun();
@@ -371,7 +397,29 @@ public class GatewayServer {
                 user.status = "peerRunning";
             }
             innerNodeRunning = 0;
-            allNodesReady = new Boolean(false);;;
+            allNodesReady = new Boolean(false);
+            SecureRandom random = new SecureRandom();
+            if( (random.nextInt(GFCChangeProb) + 1) == 1) {
+                this.changeGCF = true;
+                String rootPath = System.getProperty("user.dir");
+                String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
+                try {
+                    if (config.globalCostFunc.getLabel().equals("VAR")){
+                        config.changeConfig(confPath,"globalCostFunction","RMSE");
+                        config = Configuration.fromFile(confPath,false);
+                        System.out.println("changed the global cost function to: "+config.globalCostFunc.getLabel()+" was VAR");
+                        EventLog.logEvent("GateWay", "checkStatus", "changeGFC", "RMSE"+currentRun+"-"+currentSim);
+                    }
+                    else {
+                        config.changeConfig(confPath,"globalCostFunction","VAR");
+                        config = Configuration.fromFile(confPath,false);
+                        System.out.println("changed the global cost function to: "+config.globalCostFunc.getLabel()+" was RMSE");
+                        EventLog.logEvent("GateWay", "checkStatus", "changeGFC", "VAR"+currentRun+"-"+currentSim);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -462,6 +510,7 @@ public class GatewayServer {
         innerNodeRunning=0;
         finishedPeers=0;
         bootstrapInformed = false;
+        changeGCF = false;
     }
 
     public List<Integer> findActivePeers(List<Integer> actPeers){

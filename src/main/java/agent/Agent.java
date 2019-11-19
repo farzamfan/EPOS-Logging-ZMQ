@@ -6,20 +6,21 @@
 package agent;
 
 import Communication.InformGatewayMessage;
+import config.Configuration;
 import data.Plan;
-import func.CostFunction;
-import func.PlanCostFunction;
+import data.Vector;
+import func.*;
 import agent.logging.AgentLoggingProvider;
 
+import java.lang.reflect.Modifier;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import loggers.EventLog;
+import org.reflections.Reflections;
 import pgpersist.PersistenceClient;
 import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
@@ -31,7 +32,7 @@ import data.DataType;
 
 /**
  * An agent that performs combinatorial optimization.
- * 
+ *
  * @author Peter
  * @param <V> the type of the data this agent should handle
  */
@@ -43,7 +44,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     // logging
     public final transient AgentLoggingProvider 		loggingProvider;
     transient Logger 									logger 				= 		Logger.getLogger(Agent.class.getName());
-    
+
     // timings
     protected final int						bootstrapPeriod		=	1000;	//ms
     protected final int						activeStatePeriod	=	200;	//ms
@@ -57,8 +58,8 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     int										selectedPlanID;
     V 										globalResponse;
     final transient List<Plan<V>> 			possiblePlans 		= 	new ArrayList<>();
-    final transient CostFunction<V> 		globalCostFunc;
-    final transient PlanCostFunction<V> 	localCostFunc;
+    transient CostFunction<V> 		globalCostFunc;
+    transient PlanCostFunction<V> 	localCostFunc;
 
     //For DBLogging
     transient PersistenceClient persistenceClient;
@@ -69,7 +70,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public int 						    	numComputed;
     private int 							cumTransmitted;
     private int 							cumComputed;
-    
+
     int										iterationAfterReorganization =	0;	// iteration at which reorganization was requested and executed
     public int activeRun=-1;
     public int activeSim=-1;
@@ -161,7 +162,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public Plan getSelectedPlan() {
         return selectedPlan;
     }
-    
+
     public int getSelectedPlanID() {
     	return this.selectedPlanID;
     }
@@ -177,6 +178,18 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public CostFunction<V> getGlobalCostFunction() {
         return globalCostFunc;
     }
+
+    public void changeGlobalCostFunc(String func){
+        if (func.equals("VAR")){
+            this.globalCostFunc = (CostFunction<V>) new VarCostFunction();
+        }
+        else if (func.equals("RMSE")){
+            this.globalCostFunc = (CostFunction<V>) new RMSECostFunction();
+        }
+        System.out.println(globalCostFunc.getLabel());
+    }
+
+    protected abstract boolean checkMethodExistence(Class<? extends PlanCostFunction> cl, String getLabel);
 
     public PlanCostFunction<V> getLocalCostFunction() {
         return localCostFunc;
