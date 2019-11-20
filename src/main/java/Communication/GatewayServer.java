@@ -561,7 +561,8 @@ public class GatewayServer {
                 break;
             }
         }
-        EventLog.logEvent("GateWay", "checkFreePort", idx+"-"+currentRun+"-"+PeersStatus.get(idx).initRun,port+"-"+flag );
+        EventLog.logEvent("GateWay", "checkFreePort",
+                idx+"-"+PeersStatus.get(idx)+"-"+PeersStatus.get(idx).initRun, String.valueOf(port) );
         return flag;
     }
 
