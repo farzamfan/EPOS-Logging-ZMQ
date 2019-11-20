@@ -408,13 +408,13 @@ public class GatewayServer {
                         config.changeConfig(confPath,"globalCostFunction","RMSE");
                         config = Configuration.fromFile(confPath,false);
                         System.out.println("changed the global cost function to: "+config.globalCostFunc.getLabel()+" was VAR");
-                        EventLog.logEvent("GateWay", "checkStatus", "changeGFC", "RMSE"+currentRun+"-"+currentSim);
+                        EventLog.logEvent("GateWay", "checkStatus", "changeGFC", "RMSE"+"-"+currentRun+"-"+currentSim);
                     }
                     else {
                         config.changeConfig(confPath,"globalCostFunction","VAR");
                         config = Configuration.fromFile(confPath,false);
                         System.out.println("changed the global cost function to: "+config.globalCostFunc.getLabel()+" was RMSE");
-                        EventLog.logEvent("GateWay", "checkStatus", "changeGFC", "VAR"+currentRun+"-"+currentSim);
+                        EventLog.logEvent("GateWay", "checkStatus", "changeGFC", "VAR"+"-"+currentRun+"-"+currentSim);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -562,7 +562,7 @@ public class GatewayServer {
             }
         }
         EventLog.logEvent("GateWay", "checkFreePort",
-                idx+"-"+PeersStatus.get(idx)+"-"+PeersStatus.get(idx).initRun, String.valueOf(port) );
+                idx+"-"+PeersStatus.get(idx).initRun+"-"+currentRun, String.valueOf(port) );
         return flag;
     }
 

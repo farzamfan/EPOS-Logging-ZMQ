@@ -17,6 +17,7 @@
  */
 package func;
 
+import config.Configuration;
 import data.Vector;
 
 import java.io.Serializable;
@@ -28,7 +29,9 @@ import java.io.Serializable;
  *
  * @author Peter
  */
-public class VarCostFunction implements DifferentiableCostFunction<Vector>, Serializable {
+public class VarCostFunction implements DifferentiableCostFunction<Vector>, Serializable, HasGoal {
+
+    public static Vector goalSignal = null;
 
     @Override
     public double calcCost(Vector vector) {
@@ -51,5 +54,10 @@ public class VarCostFunction implements DifferentiableCostFunction<Vector>, Seri
     public String getLabel() {
     	// TODO Auto-generated method stub
     	return "VAR";
+    }
+
+    @Override
+    public void populateGoalSignal() {
+        VarCostFunction.goalSignal = Configuration.goalSignalSupplier.get();
     }
 }

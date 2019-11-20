@@ -182,11 +182,12 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public void changeGlobalCostFunc(String func){
         if (func.equals("VAR")){
             this.globalCostFunc = (CostFunction<V>) new VarCostFunction();
+            ((HasGoal) globalCostFunc).populateGoalSignal();
         }
         else if (func.equals("RMSE")){
             this.globalCostFunc = (CostFunction<V>) new RMSECostFunction();
+            ((HasGoal) globalCostFunc).populateGoalSignal();
         }
-        System.out.println(globalCostFunc.getLabel());
     }
 
     protected abstract boolean checkMethodExistence(Class<? extends PlanCostFunction> cl, String getLabel);

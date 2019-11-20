@@ -803,7 +803,7 @@ public class Configuration implements Serializable {
 		if (!forLocal && !forGlobal) {
 			log.log(Level.INFO,
 					"Neither local or global function demand a goal signal, therefore it will not be loaded.");
-//			return false;
+			return false;
 		}
 
 		StringBuilder strb = new StringBuilder();
