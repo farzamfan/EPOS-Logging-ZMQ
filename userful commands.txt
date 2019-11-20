@@ -6,8 +6,15 @@ pg_ctl -D /usr/local/var/postgres start
 cd /tmp
 sudo -u postgres psql
 
+#change db:
+\c <db_name>
+
 #Launch the daemon 
 ./start.daemon.sh deployments/localhost
+
+#launch rest:
+
+java -jar EPOSRequester.jar
 
 #kill EPOS
 PID=`ps -ef | grep IEPOSnode | awk '{ print $2 }'`; kill -9 $PID;

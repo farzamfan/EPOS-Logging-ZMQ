@@ -129,7 +129,12 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
     public V getGlobalResponse() {
         return globalResponse.cloneThis();
     }
-    
+
+    @Override
+    protected boolean checkMethodExistence(Class<? extends PlanCostFunction> cl, String getLabel) {
+        return false;
+    }
+
     public Plan<V> getPrevSelectedPlan() {
     	return this.prevSelectedPlan;
     }

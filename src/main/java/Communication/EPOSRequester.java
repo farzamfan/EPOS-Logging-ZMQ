@@ -53,6 +53,7 @@ public class EPOSRequester {
 
     public void readConfig(){
         config = Configuration.fromFile(confPath,false);
+
         EPOSRequesterIP = config.EPOSRequesterIP;
         EPOSRequesterPort = config.EPOSRequesterPort;
         EPOSRequesterPeerID = config.EPOSRequesterPeerID;
@@ -71,7 +72,7 @@ public class EPOSRequester {
 
         try {
             Runtime.getRuntime().exec("screen -S GateWay -d -m java -Xmx1024m -jar GateWay.jar");
-            Runtime.getRuntime().exec("screen -S Users -d -m java -Xmx2048m -jar IEPOSUsers.jar");
+            Runtime.getRuntime().exec("screen -S Users -d -m java -Xmx2048m -jar IEPOSUsers.jar "+currentSim);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -170,49 +171,26 @@ public class EPOSRequester {
     }
 
     public void checkConfigChanges() throws IOException {
-        if (currentSim==1) {
+        if (currentSim%3 == 0) {
             config.changeConfig(confPath,"globalCostFunction","RMSE");
+            config.changeConfig(confPath,"userChangeProb","9");
+            config.changeConfig(confPath,"GCFChangeProb","9");
+            config.changeConfig(confPath,"newWeightProb","9");
+            config.changeConfig(confPath,"newPlanProb","9");
         }
-        else if (currentSim==2) {
-            config.changeConfig(confPath,"globalCostFunction","VAR");
-            config.changeConfig(confPath,"weightsString","0.0,1.0");
-        }
-        else if (currentSim==3) {
+        if (currentSim%3 == 1) {
             config.changeConfig(confPath,"globalCostFunction","RMSE");
+            config.changeConfig(confPath,"userChangeProb","4");
+            config.changeConfig(confPath,"GCFChangeProb","4");
+            config.changeConfig(confPath,"newWeightProb","4");
+            config.changeConfig(confPath,"newPlanProb","4");
         }
-        else if (currentSim==4) {
-            config.changeConfig(confPath,"numAgents","100");
-            config.changeConfig(confPath,"weightsString","0.0,0.0");
-            config.changeConfig(confPath,"dataset","EV-3daysAhead");
-            config.changeConfig(confPath,"planDim","4320");
-            config.changeConfig(confPath,"globalCostFunction","VAR");
-        }
-        else if (currentSim==5) {
+        if (currentSim%3 == 2) {
             config.changeConfig(confPath,"globalCostFunction","RMSE");
-        }
-        else if (currentSim==6) {
-            config.changeConfig(confPath,"globalCostFunction","VAR");
-            config.changeConfig(confPath,"weightsString","0.0,1.0");
-        }
-        else if (currentSim==7) {
-            config.changeConfig(confPath,"globalCostFunction","RMSE");
-        }
-        else if (currentSim==8) {
-            config.changeConfig(confPath,"numAgents","150");
-            config.changeConfig(confPath,"weightsString","0.0,0.0");
-            config.changeConfig(confPath,"dataset","EV-weekly");
-            config.changeConfig(confPath,"planDim","10080");
-            config.changeConfig(confPath,"globalCostFunction","VAR");
-        }
-        else if (currentSim==9) {
-            config.changeConfig(confPath,"globalCostFunction","RMSE");
-        }
-        else if (currentSim==10) {
-            config.changeConfig(confPath,"globalCostFunction","VAR");
-            config.changeConfig(confPath,"weightsString","0.0,1.0");
-        }
-        else if (currentSim==11) {
-            config.changeConfig(confPath,"globalCostFunction","RMSE");
+            config.changeConfig(confPath,"userChangeProb","2");
+            config.changeConfig(confPath,"GCFChangeProb","2");
+            config.changeConfig(confPath,"newWeightProb","2");
+            config.changeConfig(confPath,"newPlanProb","2");
         }
         readConfig();
     }

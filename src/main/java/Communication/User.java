@@ -41,6 +41,7 @@ public class User {
     private int usersWithAssignedPeer;
     private int finishedPeers=0;
     private int currentRun = 0;
+    private int currentSim=0;
     private int finishedRun=-1;
     private int usersWithAssignedPeerRunning =0;
 
@@ -106,6 +107,7 @@ public class User {
 
     public static void main(String[] args) {
         User user = new User();
+        user.currentSim = Integer.parseInt(args[0]);
         user.setUpPersistantClient();
         user.setUpEventLogger();
         user.createInterface();
@@ -194,10 +196,10 @@ public class User {
             }
 
             public void messageSent(NetworkInterface networkInterface, NetworkAddress destinationAddress, Message message) {
-//                System.out.println("Message sent: + " +destinationAddress + " message: "+ message + " messageClass: " + message.getClass());
                 if (message instanceof PlanSetMessage){
                     PlanSetMessage planSetMessage = (PlanSetMessage) message;
                     System.out.println(planSetMessage.status+" for: "+message.getDestinationAddress());
+//                    System.out.println("Message sent: + " +destinationAddress + " message: "+ message + " messageClass: " + message.getClass());
                 }
             }
 
@@ -230,7 +232,7 @@ public class User {
         for (UserStatus user: Users) {
             zmqNetworkInterface.sendMessage(gateWayAddress, new UserRegisterMessage(user.index, currentRun,user.status,user.userAddress));
         }
-        System.out.println("user register message send for all of the users, run: "+currentRun);
+        System.out.println("user register message send for all of the users: "+currentRun);
     }
 
     public void sendPlans(int idx, ZMQAddress address){
@@ -238,7 +240,7 @@ public class User {
         PlanSetMessage psm = null;
         try {
             psm = createPlanMessage(config,idx);
-            EventLog.logEvent("User", "sendPlans", "set user plans" , idx+"-"+userDatasetIndices.get(idx));
+            EventLog.logEvent("User", "sendPlans", "set user plans" , idx+"-"+userDatasetIndices.get(idx)+"-"+currentSim);
             sendPlansMessage(psm,address);
             Users.get(idx).planStatus = "noNewPlans";
         } catch (UnknownHostException e) {
@@ -271,6 +273,7 @@ public class User {
             user.planStatus = "hasNewPlans";
             System.out.println("user: "+user.index+" has new plans");
             zmqNetworkInterface.sendMessage(user.assignedPeerAddress, new PlanSetMessage("hasNewPlans"));
+            EventLog.logEvent("User", "usersHavingNewPlans", "hasNewPlans" , user.index+"-"+currentRun+"-"+currentSim);
         }
     }
 
@@ -353,7 +356,7 @@ public class User {
                 zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage(Users.size()-1,currentRun+1,"join",this.UserAddress));
                 System.out.println("users: "+(Users.size()-1)+" will join the system at run: "+(currentRun+1));
                 countJoined++;
-                EventLog.logEvent("User", "addRemoveUsers", "userJoin" , (Users.size()-1)+"-"+currentRun);
+                EventLog.logEvent("User", "addRemoveUsers", "userJoin" , (Users.size()-1)+"-"+currentRun+"-"+currentSim);
             }
             numUsersPerRun.set(currentRun+1,numUsersPerRun.get(currentRun)+countJoined);
         }
@@ -374,7 +377,7 @@ public class User {
                     zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage(index, currentRun+1,"leave",this.UserAddress));
                     System.out.println("users: "+index+" will leave the system at run: "+(currentRun+1));
                     countLeft++;
-                    EventLog.logEvent("User", "addRemoveUsers", "userLeave" , index+"-"+currentRun);
+                    EventLog.logEvent("User", "addRemoveUsers", "userLeave" , index+"-"+currentRun+"-"+currentSim);
                 }
             }
             numUsersPerRun.set(currentRun+1,numUsersPerRun.get(currentRun)-countLeft);
@@ -405,7 +408,7 @@ public class User {
             finishedPeers++;
         }
         else {
-            EventLog.logEvent("User", "checkCorrectRun", "incorrectFinish" , informUserMessage.peerID+"-"+currentRun);
+            EventLog.logEvent("User", "checkCorrectRun", "incorrectFinish" , informUserMessage.peerID+"-"+currentRun+"-"+currentSim);
             System.out.println("incorrect finish message received from peer"+informUserMessage.peerID+
                     " reported run: "+informUserMessage.run+" numPeers for incorrect run: "+numUsersPerRun.get(informUserMessage.run));
             System.out.println("current run: "+currentRun+" correct numPeers: "+numUsersPerRun.get(currentRun));

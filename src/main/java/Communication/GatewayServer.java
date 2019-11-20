@@ -20,7 +20,14 @@ import protopeer.time.RealClock;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class GatewayServer {
@@ -48,6 +55,9 @@ public class GatewayServer {
     private int currentRun =0;
     private int registeredUsers=0;
 
+    private int GFCChangeProb=9;
+    private boolean changeGCF = new Boolean(false);
+
     private List<UserStatus> UsersStatus;
     private List<EPOSPeerStatus> PeersStatus;
     private List<Integer> numUsersPerRun;
@@ -55,6 +65,8 @@ public class GatewayServer {
     private int bootstrapPort;
     private int maxNumRuns;
     private int currentSim=0;
+
+    Instant initRunTime;
 
     int persistenceClientOutputQueueSize;
 
@@ -75,6 +87,7 @@ public class GatewayServer {
         GateWayPeerID = config.GateWayPeerID;
         EPOSRequesterPort = config.EPOSRequesterPort;
         GateWayAddress = new ZMQAddress(GateWayIP,GateWayPort);
+        System.out.println("gateway address : " + GateWayAddress );
         EPOSRequesterIP = config.EPOSRequesterIP;
         EPOSRequesterAddress = new ZMQAddress(EPOSRequesterIP,EPOSRequesterPort);
         peerIP = config.UserIP;
@@ -85,6 +98,8 @@ public class GatewayServer {
         UsersStatus = new ArrayList<UserStatus>();
         numUsersPerRun = new ArrayList<Integer>(Collections.nCopies(maxNumRuns+2, 0));
         numUsersPerRun.set(0,config.numAgents);
+
+        GFCChangeProb = config.GCFChangeProb;
 
         RealClock clock=new RealClock();
         MeasurementLogger measurementLogger=new MeasurementLogger(clock);
@@ -140,10 +155,10 @@ public class GatewayServer {
                             System.out.println("initiating the boostrap server with address: " + peerIP+":" + (bootstrapPort + UsersStatus.get(0).index));
                             ZMQAddress peerAddress = new ZMQAddress(peerIP, (bootstrapPort + UsersStatus.get(0).index));
                             // idx, port, numAgent, initRun, initSim
-                            String command = "screen -S peer" + UsersStatus.get(0).index + " -d -m java -Xmx1024m -jar IEPOSNode.jar " + UsersStatus.get(0).index +
+                            String command = "screen -S peer" + UsersStatus.get(0).index + " -d -m java -Xmx2048m -jar IEPOSNode.jar " + UsersStatus.get(0).index +
                                     " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim;
                             try {
-//                                System.out.println(command);
+//                            System.out.println(command);
                                 Runtime.getRuntime().exec(command);
                             /*
                             - initiates the bootstrap server (peer0) and records its status
@@ -166,7 +181,10 @@ public class GatewayServer {
                             System.out.println("only one peer is requested, optimisation is pointless");
                             System.exit(0);
                         }
-                    } else if (message instanceof InformGatewayMessage) {
+                        initRunTime = Instant.now();
+                    }
+
+                    else if (message instanceof InformGatewayMessage) {
                     /*
                     - listens for various updates from peers, and runs the appropriate command
                      */
@@ -182,17 +200,17 @@ public class GatewayServer {
                         }
                         if (informGatewayMessage.status.equals("treeViewSet")) {
                             // all peers have sent their bootstrap hello and received the treeView from the server
-//                            System.out.println("tree view set for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
+                            EventLog.logEvent("GateWay", "messageReceived", "treeViewSet", String.valueOf(informGatewayMessage.getSourceAddress()));
                             PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
                             PeersStatus.get(informGatewayMessage.peerID).isleaf = informGatewayMessage.isLeaf;
                             peersWithTreeViewSet++;
                         } else if (informGatewayMessage.status.equals("plansSet")) {
+                            EventLog.logEvent("GateWay", "messageReceived", "plansSet", String.valueOf(informGatewayMessage.getSourceAddress()));
                             // all peers have received their plans from the corresponding user
-//                            System.out.println("plan set for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
                             peersWithPlansSet++;
                         } else if (informGatewayMessage.status.equals("ready") && informGatewayMessage.run == currentRun) {
                             // update peer status based on the ready message received
-//                            System.out.println("ready message received for: " + informGatewayMessage.getSourceAddress() + " at run: " + informGatewayMessage.run);
+                            EventLog.logEvent("GateWay", "messageReceived", "readyMessage", String.valueOf(informGatewayMessage.getSourceAddress()));
                             PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
                             PeersStatus.get(informGatewayMessage.peerID).address = informGatewayMessage.getSourceAddress();
                             // the peer has it treeView and plans set, and is ready to start epos process
@@ -203,13 +221,15 @@ public class GatewayServer {
                             readyPeers++;
                         } else if (informGatewayMessage.status.equals("innerRunning")) {
                             // the inner peer has executed the "initIteration" and are listening to the leafs (its children)
-//                        System.out.println("innerRunning message received for: "+informGatewayMessage.getSourceAddress()+" at run: "+informGatewayMessage.run);
+                            EventLog.logEvent("GateWay", "messageReceived", "innerRunning", String.valueOf(informGatewayMessage.getSourceAddress()));
                             innerNodeRunning++;
                         } else if (informGatewayMessage.status.equals("finished")) {
                             // the peer has finished its run (numIteration)
-//                        System.out.println("finished message received for: "+informGatewayMessage.getSourceAddress()+" at run: "+informGatewayMessage.run);
                             finishedPeers++;
-//                            if (numUsersPerRun.get(currentRun + 1) != numUsersPerRun.get(currentRun) && bootstrapInformed == false) {
+                            if (changeGCF == true){
+                                zmqNetworkInterface.sendMessage(informGatewayMessage.getSourceAddress(), new ChangeGFCMessage(config.globalCostFunc.getLabel()));
+//                                System.out.println("change GFC message sent to: "+informGatewayMessage.getSourceAddress()+" run: "+currentRun);
+                            }
                             if (bootstrapInformed == false) {
                                 bootstrapInformed = true;
                                 treeViewShouldChange();
@@ -311,6 +331,7 @@ public class GatewayServer {
              */
             System.out.println("---");
             System.out.println("EPOS Successfully executed for run: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
+            EventLog.logEvent("GateWay", "checkStatus", "EPOSFinished", currentRun+"-"+numUsersPerRun.get(currentRun)+"-"+currentSim);
             System.out.println("---");
             zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"finished"));
             for (EPOSPeerStatus eposPeerStatus: PeersStatus){
@@ -325,6 +346,13 @@ public class GatewayServer {
                 System.out.println("MAX NUM RUN REACHED: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
                 System.out.println("---------------");
                 zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"maxRunReached"));
+            }
+            if (Duration.between(initRunTime, Instant.now()).toHours() > 8){
+                System.out.println("---------------");
+                System.out.println("MAX NUM RUN REACHED: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
+                System.out.println("---------------");
+                zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"maxRunReached"));
+                EventLog.logEvent("GateWay", "changeIntensity", "EPOSFinished", currentRun+"-"+numUsersPerRun.get(currentRun));
             }
             // resets the local variables for checking per run status
             resetPerRun();
@@ -362,14 +390,36 @@ public class GatewayServer {
             for (EPOSPeerStatus peer : PeersStatus) {
                 if (peer.isleaf == true && peer.run == currentRun && peer.leaveRun > currentRun){
                     zmqNetworkInterface.sendMessage(peer.address, new ReadyToRunMessage(peer.index, currentRun));
-//                    System.out.println("ready leaf message send to: "+peer.address);
+                    EventLog.logEvent("GateWay", "checkStatus", "sending RUN message", peer.index+"-"+peer.address);
                 }
             }
             for (UserStatus user:UsersStatus) {
                 user.status = "peerRunning";
             }
             innerNodeRunning = 0;
-            allNodesReady = new Boolean(false);;;
+            allNodesReady = new Boolean(false);
+            SecureRandom random = new SecureRandom();
+            if( (random.nextInt(GFCChangeProb) + 1) == 1) {
+                this.changeGCF = true;
+                String rootPath = System.getProperty("user.dir");
+                String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
+                try {
+                    if (config.globalCostFunc.getLabel().equals("VAR")){
+                        config.changeConfig(confPath,"globalCostFunction","RMSE");
+                        config = Configuration.fromFile(confPath,false);
+                        System.out.println("changed the global cost function to: "+config.globalCostFunc.getLabel()+" was VAR");
+                        EventLog.logEvent("GateWay", "checkStatus", "changeGFC", "RMSE"+currentRun+"-"+currentSim);
+                    }
+                    else {
+                        config.changeConfig(confPath,"globalCostFunction","VAR");
+                        config = Configuration.fromFile(confPath,false);
+                        System.out.println("changed the global cost function to: "+config.globalCostFunc.getLabel()+" was RMSE");
+                        EventLog.logEvent("GateWay", "checkStatus", "changeGFC", "VAR"+currentRun+"-"+currentSim);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -399,7 +449,7 @@ public class GatewayServer {
             }
             ZMQAddress peerAddress = new ZMQAddress(peerIP, peerPort);
             // idx, port, numAgent, initRun, initSim
-            String command = "screen -S peer" + UsersStatus.get(j).index + " -d -m java -Xmx1024m -jar IEPOSNode.jar " + UsersStatus.get(j).index +
+            String command = "screen -S peer" + UsersStatus.get(j).index + " -d -m java -Xmx2048m -jar IEPOSNode.jar " + UsersStatus.get(j).index +
                     " " + peerPort + " " + numUsersPerRun.get(currentRun) + " " + initRun + " " + currentSim;
             UsersStatus.get(j).assignedPeerAddress = peerAddress;
             UsersStatus.get(j).status = "peerAssigned";
@@ -460,6 +510,7 @@ public class GatewayServer {
         innerNodeRunning=0;
         finishedPeers=0;
         bootstrapInformed = false;
+        changeGCF = false;
     }
 
     public List<Integer> findActivePeers(List<Integer> actPeers){
@@ -510,7 +561,8 @@ public class GatewayServer {
                 break;
             }
         }
-        EventLog.logEvent("GateWay", "checkFreePort", idx+"-"+currentRun+"-"+PeersStatus.get(idx).initRun,port+"-"+flag );
+        EventLog.logEvent("GateWay", "checkFreePort",
+                idx+"-"+PeersStatus.get(idx)+"-"+PeersStatus.get(idx).initRun, String.valueOf(port) );
         return flag;
     }
 

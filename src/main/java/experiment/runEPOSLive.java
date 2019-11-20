@@ -132,11 +132,11 @@ public class runEPOSLive extends ZMQExperiment {
             System.out.println("Waiting before sending BootstrapHello");
             try {
                 Thread.currentThread().sleep(2000);
-                ((ModifiableTreeClient) thisPeer.getPeerletOfType(ModifiableTreeClient.class)).requestNewTreeView();
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            ((ModifiableTreeClient) thisPeer.getPeerletOfType(ModifiableTreeClient.class)).requestNewTreeView();
         }
 
         //set plans
