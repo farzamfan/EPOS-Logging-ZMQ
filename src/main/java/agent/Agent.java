@@ -75,7 +75,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public int activeRun=-1;
     public int activeSim=-1;
     protected boolean                       alreadyCleanedResponses = new Boolean(false);
-    transient ZMQAddress                    GatewayAddress = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
+    transient ZMQAddress                    GatewayAddress = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, Configuration.GateWayPort);
 
     /**
      * Initializes the agent with the given combinatorial optimization problem

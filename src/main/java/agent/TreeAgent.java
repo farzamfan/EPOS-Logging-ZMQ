@@ -6,6 +6,7 @@
 package agent;
 
 import Communication.InformGatewayMessage;
+import config.Configuration;
 import data.Plan;
 import dsutil.protopeer.services.topology.trees.TreeApplicationInterface;
 import func.CostFunction;
@@ -112,7 +113,7 @@ public abstract class TreeAgent<V extends DataType<V>> extends Agent<V> implemen
         this.setChildren(children);
         System.out.println("treeViewIsSet for:"+this.getPeer().getNetworkAddress());
         treeViewIsSet = true;
-        ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
+        ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, Configuration.GateWayPort);
         getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "treeViewSet", isLeaf()));
     }
 

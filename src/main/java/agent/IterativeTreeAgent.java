@@ -7,6 +7,7 @@ package agent;
 
 import Communication.InformGatewayMessage;
 import Communication.InformUserMessage;
+import config.Configuration;
 import func.CostFunction;
 import func.PlanCostFunction;
 import agent.logging.AgentLoggingProvider;
@@ -93,7 +94,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                     if (!readyToRun) {
                         System.out.println("sending the ready to run for: " + getPeer().getNetworkAddress());
                         //inform gateway of running status
-                        ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
+                        ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, Configuration.GateWayPort);
                         getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, activeRun, "ready", isLeaf()));
                         readytoRunActiveState();
                     }
@@ -155,7 +156,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
         	this.initIteration();
         	alreadyCleanedResponses = new Boolean(true);;;
         	if (!isLeaf()){
-                ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, 12345);
+                ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, Configuration.GateWayPort);
                 getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "innerRunning", isLeaf()));
         	}
         }
@@ -225,7 +226,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
             iteration++;
             if (iteration == numIterations){
                 System.out.println("EPOS finished for: "+getPeer().getNetworkAddress()+" for run: "+this.activeRun +" at iteration: "+iteration+". Sending message now");
-                ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,12345);
+                ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, Configuration.GateWayPort);
                 // inform gateway
                 getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "finished", isLeaf()));
                 // inform user
@@ -282,7 +283,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
                 iteration++;
                 if (iteration == numIterations){
                     System.out.println("EPOS finished for: "+getPeer().getNetworkAddress()+" for run: "+this.activeRun +" at iteration: "+iteration+". Sending message now");
-                    ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,12345);
+                    ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,Configuration.GateWayPort);
                     // inform gateway
                     getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "finished", isLeaf()));
                     // inform user
