@@ -54,3 +54,7 @@ screen -ls | grep Detached | cut -d. -f1 | awk '{print $1}' | xargs kill
 
 #find open ports and applications
 sudo lsof -i -P -n | grep LISTEN 
+
+# restarting the DB
+sudo chown -R postgres:postgres /var/lib/postgresql/9.4/
+sudo chmod -R u=rwX,go= /var/lib/postgresql/9.4/
