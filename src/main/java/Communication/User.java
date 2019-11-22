@@ -281,7 +281,7 @@ public class User {
         if (Users.get(informUserMessage.peerID).planStatus.equals("hasNewPlans")){
             PlanSetMessage planSetMessage = new PlanSetMessage("changePlans");
             // generates new plans for the user
-            Random randomGenerator = new Random();
+            SecureRandom randomGenerator = new SecureRandom();
             int randomInt = randomGenerator.nextInt(dataSetSize) + 1;
             while (userDatasetIndices.contains(randomInt)){
                 randomInt = randomGenerator.nextInt(dataSetSize) + 1;
@@ -297,7 +297,7 @@ public class User {
     }
 
     public void usersHavingNewWeights(UserStatus user){
-        Random random = new Random(Double.doubleToLongBits(Math.random()));
+        SecureRandom random = new SecureRandom();
         if( (random.nextInt(newWeightProb) + 1) == 1){
             user.weightStatus = "hasNewWeights";
             zmqNetworkInterface.sendMessage(user.assignedPeerAddress, new PlanSetMessage("hasNewWeights"));
@@ -307,12 +307,12 @@ public class User {
 
     public void checkForNewWeights(InformUserMessage informUserMessage){
         if (Users.get(informUserMessage.peerID).weightStatus.equals("hasNewWeights")){
-            boolean val = new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(2)==0;
+            boolean val = new SecureRandom().nextInt(2)==0;
             double oldAlpha = informUserMessage.alpha;
             double oldBeta = informUserMessage.beta;
             if (val){
                 // increase alpha
-                double newAlpha = round(( new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(20)*(0.05) ),2);
+                double newAlpha = round(( new SecureRandom().nextInt(20)*(0.05) ),2);
                 if ( !( (newAlpha+oldBeta) < 1) ){
                     double newBeta = round(oldBeta - Math.abs(1-(newAlpha+oldBeta)),2);
                     zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("setNewWeights",newAlpha,newBeta));
@@ -325,7 +325,7 @@ public class User {
             }
             else {
                 // increase beta
-                double newBeta = round(( new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(20)*(0.05) ),2);
+                double newBeta = round(( new SecureRandom().nextInt(20)*(0.05) ),2);
                 if ( !( (oldAlpha+newBeta) < 1) ){
                     double newAlpha = round(oldAlpha - Math.abs(1-(oldAlpha+newBeta)),2);
                     zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("setNewWeights",newAlpha,newBeta));
@@ -342,14 +342,14 @@ public class User {
     }
 
     public void addRemoveUsers(){
-        Random random = new java.util.Random(Double.doubleToLongBits(Math.random()));
+        SecureRandom random = new SecureRandom();
         if (random.nextInt(2) == 0 && numUsersPerRun.get(currentRun) < maxNumPeers){
             int countJoined=0;
             for (int r=0;r<numUsersPerRun.get(currentRun)/joinLeaveRate;r++){
                 UserStatus user = new UserStatus(Users.size(),currentRun+1,"added", UserAddress);
                 Users.add(user);
 
-                Random randomGenerator = new Random();
+                SecureRandom randomGenerator = new SecureRandom();
                 int randomInt = randomGenerator.nextInt(dataSetSize) + 1;
                 while (userDatasetIndices.contains(randomInt)){randomInt = randomGenerator.nextInt(dataSetSize) + 1; }
                 userDatasetIndices.add(randomInt);
@@ -364,7 +364,7 @@ public class User {
         else if (numUsersPerRun.get(currentRun) > minNumPeers) {
             int countLeft=0;
             Set<Integer> indices = new HashSet<Integer>();
-            Random newRand = new java.util.Random(Double.doubleToLongBits(Math.random()));
+            SecureRandom newRand = new SecureRandom();
             for (int r=0;r<numUsersPerRun.get(currentRun)/joinLeaveRate;r++){
                 indices.add(newRand.nextInt(Users.size()-1));
             }
@@ -386,7 +386,7 @@ public class User {
     }
 
     public void usersJoiningOrLeaving(){
-        boolean val = new java.util.Random(Double.doubleToLongBits(Math.random())).nextInt(userChangeProb)==0;
+        boolean val = new SecureRandom().nextInt(userChangeProb)==0;
         if( val && currentRun>0){
             addRemoveUsers();
         }
