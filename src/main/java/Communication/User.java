@@ -301,6 +301,7 @@ public class User {
         if( (random.nextInt(newWeightProb) + 1) == 1){
             user.weightStatus = "hasNewWeights";
             zmqNetworkInterface.sendMessage(user.assignedPeerAddress, new PlanSetMessage("hasNewWeights"));
+            EventLog.logEvent("User", "usersHavingNewPlans", "hasNewWeights" , user.index+"-"+currentRun+"-"+currentSim);
         }
     }
 

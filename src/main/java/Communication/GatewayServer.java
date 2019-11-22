@@ -393,6 +393,7 @@ public class GatewayServer {
                     EventLog.logEvent("GateWay", "checkStatus", "sending RUN message", peer.index+"-"+peer.address);
                 }
             }
+            EventLog.logEvent("GateWay", "checkStatus", "EPOSStarted", currentRun+"-"+numUsersPerRun.get(currentRun)+"-"+currentSim);
             for (UserStatus user:UsersStatus) {
                 user.status = "peerRunning";
             }
