@@ -160,6 +160,7 @@ public class GatewayServer {
                             try {
 //                            System.out.println(command);
                                 Runtime.getRuntime().exec(command);
+                                EventLog.logEvent("GateWay", "EPOSRequestMessageReceived", "initiatingBootstrap", currentRun+"-"+currentSim);
                             /*
                             - initiates the bootstrap server (peer0) and records its status
                             - records the changes in the peerStatus
@@ -173,7 +174,6 @@ public class GatewayServer {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            EventLog.logEvent("GateWay", "EPOSRequestMessageReceived", "initiatingBootstrap", String.valueOf(currentRun));
                         } else if (UsersStatus.size() == 0) {
                             System.out.println("no user is initiated!");
                             System.exit(0);
@@ -200,7 +200,8 @@ public class GatewayServer {
                         }
                         if (informGatewayMessage.status.equals("treeViewSet")) {
                             // all peers have sent their bootstrap hello and received the treeView from the server
-                            EventLog.logEvent("GateWay", "messageReceived", "treeViewSet", String.valueOf(informGatewayMessage.getSourceAddress()));
+                            EventLog.logEvent("GateWay", "messageReceived", "treeViewSet",
+                                    informGatewayMessage.peerID+"-"+informGatewayMessage.getSourceAddress()+"-"+currentRun+"-"+currentSim);
                             PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
                             PeersStatus.get(informGatewayMessage.peerID).isleaf = informGatewayMessage.isLeaf;
                             peersWithTreeViewSet++;
@@ -210,7 +211,8 @@ public class GatewayServer {
                             peersWithPlansSet++;
                         } else if (informGatewayMessage.status.equals("ready") && informGatewayMessage.run == currentRun) {
                             // update peer status based on the ready message received
-                            EventLog.logEvent("GateWay", "messageReceived", "readyMessage", String.valueOf(informGatewayMessage.getSourceAddress()));
+                            EventLog.logEvent("GateWay", "messageReceived", "readyMessage",
+                                    informGatewayMessage.peerID+"-"+informGatewayMessage.getSourceAddress()+"-"+currentRun+"-"+currentSim);
                             PeersStatus.get(informGatewayMessage.peerID).status = informGatewayMessage.status;
                             PeersStatus.get(informGatewayMessage.peerID).address = informGatewayMessage.getSourceAddress();
                             // the peer has it treeView and plans set, and is ready to start epos process
@@ -221,7 +223,8 @@ public class GatewayServer {
                             readyPeers++;
                         } else if (informGatewayMessage.status.equals("innerRunning")) {
                             // the inner peer has executed the "initIteration" and are listening to the leafs (its children)
-                            EventLog.logEvent("GateWay", "messageReceived", "innerRunning", String.valueOf(informGatewayMessage.getSourceAddress()));
+                            EventLog.logEvent("GateWay", "messageReceived", "innerRunning",
+                                    informGatewayMessage.peerID+"-"+informGatewayMessage.getSourceAddress()+"-"+currentRun+"-"+currentSim);
                             innerNodeRunning++;
                         } else if (informGatewayMessage.status.equals("finished")) {
                             // the peer has finished its run (numIteration)
@@ -347,12 +350,12 @@ public class GatewayServer {
                 System.out.println("---------------");
                 zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"maxRunReached"));
             }
-            if (Duration.between(initRunTime, Instant.now()).toHours() > 8){
+            else if (Duration.between(initRunTime, Instant.now()).toHours() > 8){
                 System.out.println("---------------");
                 System.out.println("MAX NUM RUN REACHED: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
                 System.out.println("---------------");
                 zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"maxRunReached"));
-                EventLog.logEvent("GateWay", "changeIntensity", "EPOSFinished", currentRun+"-"+numUsersPerRun.get(currentRun));
+                EventLog.logEvent("GateWay", "changeIntensity", "EPOSFinished", currentRun+"-"+numUsersPerRun.get(currentRun)+"-"+currentSim);
             }
             // resets the local variables for checking per run status
             resetPerRun();
