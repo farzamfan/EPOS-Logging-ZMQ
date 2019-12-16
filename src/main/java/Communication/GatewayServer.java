@@ -349,6 +349,7 @@ public class GatewayServer {
                 System.out.println("MAX NUM RUN REACHED: "+ currentRun+" numPeers: "+numUsersPerRun.get(currentRun));
                 System.out.println("---------------");
                 zmqNetworkInterface.sendMessage(EPOSRequesterAddress, new EPOSRequestMessage(currentRun,UsersStatus.size(),"maxRunReached"));
+                EventLog.logEvent("GateWay", "maxNumReached", "EPOSFinished", currentRun+"-"+numUsersPerRun.get(currentRun)+"-"+currentSim);
             }
             else if (Duration.between(initRunTime, Instant.now()).toHours() > 8){
                 System.out.println("---------------");

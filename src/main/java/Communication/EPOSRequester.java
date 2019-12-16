@@ -128,7 +128,7 @@ public class EPOSRequester {
                         System.out.println("SIMULATION: "+currentSim+" Over");
                         System.out.println("---");
                         if (currentSim == maxSimulations){
-                            EventLog.logEvent("EPOSRequester", "messageReceived", "SIMULATIONS Done" , eposRequestMessage.run+"-"+currentSim);
+                            EventLog.logEvent("EPOSRequester", "messageReceived", "ALL SIMULATIONS Done" , eposRequestMessage.run+"-"+currentSim);
                             try {
                                 terminate();
                                 TimeUnit.SECONDS.sleep(sleepSecondBetweenRuns);
@@ -198,6 +198,7 @@ public class EPOSRequester {
     public void terminate(){
         try {
             Runtime.getRuntime().exec("./killAll.sh");
+            EventLog.logEvent("EPOSRequester", "terminate", "terminate", String.valueOf(currentSim));
         } catch (IOException e) {
             e.printStackTrace();
         }
