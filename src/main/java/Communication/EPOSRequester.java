@@ -121,12 +121,13 @@ public class EPOSRequester {
                     }
                     if (eposRequestMessage.status.equals("finished")){
                         System.out.println("EPOS finished successfully! Run: "+eposRequestMessage.run+" simulation: "+currentSim);
-                        EventLog.logEvent("EPOSRequester", "messageReceived", "EPOS finished" , eposRequestMessage.run+"-"+currentSim);
+                        EventLog.logEvent("EPOSRequester", "messageReceived", "EPOSFinished" , eposRequestMessage.run+"-"+currentSim);
                     }
                     if (eposRequestMessage.status.equals("maxRunReached")){
                         System.out.println("---");
                         System.out.println("SIMULATION: "+currentSim+" Over");
                         System.out.println("---");
+
                         if (currentSim == maxSimulations){
                             EventLog.logEvent("EPOSRequester", "messageReceived", "ALL SIMULATIONS Done" , eposRequestMessage.run+"-"+currentSim);
                             try {
@@ -137,6 +138,7 @@ public class EPOSRequester {
                                 e.printStackTrace();
                             }
                         }
+
                         EventLog.logEvent("EPOSRequester", "messageReceived", "SIMULATION Over" , eposRequestMessage.run+"-"+currentSim);
                         currentSim++;
                         try {

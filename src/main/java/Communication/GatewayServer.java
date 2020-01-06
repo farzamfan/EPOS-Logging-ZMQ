@@ -499,15 +499,6 @@ public class GatewayServer {
                 "of the users change. New number of users: "+numUsersPerRun.get(currentRun+1)+" for run: "+(currentRun+1));
     }
 
-    public void terminate(){
-        try {
-            Runtime.getRuntime().exec("./killAll.sh");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.exit(0);
-    }
-
     public void resetPerRun(){
         allNodesReady = false;
         readyPeers=0;

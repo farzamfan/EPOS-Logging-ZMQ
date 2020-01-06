@@ -317,7 +317,11 @@ public class ModifiableTreeServer extends BasePeerlet {
     	if(!this.peers.contains(sender)) {
     		this.logger.log(Level.SEVERE, "TreeViewRequest sent from unknown node!");
 			System.out.println("Debug: "+sender.getNetworkAddress()+" sent from unknown!!!!");
-			System.exit(1);
+
+			EventLog.logEvent("ModifiableTreeServer", "handleSingleMessage", "TreeViewRequest sent from unknown node" ,
+					sender.getNetworkAddress()+"-"+request.peerID);
+
+//			System.exit(1);
     		return;
     	}
 		Entry<FingerDescriptor, TreeViewFacilitator> sendersEntry = 
