@@ -67,7 +67,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.27586207" />
     <property name="settings.editor.selected.configurable" value="Errors" />
@@ -80,8 +80,7 @@
   <component name="RunManager" selected="Application.EPOSRequester">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
-      <module name="EPOS-Logging-ZMQ" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <module name="tutorial" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="Communication.*" />
@@ -334,23 +333,47 @@
     </ignored-roots>
   </component>
   <component name="WindowStateProjectService">
+    <state x="1943" y="-687" key="#EPOSRequester" timestamp="1581600521991">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state x="1943" y="-687" key="#EPOSRequester/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600521991" />
     <state x="240" y="65" key="#Project_Structure" timestamp="1581441496149">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="240" y="65" key="#Project_Structure/0.0.1280.800/1280.-932.1920.1200@0.0.1280.800" timestamp="1581441496149" />
+    <state x="1704" y="-690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581600579805">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state x="1704" y="-690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600579805" />
     <state x="402" y="122" key="DetectedRootsChooserDialog" timestamp="1581441271449">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="402" y="122" key="DetectedRootsChooserDialog/0.0.1280.800/1280.-932.1920.1200@0.0.1280.800" timestamp="1581441271449" />
+    <state width="1878" height="308" key="GridCell.Tab.0.bottom" timestamp="1581600583112">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state width="1878" height="308" key="GridCell.Tab.0.bottom/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600583112" />
+    <state width="1878" height="308" key="GridCell.Tab.0.center" timestamp="1581600583111">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state width="1878" height="308" key="GridCell.Tab.0.center/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600583111" />
+    <state width="1878" height="308" key="GridCell.Tab.0.left" timestamp="1581600583110">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state width="1878" height="308" key="GridCell.Tab.0.left/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600583110" />
+    <state width="1878" height="308" key="GridCell.Tab.0.right" timestamp="1581600583111">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state width="1878" height="308" key="GridCell.Tab.0.right/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600583111" />
     <state x="1911" y="-574" key="NewModule_or_Project.wizard" timestamp="1581521603592">
       <screen x="1280" y="-932" width="1920" height="1200" />
     </state>
     <state x="1911" y="-574" key="NewModule_or_Project.wizard/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581521603592" />
-    <state x="2176" y="-810" key="SettingsEditor" timestamp="1581521803986">
+    <state x="1782" y="-794" key="SettingsEditor" timestamp="1581600465857">
       <screen x="1280" y="-909" width="1920" height="1114" />
     </state>
     <state x="1749" y="-693" key="SettingsEditor/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581521719579" />
-    <state x="2176" y="-810" key="SettingsEditor/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581521803986" />
+    <state x="1782" y="-794" key="SettingsEditor/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600465857" />
     <state x="317" y="235" key="com.intellij.ide.util.TipDialog" timestamp="1581501933276">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
