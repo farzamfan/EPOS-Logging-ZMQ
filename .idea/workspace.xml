@@ -73,6 +73,7 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.27586207" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RecentsManager">
@@ -84,47 +85,6 @@
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="tutorial" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Communication.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GatewayServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Communication.GatewayServer" />
-      <module name="EPOS-Logging-ZMQ" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Communication.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IEPOSExperiment" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="experiment.IEPOSExperiment" />
-      <module name="EPOS-Logging-ZMQ" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="experiment.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="User" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Communication.User" />
-      <module name="EPOS-Logging-ZMQ" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="Communication.*" />
@@ -152,6 +112,18 @@
       <option name="JAR_PATH" value="$PROJECT_DIR$/EPOSRequester.jar" />
       <method v="2" />
     </configuration>
+    <configuration name="GateWay.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/GateWay.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="IEPOSNode.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/IEPOSNode.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="IEPOSUsers.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/IEPOSUsers.jar" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="TestNG">
       <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
@@ -162,19 +134,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.IEPOSExperiment" />
-      <item itemvalue="Application.User" />
-      <item itemvalue="Application.GatewayServer" />
       <item itemvalue="Application.EPOSRequester" />
       <item itemvalue="JAR Application.EPOSRequester.jar" />
+      <item itemvalue="JAR Application.GateWay.jar" />
+      <item itemvalue="JAR Application.IEPOSNode.jar" />
+      <item itemvalue="JAR Application.IEPOSUsers.jar" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JAR Application.EPOSRequester.jar" />
+        <item itemvalue="JAR Application.GateWay.jar" />
+        <item itemvalue="JAR Application.IEPOSUsers.jar" />
+        <item itemvalue="JAR Application.IEPOSNode.jar" />
         <item itemvalue="Application.EPOSRequester" />
-        <item itemvalue="Application.IEPOSExperiment" />
-        <item itemvalue="Application.User" />
-        <item itemvalue="Application.GatewayServer" />
       </list>
     </recent_temporary>
   </component>
@@ -329,43 +301,59 @@
     <state x="1943" y="-687" key="#EPOSRequester" timestamp="1581600521991">
       <screen x="1280" y="-909" width="1920" height="1114" />
     </state>
-    <state x="1957" y="-703" key="#EPOSRequester.jar" timestamp="1581600767529">
+    <state x="1957" y="-703" key="#EPOSRequester.jar" timestamp="1581601983409">
       <screen x="1280" y="-909" width="1920" height="1114" />
     </state>
-    <state x="1957" y="-703" key="#EPOSRequester.jar/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600767529" />
+    <state x="1957" y="-703" key="#EPOSRequester.jar/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581601983409" />
     <state x="1943" y="-687" key="#EPOSRequester/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600521991" />
+    <state x="1957" y="-703" key="#GateWay.jar" timestamp="1581602683747">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state x="1957" y="-703" key="#GateWay.jar/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602683747" />
     <state x="240" y="65" key="#Project_Structure" timestamp="1581441496149">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="240" y="65" key="#Project_Structure/0.0.1280.800/1280.-932.1920.1200@0.0.1280.800" timestamp="1581441496149" />
-    <state x="1704" y="-690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581600579805">
+    <state x="1704" y="-690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581602709240">
       <screen x="1280" y="-909" width="1920" height="1114" />
     </state>
-    <state x="1704" y="-690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600579805" />
+    <state x="1704" y="-690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602709240" />
+    <state x="2031" y="-585" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1581602362579">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state x="2031" y="-585" key="#com.intellij.ide.util.TreeClassChooserDialog/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602362579" />
+    <state x="2132" y="-658" width="816" height="564" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog" timestamp="1581602445351">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state x="2132" y="-658" width="816" height="564" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602445351" />
+    <state x="1992" y="-508" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1581602642190">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state x="1992" y="-508" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602642190" />
     <state x="402" y="122" key="DetectedRootsChooserDialog" timestamp="1581441271449">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="402" y="122" key="DetectedRootsChooserDialog/0.0.1280.800/1280.-932.1920.1200@0.0.1280.800" timestamp="1581441271449" />
-    <state width="1878" height="308" key="GridCell.Tab.0.bottom" timestamp="1581601117694">
-      <screen x="1280" y="-909" width="1920" height="1177" />
+    <state width="1878" height="308" key="GridCell.Tab.0.bottom" timestamp="1581602795120">
+      <screen x="1280" y="-909" width="1920" height="1114" />
     </state>
     <state width="1878" height="308" key="GridCell.Tab.0.bottom/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581601117694" />
-    <state width="1878" height="380" key="GridCell.Tab.0.bottom/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600799948" />
-    <state width="1878" height="308" key="GridCell.Tab.0.center" timestamp="1581601117693">
-      <screen x="1280" y="-909" width="1920" height="1177" />
+    <state width="1878" height="308" key="GridCell.Tab.0.bottom/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602795120" />
+    <state width="1878" height="308" key="GridCell.Tab.0.center" timestamp="1581602795119">
+      <screen x="1280" y="-909" width="1920" height="1114" />
     </state>
     <state width="1878" height="308" key="GridCell.Tab.0.center/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581601117693" />
-    <state width="1878" height="380" key="GridCell.Tab.0.center/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600799943" />
-    <state width="1878" height="308" key="GridCell.Tab.0.left" timestamp="1581601117693">
-      <screen x="1280" y="-909" width="1920" height="1177" />
+    <state width="1878" height="308" key="GridCell.Tab.0.center/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602795119" />
+    <state width="1878" height="308" key="GridCell.Tab.0.left" timestamp="1581602795119">
+      <screen x="1280" y="-909" width="1920" height="1114" />
     </state>
     <state width="1878" height="308" key="GridCell.Tab.0.left/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581601117693" />
-    <state width="1878" height="380" key="GridCell.Tab.0.left/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600799938" />
-    <state width="1878" height="308" key="GridCell.Tab.0.right" timestamp="1581601117694">
-      <screen x="1280" y="-909" width="1920" height="1177" />
+    <state width="1878" height="308" key="GridCell.Tab.0.left/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602795119" />
+    <state width="1878" height="308" key="GridCell.Tab.0.right" timestamp="1581602795120">
+      <screen x="1280" y="-909" width="1920" height="1114" />
     </state>
     <state width="1878" height="308" key="GridCell.Tab.0.right/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581601117694" />
-    <state width="1878" height="380" key="GridCell.Tab.0.right/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581600799946" />
+    <state width="1878" height="308" key="GridCell.Tab.0.right/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602795120" />
     <state width="1878" height="380" key="GridCell.Tab.1.bottom" timestamp="1581601015255">
       <screen x="1280" y="-909" width="1920" height="1177" />
     </state>
@@ -386,12 +374,16 @@
       <screen x="1280" y="-932" width="1920" height="1200" />
     </state>
     <state x="1911" y="-574" key="NewModule_or_Project.wizard/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581521603592" />
-    <state x="1782" y="-794" key="SettingsEditor" timestamp="1581601590855">
+    <state x="1782" y="-794" width="1329" height="923" key="SettingsEditor" timestamp="1581602761904">
       <screen x="1280" y="-909" width="1920" height="1114" />
     </state>
     <state x="1749" y="-693" key="SettingsEditor/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581521719579" />
     <state x="1782" y="-787" key="SettingsEditor/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581601104465" />
-    <state x="1782" y="-794" key="SettingsEditor/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581601590855" />
+    <state x="1782" y="-794" width="1329" height="923" key="SettingsEditor/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602761904" />
+    <state x="2081" y="-500" key="classpath-attribute-editor" timestamp="1581602340546">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state x="2081" y="-500" key="classpath-attribute-editor/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602340546" />
     <state x="317" y="235" key="com.intellij.ide.util.TipDialog" timestamp="1581501933276">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
@@ -400,5 +392,8 @@
       <screen x="1280" y="-932" width="1920" height="1200" />
     </state>
     <state x="1691" y="-652" key="new project wizard/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581521498719" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/EPOS_Logging_ZMQ$.ic" NAME=" Coverage Results" MODIFIED="1581601988724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
