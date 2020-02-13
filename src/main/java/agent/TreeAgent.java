@@ -6,21 +6,19 @@
 package agent;
 
 import Communication.InformGatewayMessage;
+import agent.logging.AgentLoggingProvider;
 import config.Configuration;
+import data.DataType;
 import data.Plan;
 import dsutil.protopeer.services.topology.trees.TreeApplicationInterface;
 import func.CostFunction;
 import func.PlanCostFunction;
-import agent.logging.AgentLoggingProvider;
+import protopeer.Finger;
+import protopeer.MainConfiguration;
+import protopeer.network.zmq.ZMQAddress;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import loggers.EventLog;
-import protopeer.Finger;
-import data.DataType;
-import protopeer.MainConfiguration;
-import protopeer.network.zmq.ZMQAddress;
 
 /**
  * An agent that performs combinatorial optimization in a tree network.

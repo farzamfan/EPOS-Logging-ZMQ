@@ -5,10 +5,15 @@
  */
 package agent.logging;
 
-import func.PlanCostFunction;
 import agent.Agent;
 import agent.MultiObjectiveIEPOSAgent;
 import agent.planselection.PlanSelectionOptimizationFunctionCollection;
+import data.DataType;
+import func.PlanCostFunction;
+import pgpersist.SqlDataItem;
+import pgpersist.SqlInsertTemplate;
+import protopeer.measurement.Aggregate;
+import protopeer.measurement.MeasurementLog;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -16,12 +21,6 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import pgpersist.SqlDataItem;
-import pgpersist.SqlInsertTemplate;
-import protopeer.measurement.Aggregate;
-import protopeer.measurement.MeasurementLog;
-import data.DataType;
 
 /**
  * Logs the local cost for each agent after each iteration.

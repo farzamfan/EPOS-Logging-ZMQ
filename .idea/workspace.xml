@@ -7,21 +7,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee422a33-45cd-4dc7-9195-4063a1a10a8a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/../Protopeer/Protopeer.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Protopeer/Protopeer1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLogger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLoggerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLoggerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/network/zmq/ZMQNetworkInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/network/zmq/ZMQNetworkInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/tests/LoggerMemoryLeak.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/tests/LoggerMemoryLeak.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/util/MeasurementLogTraverser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/util/MeasurementLogTraverser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/MeasurementLogMerger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/MeasurementLogMerger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/MeasurementLoggerDebug.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/MeasurementLoggerDebug.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/RandomDataGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/RandomDataGenerator.java" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,7 +40,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../Protopeer" />
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -60,36 +54,28 @@
   </component>
   <component name="ProjectId" id="1R0p7lvnwTIwZzhcBulOhAS3dRE" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value="SerialisedMessage&#9;PSI&#9;JAVA://protopeer.network.zmq.SerialisedMessage&#10;serial&#9;FILE&#9;file:///Users/farzamf/Projects/ETHZ/Protopeer/src/protopeer/network/zmq/SerialisedMessage.java&#10;msgqueue&#9;FILE&#9;file:///Users/farzamf/Projects/ETHZ/Protopeer/src/protopeer/network/zmq/ZMQMsgQueueProcessor.java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../EPOS-Release" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="project.structure.side.proportion" value="0.27586207" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="config" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Application.EPOSRequester">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -199,6 +185,18 @@
         <item itemvalue="Application.LiveRun" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -334,5 +332,32 @@
       <path value="$PROJECT_DIR$/../Protopeer" />
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="240" y="65" key="#Project_Structure" timestamp="1581441496149">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="240" y="65" key="#Project_Structure/0.0.1280.800/1280.-932.1920.1200@0.0.1280.800" timestamp="1581441496149" />
+    <state x="402" y="122" key="DetectedRootsChooserDialog" timestamp="1581441271449">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="402" y="122" key="DetectedRootsChooserDialog/0.0.1280.800/1280.-932.1920.1200@0.0.1280.800" timestamp="1581441271449" />
+    <state x="1911" y="-574" key="NewModule_or_Project.wizard" timestamp="1581521603592">
+      <screen x="1280" y="-932" width="1920" height="1200" />
+    </state>
+    <state x="1911" y="-574" key="NewModule_or_Project.wizard/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581521603592" />
+    <state x="2176" y="-810" key="SettingsEditor" timestamp="1581521803986">
+      <screen x="1280" y="-909" width="1920" height="1114" />
+    </state>
+    <state x="1749" y="-693" key="SettingsEditor/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581521719579" />
+    <state x="2176" y="-810" key="SettingsEditor/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581521803986" />
+    <state x="317" y="235" key="com.intellij.ide.util.TipDialog" timestamp="1581501933276">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="317" y="235" key="com.intellij.ide.util.TipDialog/0.0.1280.800/1280.-932.1920.1200@0.0.1280.800" timestamp="1581501933276" />
+    <state x="1691" y="-652" key="new project wizard" timestamp="1581521498719">
+      <screen x="1280" y="-932" width="1920" height="1200" />
+    </state>
+    <state x="1691" y="-652" key="new project wizard/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581521498719" />
   </component>
 </project>

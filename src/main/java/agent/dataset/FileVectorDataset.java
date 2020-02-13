@@ -17,8 +17,10 @@
  */
 package agent.dataset;
 
+import config.Configuration;
 import data.Plan;
 import data.Vector;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -27,8 +29,6 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import config.Configuration;
 
 /**
  * This class represents a dataset that is stored in a folder. The folder should

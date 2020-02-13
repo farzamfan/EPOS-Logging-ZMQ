@@ -1,7 +1,5 @@
 package func;
 
-import data.DataType;
-
 public interface HasGoal {
 /**
  * Empty class to denote CostFunctiont that contain goal signals

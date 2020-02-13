@@ -18,11 +18,11 @@
 package agent.logging;
 
 import agent.Agent;
+import protopeer.measurement.MeasurementLog;
 
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import protopeer.measurement.MeasurementLog;
 
 /**
  * An abstract class specifying the API for logging in the distributed system.

@@ -6,21 +6,12 @@
 package agent;
 
 import Communication.InformGatewayMessage;
-import config.Configuration;
-import data.Plan;
-import data.Vector;
-import func.*;
 import agent.logging.AgentLoggingProvider;
-
-import java.lang.reflect.Modifier;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
+import config.Configuration;
+import data.DataType;
+import data.Plan;
+import func.*;
 import loggers.EventLog;
-import org.reflections.Reflections;
 import pgpersist.PersistenceClient;
 import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
@@ -28,7 +19,14 @@ import protopeer.BasePeerlet;
 import protopeer.MainConfiguration;
 import protopeer.network.NetworkAddress;
 import protopeer.network.zmq.ZMQAddress;
-import data.DataType;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An agent that performs combinatorial optimization.

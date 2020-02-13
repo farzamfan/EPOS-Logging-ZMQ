@@ -5,10 +5,8 @@
  */
 package func;
 
-import data.Plan;
 import data.DataType;
-
-import java.io.Serializable;
+import data.Plan;
 
 /**
  * A cost functionfunction that operates on a plan to calculate a scalar real value.

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="lib1_0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Protopeer/dist/lib/mina-core-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Protopeer/dist/lib/log4j-1.2.14.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Protopeer/dist/lib/colt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Protopeer/dist/lib/slf4j-api-1.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Protopeer/dist/lib/slf4j-log4j12-1.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

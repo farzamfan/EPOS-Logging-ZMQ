@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../Protopeer/Protopeer1.iml" filepath="$PROJECT_DIR$/../Protopeer/Protopeer1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../DIAS-Logging-System/DIAS-Logging-System.iml" filepath="$PROJECT_DIR$/../DIAS-Logging-System/DIAS-Logging-System.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Protopeer/Protopeer.iml" filepath="$PROJECT_DIR$/../Protopeer/Protopeer.iml" />
     </modules>
   </component>
 </project>

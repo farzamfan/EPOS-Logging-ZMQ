@@ -17,7 +17,7 @@
  */
 package agent.logging.image;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.io.File;
 
 /**

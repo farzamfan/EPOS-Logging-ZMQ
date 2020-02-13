@@ -6,11 +6,12 @@
 package agent.logging;
 
 import agent.Agent;
+import protopeer.measurement.MeasurementFileDumper;
+import protopeer.measurement.MeasurementLog;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import protopeer.measurement.MeasurementFileDumper;
-import protopeer.measurement.MeasurementLog;
 
 /**
  * Provides logging capabilities to an agent. Supports in-memory as well as

@@ -6,6 +6,8 @@
 package agent.logging;
 
 import agent.Agent;
+import protopeer.measurement.LogReplayer;
+import protopeer.measurement.MeasurementLog;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,8 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import protopeer.measurement.LogReplayer;
-import protopeer.measurement.MeasurementLog;
 
 /**
  * Provides logging capabilities for a network of agents. Supports in-memory as

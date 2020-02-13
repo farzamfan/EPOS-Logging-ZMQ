@@ -1,11 +1,12 @@
 package func;
 
+import config.Configuration;
+import data.Vector;
+import org.apache.commons.math3.complex.Complex;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-import org.apache.commons.math3.complex.Complex;
-import config.Configuration;
-import data.Vector;
 
 
 /**

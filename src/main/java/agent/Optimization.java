@@ -5,6 +5,9 @@
  */
 package agent;
 
+import agent.planselection.OptimizationFactor;
+import config.Configuration;
+import data.DataType;
 import data.HasValue;
 import data.Plan;
 import func.CostFunction;
@@ -15,10 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
-
-import agent.planselection.OptimizationFactor;
-import config.Configuration;
-import data.DataType;
 
 /**
  *

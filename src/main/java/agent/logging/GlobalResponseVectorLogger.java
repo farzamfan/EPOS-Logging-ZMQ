@@ -1,5 +1,13 @@
 package agent.logging;
 
+import agent.Agent;
+import config.Configuration;
+import data.DataType;
+import data.Vector;
+import pgpersist.SqlDataItem;
+import pgpersist.SqlInsertTemplate;
+import protopeer.measurement.MeasurementLog;
+
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,14 +17,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import agent.Agent;
-import config.Configuration;
-import data.DataType;
-import data.Vector;
-import pgpersist.SqlDataItem;
-import pgpersist.SqlInsertTemplate;
-import protopeer.measurement.MeasurementLog;
 
 /**
  * Dumps whole global response per run per iteration.

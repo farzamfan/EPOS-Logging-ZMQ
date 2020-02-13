@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="lib1_1234">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../DIAS-Logging-System/deployments/C1/lib/jeromq4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../DIAS-Logging-System/deployments/C1/lib/jamm.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../DIAS-Logging-System/deployments/C1/lib/gson.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../DIAS-Logging-System/deployments/C1/lib/postgresql-42.1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

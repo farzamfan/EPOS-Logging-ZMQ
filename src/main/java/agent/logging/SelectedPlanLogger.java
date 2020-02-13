@@ -1,5 +1,14 @@
 package agent.logging;
 
+import agent.Agent;
+import agent.MultiObjectiveIEPOSAgent;
+import config.Configuration;
+import data.DataType;
+import pgpersist.SqlDataItem;
+import pgpersist.SqlInsertTemplate;
+import protopeer.measurement.Aggregate;
+import protopeer.measurement.MeasurementLog;
+
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,15 +20,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
-
-import agent.Agent;
-import agent.MultiObjectiveIEPOSAgent;
-import config.Configuration;
-import data.DataType;
-import pgpersist.SqlDataItem;
-import pgpersist.SqlInsertTemplate;
-import protopeer.measurement.Aggregate;
-import protopeer.measurement.MeasurementLog;
 
 /**
  * Tracks selected plan IDs in each iteration and writes them to:

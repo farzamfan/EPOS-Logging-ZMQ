@@ -1,18 +1,18 @@
 package agent.logging.DBLogger;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Random;
-
-import org.github.jamm.MemoryMeter;
-import org.zeromq.ZMQ;
 
 import loggers.EventLog;
 import loggers.MemLog;
 import loggers.RawLog;
+import org.github.jamm.MemoryMeter;
+import org.zeromq.ZMQ;
 import pgpersist.PersistenceClient;
 import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Random;
 
 
 public class TestCustomLogger

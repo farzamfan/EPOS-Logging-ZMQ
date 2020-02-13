@@ -1,13 +1,5 @@
 package agent.logging;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import agent.Agent;
 import agent.MultiObjectiveIEPOSAgent;
 import agent.planselection.PlanSelectionOptimizationFunctionCollection;
@@ -16,6 +8,14 @@ import pgpersist.SqlDataItem;
 import pgpersist.SqlInsertTemplate;
 import protopeer.measurement.Aggregate;
 import protopeer.measurement.MeasurementLog;
+
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 

@@ -17,8 +17,8 @@
  */
 package func;
 
-import data.Plan;
 import data.DataType;
+import data.Plan;
 
 /**
  * The general abstraction of a cost function. This function is optimized during the EPOS runtime. 

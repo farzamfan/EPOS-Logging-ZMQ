@@ -19,25 +19,16 @@ package agent.logging;
 
 import agent.Agent;
 import config.Configuration;
+import data.DataType;
+import protopeer.measurement.MeasurementLog;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import protopeer.measurement.Aggregate;
-import protopeer.measurement.MeasurementLog;
-import data.DataType;
 
 /**
  * Writes the histogram of selected plan indices in the last iteration to

@@ -1,34 +1,10 @@
 package agent.logging;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Paint;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeSet;
-
-import javax.imageio.ImageIO;
-
-import com.google.common.base.Function;
-
-//import org.apache.commons.collections15.Transformer;
-
 import agent.TreeAgent;
 import agent.logging.image.ImageFile;
 import agent.logging.image.PngFile;
 import agent.logging.image.SvgFile;
+import com.google.common.base.Function;
 import config.Configuration;
 import data.DataType;
 import data.Plan;
@@ -49,6 +25,19 @@ import edu.uci.ics.jung.visualization.util.VertexShapeFactory;
 import protopeer.Finger;
 import protopeer.measurement.MeasurementLog;
 import protopeer.network.NetworkAddress;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
+import java.util.*;
+
+//import org.apache.commons.collections15.Transformer;
 
 /**
  * Visualizes tree structure. The color indicates the index of the selected plan.

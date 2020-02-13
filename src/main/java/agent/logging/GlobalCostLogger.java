@@ -5,8 +5,13 @@
  */
 package agent.logging;
 
-import func.CostFunction;
 import agent.Agent;
+import data.DataType;
+import func.CostFunction;
+import pgpersist.SqlDataItem;
+import pgpersist.SqlInsertTemplate;
+import protopeer.measurement.Aggregate;
+import protopeer.measurement.MeasurementLog;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -15,12 +20,6 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import pgpersist.SqlDataItem;
-import pgpersist.SqlInsertTemplate;
-import protopeer.measurement.Aggregate;
-import protopeer.measurement.MeasurementLog;
-import data.DataType;
 
 /**
  * An AgentLogger that logs the global cost after each iteration. Note that global cost

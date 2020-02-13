@@ -17,24 +17,26 @@
  */
 package agent.logging;
 
+import agent.Agent;
+import data.DataType;
 import func.CostFunction;
+import pgpersist.SqlDataItem;
+import pgpersist.SqlInsertTemplate;
+import protopeer.measurement.MeasurementLog;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import agent.Agent;
 //import agent.logging.LocalCostLogger.Token; //TODO ask Jovan Use local token implementation
 //import agent.logging.LocalCostMultiObjectiveLogger.Token;
-
-import pgpersist.SqlDataItem;
-import pgpersist.SqlInsertTemplate;
-import protopeer.measurement.MeasurementLog;
-import data.DataType;
 
 /**
  * Determines when the algorithm terminates. The termination is defined at the

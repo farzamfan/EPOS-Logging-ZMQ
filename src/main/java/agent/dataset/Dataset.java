@@ -17,9 +17,10 @@
  */
 package agent.dataset;
 
-import data.Plan;
-import java.util.List;
 import data.DataType;
+import data.Plan;
+
+import java.util.List;
 
 /**
  * This class represents a dataset.

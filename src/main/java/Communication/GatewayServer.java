@@ -155,8 +155,12 @@ public class GatewayServer {
                             System.out.println("initiating the boostrap server with address: " + peerIP+":" + (bootstrapPort + UsersStatus.get(0).index));
                             ZMQAddress peerAddress = new ZMQAddress(peerIP, (bootstrapPort + UsersStatus.get(0).index));
                             // idx, port, numAgent, initRun, initSim
-                            String command = "screen -S peer" + UsersStatus.get(0).index + " -d -m java -Xmx2048m -jar IEPOSNode.jar " + UsersStatus.get(0).index +
-                                    " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim;
+                            //String command = "screen -S peer" + UsersStatus.get(0).index + " -d -m java -Xmx2048m -jar IEPOSNode.jar " + UsersStatus.get(0).index +
+                            //        " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim;
+
+                            String stuffCommand = "'java -Xmx2048m -jar IEPOSNode.jar " + UsersStatus.get(0).index + " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim + "'$(echo -ne '\015')";
+                            String screenName = "peer" + UsersStatus.get(0).index;
+                            String command = "screen -X -S "+screenName+" stuff "+stuffCommand+" || $(screen -dmS "+screenName+" && screen -X -S "+ screenName +" stuff " + stuffCommand;
                             try {
 //                            System.out.println(command);
                                 Runtime.getRuntime().exec(command);

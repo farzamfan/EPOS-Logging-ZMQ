@@ -2,8 +2,6 @@ package agent.planselection;
 
 import java.util.HashMap;
 
-import org.apache.commons.math3.exception.NotANumberException;
-
 
 /**
  * Contains collection of Plan Selection Optimization Functions

@@ -1,11 +1,11 @@
 package func;
 
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import config.Configuration;
 import data.Vector;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
