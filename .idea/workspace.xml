@@ -81,7 +81,7 @@
       <recent name="config" />
     </key>
   </component>
-  <component name="RunManager" selected="JAR Application.IEPOSNode.jar">
+  <component name="RunManager" selected="JAR Application.GateWay.jar">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="tutorial" />
@@ -142,10 +142,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JAR Application.IEPOSUsers.jar" />
-        <item itemvalue="JAR Application.IEPOSNode.jar" />
         <item itemvalue="JAR Application.GateWay.jar" />
         <item itemvalue="JAR Application.EPOSRequester.jar" />
+        <item itemvalue="JAR Application.IEPOSNode.jar" />
+        <item itemvalue="JAR Application.IEPOSUsers.jar" />
         <item itemvalue="Application.EPOSRequester" />
       </list>
     </recent_temporary>
@@ -334,26 +334,34 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="402" y="122" key="DetectedRootsChooserDialog/0.0.1280.800/1280.-932.1920.1200@0.0.1280.800" timestamp="1581441271449" />
-    <state width="1878" height="308" key="GridCell.Tab.0.bottom" timestamp="1581602855914">
-      <screen x="1280" y="-909" width="1920" height="1114" />
+    <state width="1878" height="308" key="GridCell.Tab.0.bottom" timestamp="1581604801614">
+      <screen x="1280" y="-909" width="1920" height="1177" />
     </state>
-    <state width="1878" height="308" key="GridCell.Tab.0.bottom/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581601117694" />
-    <state width="1878" height="308" key="GridCell.Tab.0.bottom/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602855914" />
-    <state width="1878" height="308" key="GridCell.Tab.0.center" timestamp="1581602855914">
-      <screen x="1280" y="-909" width="1920" height="1114" />
+    <state width="1878" height="308" key="GridCell.Tab.0.bottom/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604348511" />
+    <state width="1878" height="308" key="GridCell.Tab.0.bottom/0.23.1280.734/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604410703" />
+    <state width="1878" height="308" key="GridCell.Tab.0.bottom/0.23.1280.736/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604801614" />
+    <state width="1878" height="308" key="GridCell.Tab.0.bottom/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581603736178" />
+    <state width="1878" height="308" key="GridCell.Tab.0.center" timestamp="1581604801612">
+      <screen x="1280" y="-909" width="1920" height="1177" />
     </state>
-    <state width="1878" height="308" key="GridCell.Tab.0.center/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581601117693" />
-    <state width="1878" height="308" key="GridCell.Tab.0.center/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602855914" />
-    <state width="1878" height="308" key="GridCell.Tab.0.left" timestamp="1581602855913">
-      <screen x="1280" y="-909" width="1920" height="1114" />
+    <state width="1878" height="308" key="GridCell.Tab.0.center/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604348510" />
+    <state width="1878" height="308" key="GridCell.Tab.0.center/0.23.1280.734/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604410702" />
+    <state width="1878" height="308" key="GridCell.Tab.0.center/0.23.1280.736/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604801612" />
+    <state width="1878" height="308" key="GridCell.Tab.0.center/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581603736177" />
+    <state width="1878" height="308" key="GridCell.Tab.0.left" timestamp="1581604801612">
+      <screen x="1280" y="-909" width="1920" height="1177" />
     </state>
-    <state width="1878" height="308" key="GridCell.Tab.0.left/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581601117693" />
-    <state width="1878" height="308" key="GridCell.Tab.0.left/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602855913" />
-    <state width="1878" height="308" key="GridCell.Tab.0.right" timestamp="1581602855914">
-      <screen x="1280" y="-909" width="1920" height="1114" />
+    <state width="1878" height="308" key="GridCell.Tab.0.left/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604348509" />
+    <state width="1878" height="308" key="GridCell.Tab.0.left/0.23.1280.734/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604410700" />
+    <state width="1878" height="308" key="GridCell.Tab.0.left/0.23.1280.736/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604801612" />
+    <state width="1878" height="308" key="GridCell.Tab.0.left/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581603736176" />
+    <state width="1878" height="308" key="GridCell.Tab.0.right" timestamp="1581604801613">
+      <screen x="1280" y="-909" width="1920" height="1177" />
     </state>
-    <state width="1878" height="308" key="GridCell.Tab.0.right/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581601117694" />
-    <state width="1878" height="308" key="GridCell.Tab.0.right/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581602855914" />
+    <state width="1878" height="308" key="GridCell.Tab.0.right/0.23.1280.733/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604348510" />
+    <state width="1878" height="308" key="GridCell.Tab.0.right/0.23.1280.734/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604410703" />
+    <state width="1878" height="308" key="GridCell.Tab.0.right/0.23.1280.736/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581604801613" />
+    <state width="1878" height="308" key="GridCell.Tab.0.right/0.23.1280.777/1280.-909.1920.1114@1280.-909.1920.1114" timestamp="1581603736177" />
     <state width="1878" height="380" key="GridCell.Tab.1.bottom" timestamp="1581601015255">
       <screen x="1280" y="-909" width="1920" height="1177" />
     </state>
@@ -388,10 +396,22 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="317" y="235" key="com.intellij.ide.util.TipDialog/0.0.1280.800/1280.-932.1920.1200@0.0.1280.800" timestamp="1581501933276" />
-    <state x="1691" y="-652" key="new project wizard" timestamp="1581521498719">
-      <screen x="1280" y="-932" width="1920" height="1200" />
+    <state x="1691" y="-634" key="new project wizard" timestamp="1581605931232">
+      <screen x="1280" y="-909" width="1920" height="1177" />
     </state>
     <state x="1691" y="-652" key="new project wizard/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581521498719" />
+    <state x="1691" y="-634" key="new project wizard/0.23.1280.735/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1581605931232" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java</url>
+          <line>185</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/EPOS_Logging_ZMQ$.ic" NAME=" Coverage Results" MODIFIED="1581601988724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

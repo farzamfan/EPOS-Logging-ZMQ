@@ -136,7 +136,7 @@ public class GatewayServer {
 
                 public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress,
                                             Message message) {
-//                System.out.println("message received from: "+message.getSourceAddress()+" of type: "+message.getClass());
+             System.out.println("message received from: "+message.getSourceAddress()+" of type: "+message.getClass());
                     if (message instanceof EPOSRequestMessage) {
                     /*
                     - The epos request message arrives once (todo make it more recurring, such as changing goal function, ...)
@@ -158,11 +158,11 @@ public class GatewayServer {
                             //String command = "screen -S peer" + UsersStatus.get(0).index + " -d -m java -Xmx2048m -jar IEPOSNode.jar " + UsersStatus.get(0).index +
                             //        " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim;
 
-                            String stuffCommand = "'java -Xmx2048m -jar IEPOSNode.jar " + UsersStatus.get(0).index + " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim + "'$(echo -ne '\015')";
+                            String stuffCommand = "'java -Xmx2048m -jar IEPOSNode.jar " + UsersStatus.get(0).index + " " + (bootstrapPort + UsersStatus.get(0).index) + " " + numUsersPerRun.get(currentRun) + " " + 0 + " " + currentSim + "'$(echo -ne '\\015')";
                             String screenName = "peer" + UsersStatus.get(0).index;
-                            String command = "screen -X -S "+screenName+" stuff "+stuffCommand+" || $(screen -dmS "+screenName+" && screen -X -S "+ screenName +" stuff " + stuffCommand;
+                            String cmd = "(screen -X -S "+screenName+" stuff "+stuffCommand+") || $(screen -dmS "+screenName+" && screen -X -S "+ screenName +" stuff " + stuffCommand + ")";
+                            String[] command = {"bash", "-c", "screen -X -S peer0 stuff 'java -Xmx2048m -jar IEPOSNode.jar 0 12000 200 0 0'$(echo -ne '\\015')"};
                             try {
-//                            System.out.println(command);
                                 Runtime.getRuntime().exec(command);
                                 EventLog.logEvent("GateWay", "EPOSRequestMessageReceived", "initiatingBootstrap", currentRun+"-"+currentSim);
                             /*
