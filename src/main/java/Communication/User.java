@@ -282,9 +282,9 @@ public class User {
             PlanSetMessage planSetMessage = new PlanSetMessage("changePlans");
             // generates new plans for the user
             SecureRandom randomGenerator = new SecureRandom();
-            int randomInt = randomGenerator.nextInt(dataSetSize) + 1;
+            int randomInt = randomGenerator.nextInt(dataSetSize);
             while (userDatasetIndices.contains(randomInt)){
-                randomInt = randomGenerator.nextInt(dataSetSize) + 1;
+                randomInt = randomGenerator.nextInt(dataSetSize);
             }
             userDatasetIndices.set(informUserMessage.peerID,randomInt);
             planSetMessage.possiblePlans = generatePlans(informUserMessage.peerID);
@@ -350,8 +350,8 @@ public class User {
                 Users.add(user);
 
                 SecureRandom randomGenerator = new SecureRandom();
-                int randomInt = randomGenerator.nextInt(dataSetSize) + 1;
-                while (userDatasetIndices.contains(randomInt)){randomInt = randomGenerator.nextInt(dataSetSize) + 1; }
+                int randomInt = randomGenerator.nextInt(dataSetSize);
+                while (userDatasetIndices.contains(randomInt)){randomInt = randomGenerator.nextInt(dataSetSize); }
                 userDatasetIndices.add(randomInt);
 
                 zmqNetworkInterface.sendMessage(gateWayAddress, new UserJoinLeaveMessage(Users.size()-1,currentRun+1,"join",this.UserAddress));
