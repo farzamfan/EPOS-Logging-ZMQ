@@ -82,7 +82,7 @@
       <recent name="config" />
     </key>
   </component>
-  <component name="RunManager" selected="JAR Application.EPOSRequester.jar">
+  <component name="RunManager" selected="JAR Application.IEPOSUsers.jar">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="tutorial" />
@@ -406,10 +406,11 @@
     </state>
     <state x="317" y="235" key="com.intellij.ide.util.TipDialog/0.0.1280.800/1280.-932.1920.1200@0.0.1280.800" timestamp="1581501933276" />
     <state x="1756" y="-579" key="com.intellij.ide.util.TipDialog/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581934179301" />
-    <state x="1920" y="-697" width="639" height="729" key="find.popup" timestamp="1581930885169">
-      <screen x="1280" y="-932" width="1920" height="1200" />
+    <state x="1920" y="-679" width="639" height="716" key="find.popup" timestamp="1582209317661">
+      <screen x="1280" y="-909" width="1920" height="1177" />
     </state>
     <state x="1920" y="-697" width="639" height="729" key="find.popup/0.0.1280.800/1280.-932.1920.1200@1280.-932.1920.1200" timestamp="1581930885169" />
+    <state x="1920" y="-679" width="639" height="716" key="find.popup/0.23.1280.729/1280.-909.1920.1177@1280.-909.1920.1177" timestamp="1582209317661" />
     <state x="1691" y="-634" key="new project wizard" timestamp="1581605931232">
       <screen x="1280" y="-909" width="1920" height="1177" />
     </state>
