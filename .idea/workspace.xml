@@ -82,7 +82,7 @@
       <recent name="config" />
     </key>
   </component>
-  <component name="RunManager" selected="JAR Application.GateWay.jar">
+  <component name="RunManager" selected="JAR Application.EPOSRequester.jar">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
       <module name="tutorial" />
