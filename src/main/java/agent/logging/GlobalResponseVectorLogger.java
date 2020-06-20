@@ -35,15 +35,19 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
      *
      * @param filename the output file
      */
-	public GlobalResponseVectorLogger() { }
 	public GlobalResponseVectorLogger(String filename) {
         this.filepath = filename;
     }
 
+    // constructor for the live implementation
+	public GlobalResponseVectorLogger() { }
+
 	@Override
 	public void init(Agent<V> agent) {
-		sql_insert_template_custom  = "INSERT INTO GlobalResponseVectorLogger(sim,run,peer,iteration,globalresponse) VALUES({sim},{run}, {peer}, {iteration}, {globalresponse});";
-		agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "GlobalResponseVectorLogger", sql_insert_template_custom ) );
+		if (config.Configuration.isLiveRun) {
+			sql_insert_template_custom = "INSERT INTO GlobalResponseVectorLogger(sim,run,peer,iteration,globalresponse) VALUES({sim},{run}, {peer}, {iteration}, {globalresponse});";
+			agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("GlobalResponseVectorLogger", sql_insert_template_custom));
+		}
 	}
 
 	@Override
@@ -52,8 +56,11 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
 			V globalResponse = agent.getGlobalResponse();
 			Entry<V> e = new Entry<V>(globalResponse.cloneThis(), agent.getIteration(), this.run);
 			log.log(epoch, GlobalResponseVectorLogger.class.getName(), e, 0.0);
-			String gr = String.valueOf(e.globalResponse.toString())+"'";
-			DBlog(agent, gr);
+
+			if (config.Configuration.isLiveRun) {
+				String gr = String.valueOf(e.globalResponse.toString()) + "'";
+				DBlog(agent, gr);
+			}
 		}
 	}
 

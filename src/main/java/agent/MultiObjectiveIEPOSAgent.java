@@ -1,34 +1,21 @@
 package agent;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
-import Communication.InformUserMessage;
+import config.Configuration;
+import liveRunUtils.Messages.InformUserMessage;
 import agent.logging.*;
 import agent.planselection.MultiObjectiveIeposPlanSelector;
 import agent.planselection.PlanSelectionOptimizationFunctionCollection;
-import config.Configuration;
 import data.DataType;
 import data.Plan;
 import func.CostFunction;
 import func.PlanCostFunction;
-import loggers.EventLog;
-import loggers.MemLog;
-import loggers.RawLog;
-import org.github.jamm.MemoryMeter;
-import org.zeromq.ZMQ;
-import pgpersist.PersistenceClient;
-import pgpersist.SqlDataItem;
-import pgpersist.SqlInsertTemplate;
 import protopeer.MainConfiguration;
 import protopeer.measurement.MeasurementLog;
-import protopeer.measurement.MeasurementLoggerListener;
-import protopeer.network.zmq.SerialisedMessage;
-import sun.management.resources.agent;
-import sun.plugin2.message.Serializer;
 
 /**
  * 
@@ -36,7 +23,9 @@ import sun.plugin2.message.Serializer;
  *
  * @param <V>
  */
-public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTreeAgent<V,MultiObjectiveIEPOSAgent<V>.UpMessage,MultiObjectiveIEPOSAgent<V>.DownMessage> implements Serializable{
+public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTreeAgent<V,
+																						MultiObjectiveIEPOSAgent<V>.UpMessage,
+																						MultiObjectiveIEPOSAgent<V>.DownMessage> {
 
 	// agent info
     Plan<V> 											prevSelectedPlan;
@@ -70,16 +59,34 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
     double												delta;
     transient PlanSelector<MultiObjectiveIEPOSAgent<V>, V> 		planSelector;
     private boolean										convergenceReached				=	false;
+
     /**
      * Creates a new IeposAgent. Using the same RNG seed will result in the same
      * execution order in a simulation environment.
-     *  @param numIterations the number of iterations
+     *
+     * @param numIterations the number of iterations
+     * @param possiblePlans the plans this agent can choose from
      * @param globalCostFunc the global cost function
      * @param localCostFunc the local cost function
      * @param loggingProvider the object that extracts data from the agent and
-* writes it into its log.
+     * writes it into its log.
      * @param seed a seed for the RNG
      */
+    public MultiObjectiveIEPOSAgent(int numIterations,
+                                    List<Plan<V>> possiblePlans,
+                                    CostFunction<V> globalCostFunc,
+                                    PlanCostFunction<V> localCostFunc,
+                                    AgentLoggingProvider<? extends MultiObjectiveIEPOSAgent<V>> loggingProvider,
+                                    long seed) {
+        super(numIterations, possiblePlans, globalCostFunc, localCostFunc, loggingProvider, seed);
+        this.optimization = new Optimization(this.random);
+        this.lambda = 0;
+        this.alpha = 0;
+        this.beta = 0;
+        this.planSelector = new MultiObjectiveIeposPlanSelector<>();
+    }
+
+    // constructor for the live implementation, main difference is again the possible plans
     public MultiObjectiveIEPOSAgent(int numIterations,
                                     CostFunction<V> globalCostFunc,
                                     PlanCostFunction<V> localCostFunc,
@@ -218,23 +225,6 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
 //        this.log(Level.FINER, "prevSelectedPlan's score is: " + this.prevSelectedPlan.getScore());
     }
 
-    void scheduleMeasurements() {
-
-        getPeer().getMeasurementLogger().addMeasurementLoggerListener((MeasurementLog log, int epochNumber) -> {
-            loggingProvider.log(log, epochNumber, this);
-        });
-
-//         getPeer().getMeasurementLogger().addMeasurementLoggerListener(new MeasurementLoggerListener()
-//         {
-//            public String getId() {
-//                return "EPOS"; }
-//
-//            public void measurementEpochEnded(MeasurementLog log, int epochNumber){
-//                log.log(epochNumber,this,numComputed);
-//            }
-//        });
-    }
-
     @Override
     /**
      * The beginning of every iteration:
@@ -247,16 +237,15 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
      * 		- all approvals are cleared
      */
     void initIteration() {
-
 //        EventLog.logEvent("MultiObjectiveIEPOSAgent", "initIteration", "start",String.valueOf(iteration) );
-
     	this.log(Level.FINER, "MultiObjectiveIeposAgent::initIteration()") ;
     	if(!this.isLeaf()) {
     		if(this.children.size() > 1) {
     			this.log(Level.FINER, "Children: " + this.children.get(0) + ", " + this.children.get(1));
     		}    		
     	}
-        if (this.iteration > 0) {
+
+        if (this.conditionForInitializingIteration()) {
         	
             this.prevSelectedPlan = this.selectedPlan;
             this.prevSelectedPlanID = this.selectedPlanID;
@@ -306,23 +295,16 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         	this.log(Level.FINER, "globalDiscomfortSumSqr: " + this.globalDiscomfortSumSqr);
             
         } else {
-//            System.out.println("in the if clause i want for: "+getPeer().getNetworkAddress()+" "+iteration);
-//            for (int i=0;i<children.size();i++){prevSubtreeResponses.add(createValue());}
-//            System.out.println(prevSubtreeResponses);
         	this.initAtIteration0();
         }
-
 //        EventLog.logEvent("MultiObjectiveIEPOSAgent", "initIteration", "end" );
-
     }
     
     boolean conditionForInitializingIteration() {
     	return this.iteration > 0;
     }
     
-    void initAtIteration0() {
-        // TODO: 20.09.19
-    }
+    void initAtIteration0() { }
 
     @Override
     UpMessage up(List<UpMessage> childMsgs) {
@@ -374,13 +356,19 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         this.approveOrRejectChanges(parentMsg);
         this.processDownMessageMore(parentMsg);
 
-        new GlobalCostLogger().DBlog(this, globalCostFunc.calcCost(globalResponse));
-        new GlobalComplexCostLogger<>().DBlog((Agent) this);
-        new GlobalResponseVectorLogger<>().DBlog((Agent) this,globalResponse.toString()+"'");
-        new LocalCostMultiObjectiveLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.localCost(getGlobalDiscomfortSum(), numAgents));
-        new SelectedPlanLogger<>().DBLog((MultiObjectiveIEPOSAgent) this);
-        if (globalResponse == prevAggregatedResponse){new TerminationLogger<>().DBLog((Agent) this,iteration);}
-        if (iteration > 0){new UnfairnessLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.unfairness(getGlobalDiscomfortSum(), getGlobalDiscomfortSumSqr(), numAgents));}
+        if (config.Configuration.isLiveRun) {
+            new GlobalCostLogger().DBlog(this, globalCostFunc.calcCost(globalResponse));
+            new GlobalComplexCostLogger<>().DBlog((Agent) this);
+            new GlobalResponseVectorLogger<>().DBlog((Agent) this, globalResponse.toString() + "'");
+            new LocalCostMultiObjectiveLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.localCost(getGlobalDiscomfortSum(), numAgents));
+            new SelectedPlanLogger<>().DBLog((MultiObjectiveIEPOSAgent) this);
+            if (globalResponse == prevAggregatedResponse) {
+                new TerminationLogger<>().DBLog((Agent) this, iteration);
+            }
+            if (iteration > 0) {
+                new UnfairnessLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.unfairness(getGlobalDiscomfortSum(), getGlobalDiscomfortSumSqr(), numAgents));
+            }
+        }
 
         return this.informChildren();
     }
@@ -399,7 +387,6 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
             for (int i = 0; i < this.children.size(); i++) {
                 approvals.add(true);
             }
-
         } else if (children.size() > 0) {
             List<List<V>> 			responsesPerChild			=	new ArrayList<>();
             List<List<Double>> 		discomfortSumPerChild		=	new ArrayList<>();

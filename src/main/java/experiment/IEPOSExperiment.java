@@ -1,5 +1,24 @@
 package experiment;
 
+import agent.Agent;
+import agent.ModifiableIeposAgent;
+import agent.MultiObjectiveIEPOSAgent;
+import agent.PlanSelector;
+import agent.logging.AgentLogger;
+import agent.logging.AgentLoggingProvider;
+import agent.logging.LoggingProvider;
+import agent.logging.instrumentation.CustomFormatter;
+import agent.planselection.MultiObjectiveIeposPlanSelector;
+import config.Configuration;
+import data.Plan;
+import data.Vector;
+import protopeer.Experiment;
+import protopeer.Peer;
+import protopeer.PeerFactory;
+import protopeer.SimulatedExperiment;
+import protopeer.util.quantities.Time;
+import treestructure.ModifiableTreeArchitecture;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,28 +30,6 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import agent.Agent;
-import agent.ModifiableIeposAgent;
-import agent.MultiObjectiveIEPOSAgent;
-import agent.PlanSelector;
-import agent.logging.AgentLogger;
-import agent.logging.AgentLoggingProvider;
-import agent.logging.LoggingProvider;
-import agent.logging.instrumentation.CustomFormatter;
-import agent.planselection.MultiObjectiveIeposPlanSelector;
-import config.Configuration;
-import config.LiveConfiguration;
-import data.Plan;
-import data.Vector;
-import org.zeromq.ZMQ;
-import pgpersist.PersistenceClient;
-import protopeer.Experiment;
-import protopeer.Peer;
-import protopeer.PeerFactory;
-import protopeer.SimulatedExperiment;
-import protopeer.util.quantities.Time;
-import treestructure.ModifiableTreeArchitecture;
-
 /**
  * 
  * 
@@ -42,10 +39,10 @@ import treestructure.ModifiableTreeArchitecture;
 public class IEPOSExperiment {
 
 	public static void runSimulation(int numChildren, // number of children for each middle node
-			int numIterations, // total number of iterations to run for
-			int numAgents, // total number of nodes in the network
-			Function<Integer, Agent> createAgent, // lambda expression that creates an agent
-			Configuration config) {
+                                     int numIterations, // total number of iterations to run for
+                                     int numAgents, // total number of nodes in the network
+                                     Function<Integer, Agent> createAgent, // lambda expression that creates an agent
+                                     Configuration config) {
 
 		SimulatedExperiment experiment = new SimulatedExperiment() {
 		};
@@ -108,7 +105,7 @@ public class IEPOSExperiment {
 				: confPath;
 
 
-		Configuration config = Configuration.fromFile(confPath,true);
+		Configuration config = Configuration.fromFile(confPath,true,false);
 		config.printConfiguration();
 
 
@@ -135,31 +132,23 @@ public class IEPOSExperiment {
 
 			PlanSelector<MultiObjectiveIEPOSAgent<Vector>, Vector> planSelector = new MultiObjectiveIeposPlanSelector<Vector>();
 
-			ZMQ.Context zmqContext = ZMQ.context(1);
-			LiveConfiguration liveConf = new LiveConfiguration();
-
 			/**
 			 * Function that creates an Agent given the id of it's vertex in tree graph.
 			 * First type is input argument, second type is type of return value.
 			 */
 			Function<Integer, Agent> createAgent = agentIdx -> {
 
-				final int					persistenceClientOutputQueueSize = 5000;
-				final String				daemonConnectString = "tcp://" + liveConf.persistenceDaemonIP + ":" + liveConf.persistenceDaemonPort;
-				PersistenceClient persistenceClient = new PersistenceClient( zmqContext, daemonConnectString, persistenceClientOutputQueueSize );
-
 				List<Plan<Vector>> possiblePlans = config.getDataset(Configuration.dataset)
 						.getPlans(Configuration.mapping.get(agentIdx));
 				AgentLoggingProvider<ModifiableIeposAgent<Vector>> agentLP = loggingProvider
 						.getAgentLoggingProvider(agentIdx, simulationId);
 
-				ModifiableIeposAgent<Vector> newAgent = new ModifiableIeposAgent<Vector>(config,
+				ModifiableIeposAgent<Vector> newAgent = new ModifiableIeposAgent<Vector>(config, possiblePlans,
 						agentLP);
 
 				newAgent.setUnfairnessWeight(Double.parseDouble(config.weights[0]));
 				newAgent.setLocalCostWeight(Double.parseDouble(config.weights[1]));
 				newAgent.setPlanSelector(planSelector);
-				newAgent.addPersistenceClient(persistenceClient);
 				return newAgent;
 
 			};

@@ -261,7 +261,6 @@ public class Optimization {
 
 			costs[i] = cost;
 			double score = localCostFunction.calcCost(choices.get(i));
-
 			discomfortSums[i] = discomfortSumConstant + score;
 			discomfortSumSqrs[i] = discomfortSumSqrConstant + score*score;
 			//System.out.print("agent: " + agent.getPeer().getIndexNumber() + ", SumConst = " + discomfortSumConstant + ", Sum2const = " + discomfortSumSqrConstant);

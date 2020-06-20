@@ -30,6 +30,7 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
 	private String 				filepath;
 	private String sql_insert_template_custom;
 
+	// constructor for the live implementation
 	public GlobalComplexCostLogger(){ }
 
 	public GlobalComplexCostLogger(String filepath) {
@@ -38,8 +39,10 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
 
 	@Override
 	public void init(Agent<V> agent) {
-		sql_insert_template_custom  = "INSERT INTO globalComplexCostLogger(sim,run, peer,iteration,cost) VALUES({sim}, {run}, {peer}, {iteration}, {cost});";
-		agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "globalComplexCostLogger", sql_insert_template_custom ) );
+		if (config.Configuration.isLiveRun) {
+			sql_insert_template_custom = "INSERT INTO globalComplexCostLogger(sim,run, peer,iteration,cost) VALUES({sim}, {run}, {peer}, {iteration}, {cost});";
+			agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("globalComplexCostLogger", sql_insert_template_custom));
+		}
 	}
 
 	@Override
@@ -66,7 +69,7 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
             log.log(epoch, GlobalComplexCostLogger.class.getName(), token, 1.0);
             log.log(epoch, GlobalComplexCostLogger.class.getName()+"raw", agent.getIteration(), cost);
 
-            DBlog(agent);
+            if (config.Configuration.isLiveRun){ DBlog(agent);}
         }
 	}
 

@@ -35,13 +35,14 @@ public class SelectedPlanLogger<V extends DataType<V>> extends AgentLogger<Agent
 	private String 				filepath;
 	private int					totalNumAgents;
 	private String sql_insert_template_custom;
-    
-    /**
-     * Outputs the selected plans during runtime to the specified file.
-     *
-     * @param filename the output file
-     */
+
 	public SelectedPlanLogger(){};
+
+	/**
+	 * Outputs the selected plans during runtime to the specified file.
+	 *
+	 * @param filename the output file
+	 */
     public SelectedPlanLogger(String filename, int totalNumAgents) {
         this.filepath = filename;
         this.totalNumAgents = totalNumAgents;
@@ -49,9 +50,11 @@ public class SelectedPlanLogger<V extends DataType<V>> extends AgentLogger<Agent
 
 	@Override
 	public void init(Agent<V> agent) {
-		sql_insert_template_custom  = "INSERT INTO SelectedPlanLogger(sim,run,peer,iteration,planID,unfairnessWeight,localcostWeight)" +
-				" VALUES({sim},{run}, {peer}, {iteration}, {planID},{unfairnessWeight},{localcostWeight});";
-		agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "SelectedPlanLogger", sql_insert_template_custom ) );
+    	if (config.Configuration.isLiveRun) {
+			sql_insert_template_custom = "INSERT INTO SelectedPlanLogger(sim,run,peer,iteration,planID,unfairnessWeight,localcostWeight)" +
+					" VALUES({sim},{run}, {peer}, {iteration}, {planID},{unfairnessWeight},{localcostWeight});";
+			agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("SelectedPlanLogger", sql_insert_template_custom));
+		}
 	}
 
 	@Override

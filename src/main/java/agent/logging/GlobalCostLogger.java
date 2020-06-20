@@ -81,8 +81,10 @@ public class GlobalCostLogger<V extends DataType<V>> extends AgentLogger<Agent<V
         if (costFunction == null) {
             costFunction = agent.getGlobalCostFunction();
         }
+        if (config.Configuration.isLiveRun) {
         sql_insert_template_custom  = "INSERT INTO GlobalCostLogger(sim,run,peer,iteration,cost) VALUES({sim}, {run}, {peer}, {iteration}, {cost});";
-        agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "GlobalCostLogger", sql_insert_template_custom ) );
+        agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "GlobalCostLogger", sql_insert_template_custom ) );}
+
     }
 
     @Override
@@ -95,7 +97,7 @@ public class GlobalCostLogger<V extends DataType<V>> extends AgentLogger<Agent<V
             Token token = new Token(cost, agent.getIteration(), this.run);            
             log.log(epoch, GlobalCostLogger.class.getName(), token, 1.0);            
             log.log(epoch, GlobalCostLogger.class.getName() + "raw", agent.getIteration(), cost);
-            DBlog(agent,costFunction.calcCost(agent.getGlobalResponse()));
+            if (config.Configuration.isLiveRun) { DBlog(agent,costFunction.calcCost(agent.getGlobalResponse()));}
         }
     }
 

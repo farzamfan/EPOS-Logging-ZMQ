@@ -66,16 +66,18 @@
     <property name="SearchEverywhereHistoryKey" value="SerialisedMessage&#9;PSI&#9;JAVA://protopeer.network.zmq.SerialisedMessage&#10;serial&#9;FILE&#9;file:///Users/farzamf/Projects/ETHZ/Protopeer/src/protopeer/network/zmq/SerialisedMessage.java&#10;msgqueue&#9;FILE&#9;file:///Users/farzamf/Projects/ETHZ/Protopeer/src/protopeer/network/zmq/ZMQMsgQueueProcessor.java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../EPOS-Release" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../EPOS/src/main/java/agent/logging/UnfairnessLogger.java" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../EPOS/src/main/java/agent/logging/UnfairnessLogger.java" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="experiment" />
       <recent name="config" />
     </key>
   </component>
@@ -91,14 +93,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.EPOSRequester">
+  <component name="RunManager" selected="Application.IEPOSExperiment">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Communication.EPOSRequester" />
+      <option name="MAIN_CLASS_NAME" value="liveRunUtils.Entities.EPOSRequester" />
       <module name="EPOS-Logging-ZMQ" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Communication.*" />
+          <option name="PATTERN" value="liveRunUtils.Messages.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -107,12 +109,12 @@
       </method>
     </configuration>
     <configuration name="GatewayServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Communication.GatewayServer" />
+      <option name="MAIN_CLASS_NAME" value="liveRunUtils.Entities.GatewayServer" />
       <module name="EPOS-Logging-ZMQ" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Communication.*" />
+          <option name="PATTERN" value="liveRunUtils.Messages.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -122,6 +124,20 @@
     </configuration>
     <configuration name="IEPOSExperiment" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="experiment.IEPOSExperiment" />
+      <module name="EPOS-Logging-ZMQ" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="experiment.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IEPOSExperiment_obsolete" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="experiment.IEPOSExperiment_obsolete" />
       <module name="EPOS-Logging-ZMQ" />
       <extension name="coverage">
         <pattern>
@@ -148,12 +164,12 @@
       </method>
     </configuration>
     <configuration name="User" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Communication.User" />
+      <option name="MAIN_CLASS_NAME" value="liveRunUtils.Entities.User" />
       <module name="EPOS-Logging-ZMQ" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Communication.*" />
+          <option name="PATTERN" value="liveRunUtils.Messages.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -184,6 +200,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.IEPOSExperiment_obsolete" />
       <item itemvalue="Application.IEPOSExperiment" />
       <item itemvalue="Application.LiveRun" />
       <item itemvalue="Application.User" />
@@ -192,11 +209,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.EPOSRequester" />
         <item itemvalue="Application.IEPOSExperiment" />
+        <item itemvalue="Application.EPOSRequester" />
+        <item itemvalue="Application.IEPOSExperiment_obsolete" />
         <item itemvalue="Application.User" />
         <item itemvalue="Application.GatewayServer" />
-        <item itemvalue="Application.LiveRun" />
       </list>
     </recent_temporary>
   </component>
@@ -310,6 +327,16 @@
       <workItem from="1576488167618" duration="896000" />
       <workItem from="1576489586024" duration="34000" />
       <workItem from="1578301440406" duration="1801000" />
+      <workItem from="1578908114362" duration="534000" />
+      <workItem from="1581074006327" duration="480000" />
+      <workItem from="1581522163534" duration="738000" />
+      <workItem from="1592318646200" duration="604000" />
+      <workItem from="1592321051344" duration="712000" />
+      <workItem from="1592469783831" duration="10679000" />
+      <workItem from="1592557395336" duration="6879000" />
+      <workItem from="1592579911376" duration="6169000" />
+      <workItem from="1592649184148" duration="231000" />
+      <workItem from="1592656844235" duration="12952000" />
     </task>
     <servers />
   </component>

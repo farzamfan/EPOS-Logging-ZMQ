@@ -33,6 +33,7 @@ public class ModifiableTreeArchitecture implements Cloneable {
     public BalanceType 		balance;
     public int 				maxChildren;
     private Configuration	config;
+    private NetworkAddress bootstrap;
     
     public BiFunction<Integer, Agent, Double> rankGenerator = (idx, agent) -> (double) idx;
     
@@ -55,12 +56,14 @@ public class ModifiableTreeArchitecture implements Cloneable {
             										 balance,  
             										 new Random(this.config.reorganizationSeed)));
         }
-        ZMQAddress bootstrap = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,MainConfiguration.getSingleton().peerZeroPort);
+        if (config.isLiveRun){ bootstrap = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,MainConfiguration.getSingleton().peerZeroPort);}
+        else {bootstrap = Experiment.getSingleton().getAddressToBindTo(0);}
+
         peer.addPeerlet(new ModifiableTreeClient(bootstrap,
         		                       			 new SimplePeerIdentifierGenerator(), 
         		                       			 rankGenerator.apply(peerIndex, agent), 
         		                       			 maxChildren+1)
-        		        );        
+        		        );
         peer.addPeerlet(new ModifiableTreeProvider());
         peer.addPeerlet(agent);
     }

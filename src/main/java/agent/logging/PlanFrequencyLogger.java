@@ -59,7 +59,7 @@ public class PlanFrequencyLogger<V extends DataType<V>> extends AgentLogger<Agen
 
     @Override
     public void log(MeasurementLog log, int epoch, Agent<V> agent) {
-        if (agent.getIteration() == agent.getNumIterations() - 1) {
+        if (agent.getIteration() == agent.getNumIterations()-1) {
             int idx = agent.getPossiblePlans().indexOf(agent.getSelectedPlan());
             Token token = new Token(idx, agent.getSelectedPlan().getScore(), agent.getPeer().getIndexNumber(), this.run);
             log.log(epoch, PlanFrequencyLogger.class.getName(), token, 1.0);
@@ -69,11 +69,11 @@ public class PlanFrequencyLogger<V extends DataType<V>> extends AgentLogger<Agen
     @Override
     public void print(MeasurementLog log) {
     	String outcome = this.internalFetching(log);
-    	
+
         if (this.filename == null) {
             System.out.print(outcome);
         } else {
-            try (PrintWriter out = new PrintWriter(new BufferedWriter(new java.io.FileWriter(this.filename, false)))) {   
+            try (PrintWriter out = new PrintWriter(new BufferedWriter(new java.io.FileWriter(this.filename, false)))) {
                 out.append(outcome);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(GlobalCostLogger.class.getName()).log(Level.SEVERE, null, ex);

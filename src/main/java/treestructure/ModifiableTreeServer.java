@@ -7,17 +7,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
-import Communication.ExtendedTreeViewRequest;
-import Communication.InformBootstrap;
-import Communication.TreeViewChangeMessage;
-import agent.Agent;
+import liveRunUtils.DataStructures.ExtendedTreeViewRequest;
+import liveRunUtils.Messages.InformBootstrap;
 import dsutil.generic.RankPriority;
 import dsutil.protopeer.FingerDescriptor;
 import dsutil.protopeer.services.topology.trees.DescriptorType;
 import dsutil.protopeer.services.topology.trees.TreeType;
 import loggers.EventLog;
 import protopeer.BasePeerlet;
-import protopeer.Finger;
 import protopeer.Peer;
 import protopeer.network.Message;
 import tree.BalanceType;
@@ -56,10 +53,7 @@ public class ModifiableTreeServer extends BasePeerlet {
     private int 								n;
 
     private Set<Entry<FingerDescriptor,TreeViewFacilitator>> views;
-
 	List<Integer> ActivePeers = new ArrayList<Integer>();
-
-
     /**
      * Initializes the server and the topology generator with the required
      * information.
@@ -174,10 +168,8 @@ public class ModifiableTreeServer extends BasePeerlet {
      * Handles only messages of type <code>TreeViewRequest</code>
      */
     public void handleIncomingMessage(Message message) {
-        if (message instanceof ExtendedTreeViewRequest) {
-			System.out.println("TreeViewRequest received from "+message.getSourceAddress());
-                this.runPassiveState((ExtendedTreeViewRequest) message);
-        }
+		if (message instanceof ExtendedTreeViewRequest) { this.runPassiveStateExtended((ExtendedTreeViewRequest) message); }
+    	else if (message instanceof TreeViewRequest) { this.runPassiveState((TreeViewRequest) message); }
         if (message instanceof InformBootstrap){
 			InformBootstrap informBootstrap = (InformBootstrap) message;
         	if (informBootstrap.status.equals("informBootstrap")) {
@@ -208,7 +200,27 @@ public class ModifiableTreeServer extends BasePeerlet {
      *      Note that prior to reception of any message, nodes have been shuffled to explore different structure.
      * @param request
      */
-    private void runPassiveState(ExtendedTreeViewRequest request) {
+	private void runPassiveState(TreeViewRequest request) {
+		switch(this.state) {
+			case GATHERING_PEERS:
+				this.peers.add(request.sourceDescriptor);
+				//this.logger.log(Level.FINER, "Descriptor received: " + request.sourceDescriptor);
+				this.n++;
+				if(this.n == this.N){
+					//this.logger.log(Level.INFO, "Number of requests gathered reached expected number: " + this.N);
+					this.generateTreeTopology();
+				}
+				break;
+			case COMPLETED:
+				this.handleSingleMessage(request);
+				break;
+			default:
+				this.logger.log(Level.SEVERE, "Received Tree View Request during WAITING state.");
+				break;
+		}
+	}
+
+    private void runPassiveStateExtended(ExtendedTreeViewRequest request) {
     	switch(this.state) {
     	case GATHERING_PEERS:
 			peers.add(request.sourceDescriptor);
@@ -287,9 +299,9 @@ public class ModifiableTreeServer extends BasePeerlet {
 //     * @param views set of pairs: Descriptor of the receiving agent and it's assigned parent and children
      */
     private void broadcastViews() {
-		System.out.println("---");
-        System.out.println("broadcast messages to be sent");
-		System.out.println("---");
+//		System.out.println("---");
+//        System.out.println("broadcast messages to be sent");
+//		System.out.println("---");
     	if(this.views == null) {
     		this.logger.log(Level.SEVERE, "View received from topology generator is null!");
     		return;
@@ -299,7 +311,7 @@ public class ModifiableTreeServer extends BasePeerlet {
     								                                          		 this.createReplyMessage(entry));
     					   })
     	              .forEach(entry -> {
-						  System.out.println("Reply sent from server to agent " + entry.getKey().getNetworkAddress());
+//						  System.out.println("Reply sent from server to agent " + entry.getKey().getNetworkAddress());
     	            	  this.getPeer().sendMessage(entry.getKey().getNetworkAddress(), entry.getValue());
     	              });
     }
@@ -308,6 +320,34 @@ public class ModifiableTreeServer extends BasePeerlet {
      * Generates reply to node's request for TreeView update.
      * @param request
      */
+	private void handleSingleMessage(TreeViewRequest request) {
+		//this.logger.log(Level.INFO, "handling single request!");
+		FingerDescriptor sender = request.sourceDescriptor;
+		if(sender == null) {
+			this.logger.log(Level.SEVERE, "Sender of TreeViewRequest is null!");
+			return;
+		}
+		if(!this.peers.contains(sender)) {
+//			this.logger.log(Level.SEVERE, "TreeViewRequest sent from unknown node!");
+			return;
+		}
+		Entry<FingerDescriptor, TreeViewFacilitator> sendersEntry =
+				this.views.stream().filter(entry -> entry.getKey().equals(sender))	// equals() of FingerDescriptors compares fingers only, not descriptors!
+						.findFirst()										// generally, there should be one and only
+						.orElse(null);
+		if(sendersEntry == null) {
+			this.logger.log(Level.SEVERE, "Filtering in handling single message returns null!");
+			return;
+		}
+		TreeViewReply reply = this.createReplyMessage(sendersEntry);
+		this.getPeer().sendMessage(sender.getNetworkAddress(), reply);
+		this.n++;
+		if(this.n == this.N) {
+			this.shuffleNodes();
+			this.n = 0;
+		}
+	}
+
     private void handleSingleMessage(ExtendedTreeViewRequest request) {
     	FingerDescriptor sender = request.sourceDescriptor;
     	if(sender == null) {

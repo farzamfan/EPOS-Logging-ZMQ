@@ -17,6 +17,7 @@
  */
 package agent.logging;
 
+import config.Configuration;
 import func.CostFunction;
 
 import java.io.BufferedWriter;
@@ -87,8 +88,10 @@ public class TerminationLogger<V extends DataType<V>> extends AgentLogger<Agent<
         if (globalCostFunc == null) {
             globalCostFunc = agent.getGlobalCostFunction();
         }
-        sql_insert_template_custom  = "INSERT INTO TerminationLogger(sim,run,peer,termination) VALUES({sim},{run}, {peer}, {termination});";
-        agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "TerminationLogger", sql_insert_template_custom ) );
+        if (config.Configuration.isLiveRun) {
+            sql_insert_template_custom = "INSERT INTO TerminationLogger(sim,run,peer,termination) VALUES({sim},{run}, {peer}, {termination});";
+            agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("TerminationLogger", sql_insert_template_custom));
+        }
     }
 
     @Override
@@ -119,7 +122,7 @@ public class TerminationLogger<V extends DataType<V>> extends AgentLogger<Agent<
             if (agent.getIteration() == agent.getNumIterations() - 1) {
                 TerminationLogger.Token token = new TerminationLogger.Token(this.index, this.run);
                 log.log(epoch, TerminationLogger.class.getName(), token, 1.0);
-                DBLog(agent, token.terminalIteration);
+                if (config.Configuration.isLiveRun) { DBLog(agent, token.terminalIteration); }
             }
         }
     }

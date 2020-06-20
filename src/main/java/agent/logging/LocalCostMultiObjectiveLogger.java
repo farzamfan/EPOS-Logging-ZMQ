@@ -78,8 +78,11 @@ public class LocalCostMultiObjectiveLogger<V extends DataType<V>> extends AgentL
         if (costFunction == null) {
             costFunction = agent.getLocalCostFunction();
         }
-        sql_insert_template_custom  = "INSERT INTO LocalCostMultiObjectiveLogger(sim,run,peer,iteration,cost) VALUES({sim},{run}, {peer}, {iteration}, {cost});";
-        agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "LocalCostMultiObjectiveLogger", sql_insert_template_custom ) );
+
+        if (config.Configuration.isLiveRun) {
+            sql_insert_template_custom = "INSERT INTO LocalCostMultiObjectiveLogger(sim,run,peer,iteration,cost) VALUES({sim},{run}, {peer}, {iteration}, {cost});";
+            agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("LocalCostMultiObjectiveLogger", sql_insert_template_custom));
+        }
     }
 
     @Override
@@ -92,7 +95,8 @@ public class LocalCostMultiObjectiveLogger<V extends DataType<V>> extends AgentL
             Token token = new Token(cost, agent.getIteration(), this.run);
             log.log(epoch, LocalCostMultiObjectiveLogger.class.getName(), token, 1.0);            
             log.log(epoch, LocalCostMultiObjectiveLogger.class.getName() + "raw", agent.getIteration(), cost);
-            DBLog(agent, cost);
+
+            if (config.Configuration.isLiveRun) { DBLog(agent, cost);}
         }
     }
 

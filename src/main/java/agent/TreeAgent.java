@@ -5,7 +5,7 @@
  */
 package agent;
 
-import Communication.InformGatewayMessage;
+import liveRunUtils.Messages.InformGatewayMessage;
 import config.Configuration;
 import data.Plan;
 import dsutil.protopeer.services.topology.trees.TreeApplicationInterface;
@@ -16,7 +16,6 @@ import agent.logging.AgentLoggingProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-import loggers.EventLog;
 import protopeer.Finger;
 import data.DataType;
 import protopeer.MainConfiguration;
@@ -41,11 +40,12 @@ public abstract class TreeAgent<V extends DataType<V>> extends Agent<V> implemen
      *
      * @param possiblePlans the possible plans of this agent
      * @param globalCostFunc the global cost function
-     * @param localCostFunc the local cost function
+     * @param localCost the local cost function
      * @param loggingProvider the logger for the experiment
+     * @param seed the seed for the RNG used by this agent
      */
-    public TreeAgent(List<Plan<V>> possiblePlans, CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends TreeAgent<V>> loggingProvider) {
-        super(globalCostFunc, localCostFunc, loggingProvider);
+    public TreeAgent(List<Plan<V>> possiblePlans, CostFunction<V> globalCostFunc, PlanCostFunction<V> localCost, AgentLoggingProvider<? extends TreeAgent<V>> loggingProvider, long seed) {
+        super(possiblePlans, globalCostFunc, localCost, loggingProvider, seed);
     }
 
     /**
@@ -108,13 +108,16 @@ public abstract class TreeAgent<V extends DataType<V>> extends Agent<V> implemen
 
     @Override
     public void setTreeView(Finger parent, List<Finger> children) {
-        resetTreeView();
+        if(Configuration.isLiveRun) { resetTreeView();}
         this.setParent(parent);
         this.setChildren(children);
-        System.out.println("treeViewIsSet for:"+this.getPeer().getNetworkAddress());
+        if(!Configuration.isLiveRun) {treeViewIsSet();}
+//        System.out.println("treeViewIsSet for:"+this.getPeer().getNetworkAddress());
         treeViewIsSet = true;
-        ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, Configuration.GateWayPort);
-        getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "treeViewSet", isLeaf()));
+        if(Configuration.isLiveRun) {
+            ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, Configuration.GateWayPort);
+            getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "treeViewSet", isLeaf()));
+        }
     }
 
     void resetTreeView() {
@@ -139,5 +142,9 @@ public abstract class TreeAgent<V extends DataType<V>> extends Agent<V> implemen
     @Override
     public void reset() {
     	super.reset();
+    }
+
+    void runBootstrap(){
+        super.runBootstrap();
     }
 }

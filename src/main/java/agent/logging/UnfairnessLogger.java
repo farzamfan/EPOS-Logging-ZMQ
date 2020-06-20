@@ -36,8 +36,10 @@ public class UnfairnessLogger<V extends DataType<V>> extends AgentLogger<Agent<V
 
 	@Override
 	public void init(Agent<V> agent) {
-		sql_insert_template_custom  = "INSERT INTO UnfairnessLogger(sim,run, peer,iteration,unfairness) VALUES({sim},{run}, {peer}, {iteration}, {unfairness});";
-		agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "UnfairnessLogger", sql_insert_template_custom ) );
+		if (config.Configuration.isLiveRun) {
+			sql_insert_template_custom = "INSERT INTO UnfairnessLogger(sim,run, peer,iteration,unfairness) VALUES({sim},{run}, {peer}, {iteration}, {unfairness});";
+			agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("UnfairnessLogger", sql_insert_template_custom));
+		}
 	}
 
 	@Override
@@ -58,7 +60,7 @@ public class UnfairnessLogger<V extends DataType<V>> extends AgentLogger<Agent<V
 			Token token = new Token(unfairness, agent.getIteration(), this.run);            
             log.log(epoch, UnfairnessLogger.class.getName(), token, 1.0);  
 			log.log(epoch, UnfairnessLogger.class.getName()+"raw", moieposagent.getIteration(), unfairness);
-			DBLog(agent, unfairness);
+			if (config.Configuration.isLiveRun) { DBLog(agent, unfairness); }
 		}		
 	}
 

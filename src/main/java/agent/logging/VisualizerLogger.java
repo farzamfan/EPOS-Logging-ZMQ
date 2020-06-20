@@ -53,15 +53,15 @@ import protopeer.network.NetworkAddress;
 /**
  * Visualizes tree structure. The color indicates the index of the selected plan.
  * Darker color indicates higher index.
- * 
+ *
  * @author jovan
  *
  * @param <V>
  */
 public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAgent<V>> {
-	
+
 	public static int maxPlans = Integer.MIN_VALUE;
-	
+
 	public static Color[] colors = {new Color(243, 236, 245),
 									new Color(244, 236, 247),			// 1 [1]
 									new Color(232, 218, 239),
@@ -79,20 +79,20 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
 									new Color(64, 8, 87),				// 4 [14]
 									new Color(52, 4, 71)
 									};
-	
+
 	private final double 					vertexSize127 		= 	2.8;
     private final double 					vertexSize255 		= 	1;
     private final double 					vertexSize511 		= 	1;
     private final double 					vertexSize1023 		= 	1;
     private double 							vertexSize 			= 	vertexSize127;
-    
+
     private final Dimension 				size 				= 	new Dimension(1024, 1024);
     private AffineTransform 				shapeTransform 		= 	null;
-    
+
     private VertexShapeFactory<Vertex> 		shapeFactory		=	new VertexShapeFactory<Vertex>();
     private Forest<Vertex, Integer> 		graph;
     private Map<NetworkAddress, Vertex> 	idx2vertex;
-    
+
     private TreeSet<Double> 				scoreSet			=	new TreeSet<Double>();
 
 	@Override
@@ -109,26 +109,26 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
 	public void log(MeasurementLog log, int epoch, TreeAgent<V> agent) {
 		if(agent.getIteration() == agent.getNumIterations()-1) {
 			double score = agent.getLocalCostFunction().calcCost(agent.getSelectedPlan());
-			
+
 			for(Plan<V> p : agent.getPossiblePlans()) {
 				this.scoreSet.add(agent.getLocalCostFunction().calcCost(p));
 			}
-			
+
 			VisualizerLogger.maxPlans = Math.max(VisualizerLogger.maxPlans, agent.getPossiblePlans().size());
-			
-			TreeNode node = new TreeNode(agent.getPeer().getFinger(), 
-										 agent.getChildren(), 
+
+			TreeNode node = new TreeNode(agent.getPeer().getFinger(),
+										 agent.getChildren(),
 										 agent.getSelectedPlanID(),
 										 score,
-										 this.run);			
+										 this.run);
 			log.log(epoch, node, 0.0);
 		}
 	}
-	
+
 	private int getNumAgents(MeasurementLog log) {
 		return (int) (log.getTagsOfType(TreeNode.class).size() / Configuration.numSimulations);
 	}
-	
+
 	private void setVertexSize(int numAgents) {
 		if (numAgents <= 127) {
             vertexSize = vertexSize127;
@@ -143,22 +143,22 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
         }
 		this.shapeTransform = AffineTransform.getScaleInstance(vertexSize, vertexSize);
 	}
-	
+
 	private void populateGraph(MeasurementLog log, int current_run) {
 		graph = new DelegateForest<>();
-		
+
 		this.idx2vertex = new HashMap<>();
-		
+
         for (Object agentObj : log.getTagsOfType(TreeNode.class)) {
             TreeNode agent = (TreeNode) agentObj;
-            
+
             if(agent.run != current_run) continue;
-            
+
             Vertex vertex = new Vertex(agent);
             this.idx2vertex.put(agent.id.getNetworkAddress(), vertex);
             graph.addVertex(vertex);
-        }       
-        
+        }
+
         int edge = 0;
         for (Vertex node : graph.getVertices()) {
             for (Finger f : node.agent.children) {
@@ -172,21 +172,21 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
 	public void print(MeasurementLog log) {
 		int numAgents = this.getNumAgents(log);
 		this.setVertexSize(numAgents);
-		
+
 		for(int currentRun = 0; currentRun < Configuration.numSimulations; currentRun++) {
 			this.populateGraph(log, currentRun);
-			
+
 			File file = new File(Configuration.outputDirectory + "/selected-plans-graph-run-" + currentRun + ".png");
 			BufferedImage image = this.getPlotImage();
-			
+
 			try {
 			    ImageIO.write(image, "png", file);
 			} catch (IOException e) {
 			    e.printStackTrace();
 			}
-		}		
+		}
 	}
-	
+
 	private void writeCurrentImage(VisualizationViewer<Vertex, Integer> viewer, File outputFile) {
         ImageFile img = null;
         if (outputFile.getName().endsWith(".png")) {
@@ -201,7 +201,7 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
 
         img.write();
     }
-	
+
 	private BufferedImage getPlotImage() {
 		VisualizationModel<Vertex, Integer> model = new DefaultVisualizationModel(this.getLayout(this.graph));
         VisualizationViewer<Vertex, Integer> viewer = this.visualize(model);
@@ -209,21 +209,21 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
         AffineTransform at = new AffineTransform();
         at.scale(1, 1);
         AffineTransformOp atOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-		
+
         BufferedImage tmp = new BufferedImage(viewer.getWidth(), viewer.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        BufferedImage outputImg = new BufferedImage(viewer.getWidth(), viewer.getHeight(), BufferedImage.TYPE_INT_ARGB);       
-        
-        viewer.paint(tmp.getGraphics());        
-        outputImg = atOp.filter(tmp, outputImg);        
+        BufferedImage outputImg = new BufferedImage(viewer.getWidth(), viewer.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+        viewer.paint(tmp.getGraphics());
+        outputImg = atOp.filter(tmp, outputImg);
         return outputImg;
     }
-	
+
 	/**
 	 * Builds viewer for given graph layout.
 	 * @param model
 	 * @return
 	 */
-	private VisualizationViewer<Vertex, Integer> visualize(VisualizationModel<Vertex, Integer> model) {		
+	private VisualizationViewer<Vertex, Integer> visualize(VisualizationModel<Vertex, Integer> model) {
         VisualizationViewer<Vertex, Integer> viewer = new VisualizationViewer<Vertex, Integer>(model);
         viewer.setPreferredSize(new Dimension(this.size.width, this.size.height));
         viewer.setSize(this.size.width, this.size.height);
@@ -235,18 +235,18 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
         viewer.setGraphMouse(this.getGraphMouse());
         return viewer;
     }
-	
+
 	/**
 	 * Returns the type of line that will be drawn between vertices of the graph.
 	 * 	-	Line renders as strainght line
 	 * 	-	CubicCurve has shape of ~
 	 * @return
-	 */	
+	 */
 	private Function<Integer, Shape> getEdgeShapeTransformer() {
 		return EdgeShape.line(graph);
     }
-	
-	
+
+
 	/**
 	 * Returns the type of arrow to be used.
 	 * Because all 0 are passed, no arrow is printed.
@@ -255,7 +255,7 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
 	private <V, E> Function<Context<Graph<V, E>, E>, Shape> getEdgeArrowTransformer() {
         return new DirectionalEdgeArrowTransformer<>(0, 0, 0);
     }
-	
+
 	/**
 	 * Gets the color of each vertex.
 	 * @return
@@ -265,14 +265,14 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
             return vertex.getMyColor();
         };
     }
-	
+
 	/**
 	 * Gets the shape of each vertex:
 	 * 	-	Ellipse with getEllipse()
 	 * 	-	Rectangle with getRectangle()
 	 * 	-	RoundRectangle with getRoundRectangle()
 	 * 	-	RegularStar with getRegularStar()
-	 * 
+	 *
 	 * Note that shape is scaled!
 	 * @return
 	 */
@@ -283,7 +283,7 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
             return shape;
         };
     }
-	
+
 	/**
 	 * I actually have no idea what this thing does
 	 * @return
@@ -293,7 +293,7 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
         graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
         return graphMouse;
     }
-	
+
 	/**
 	 * Creates radial layout of vertices
 	 * @param graph
@@ -304,23 +304,23 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
         layout.setSize(size);
         return layout;
     }
-	
-	
-	public Color getColor(VisualizerLogger.TreeNode node) {		
+
+
+	public Color getColor(VisualizerLogger.TreeNode node) {
 		int val = node.selectedPlan;
-		int mapping = (val * VisualizerLogger.colors.length) / VisualizerLogger.maxPlans;		
-		return VisualizerLogger.colors[mapping];		
+		int mapping = (val * VisualizerLogger.colors.length) / VisualizerLogger.maxPlans;
+		return VisualizerLogger.colors[mapping];
 	}
-	
+
 	private class Vertex {
 		public final TreeNode agent;
         private final Color color;
-        
+
         public Vertex(TreeNode agent) {
         	this.agent = agent;
         	this.color = getColor(this.agent);
         }
-        
+
         public Color getMyColor() {
         	return this.color;
         }
@@ -349,11 +349,11 @@ public class VisualizerLogger<V extends DataType<V>> extends AgentLogger<TreeAge
             return true;
         }
 	}
-	
-	
+
+
 	/**
 	 * This class holds all necessary information to be logged in Measurement Logger
-	 * 
+	 *
 	 * @author jovan
 	 *
 	 */

@@ -5,18 +5,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
-import Communication.*;
+import liveRunUtils.DataStructures.ExtendedTreeViewRequest;
+import liveRunUtils.Messages.*;
 import agent.Agent;
-import agent.IterativeTreeAgent;
 import agent.MultiObjectiveIEPOSAgent;
 import agent.TreeAgent;
-import com.sun.source.tree.Tree;
 import dsutil.protopeer.FingerDescriptor;
 import dsutil.protopeer.services.topology.trees.DescriptorType;
 import dsutil.protopeer.services.topology.trees.TreeMiddlewareInterface;
 import dsutil.protopeer.services.topology.trees.TreeProviderInterface;
 import loggers.EventLog;
-import org.apache.regexp.RE;
 import protopeer.BasePeerlet;
 import protopeer.Peer;
 import protopeer.network.Message;
@@ -24,8 +22,6 @@ import protopeer.network.NetworkAddress;
 import protopeer.servers.bootstrap.PeerIdentifierGenerator;
 import tree.centralized.TreeViewReply;
 import tree.centralized.TreeViewRequest;
-
-import javax.swing.*;
 
 /**
  * This class allows the tree structure to be changed dynamically during runtime. 
@@ -105,6 +101,7 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
     public void start() {
         super.start();
         this.createFingerDescriptor();
+        if (!config.Configuration.isLiveRun){this.requestNewTreeView();}
 //        this.requestNewTreeView();
     }
     
@@ -123,10 +120,17 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
      * The request is sent to the TreeServer. 
      */
     public void requestNewTreeView() {
-        ExtendedTreeViewRequest requestMsg = new ExtendedTreeViewRequest();
-    	requestMsg.sourceDescriptor = this.localDescriptor;
-    	requestMsg.peerID = getPeer().getIndexNumber();
-    	this.sendTreeViewRequest(requestMsg);
+        if (config.Configuration.isLiveRun) {
+            ExtendedTreeViewRequest requestMsg = new ExtendedTreeViewRequest();
+            requestMsg.sourceDescriptor = this.localDescriptor;
+            requestMsg.peerID = getPeer().getIndexNumber();
+            this.sendTreeViewRequestExtended(requestMsg);
+        }
+        else {
+            TreeViewRequest requestMsg = new TreeViewRequest();
+            requestMsg.sourceDescriptor = this.localDescriptor;
+            this.sendTreeViewRequest(requestMsg);
+        }
     }
     
     /**
@@ -134,7 +138,12 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
      * 
      * @param requestMsg request Message with Descriptor already set!
      */
-    private void sendTreeViewRequest(ExtendedTreeViewRequest requestMsg) {
+    private void sendTreeViewRequest(TreeViewRequest requestMsg) {
+        this.getPeer().sendMessage(this.bootstrapServerAddress, requestMsg);
+        this.state=ClientState.WAITING;
+    }
+
+    private void sendTreeViewRequestExtended(ExtendedTreeViewRequest requestMsg) {
     	this.getPeer().sendMessage(this.bootstrapServerAddress, requestMsg);
     	this.state=ClientState.WAITING;
         System.out.println("BootstrapHello sent to: "+this.bootstrapServerAddress+" by: "+this.getPeer().getNetworkAddress());
@@ -150,7 +159,7 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
      */
     public void handleIncomingMessage(Message message) {
         if (message instanceof TreeViewReply) {
-            System.out.println("treeViewReply received by: "+getPeer().getNetworkAddress());
+//            System.out.println("treeViewReply received by: "+getPeer().getNetworkAddress());
             this.runPassiveState((TreeViewReply) message);
         }
         if (message instanceof PlanSetMessage){
@@ -244,7 +253,7 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
     	} else {
     		this.logger.log(Level.FINER, "TREE VIEW - NODE: " + this.getPeer().getIndexNumber() + " " + ModifiableTreeClient.printParent(parent) + "   " + ModifiableTreeClient.printChildren(children));
     	}
-        System.out.println("I am: "+getPeer().getNetworkAddress()+" parent: "+printParent(parent)+" children: "+printChildren(children));
+//        System.out.println("I am: "+getPeer().getNetworkAddress()+" parent: "+printParent(parent)+" children: "+printChildren(children));
         EventLog.logEvent("ModifiableTreeClient", "deliverTreeView", "parent-children" , this.getPeer().getIndexNumber()+"-"+printParent(parent)+"-"+printChildren(children));
     	this.getTreeProvider().provideTreeView(parent, children);
 	}

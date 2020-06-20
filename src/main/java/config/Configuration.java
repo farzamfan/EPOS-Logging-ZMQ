@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.apache.xpath.operations.Bool;
 import org.reflections.Reflections;
 
 import com.google.common.collect.Sets;
@@ -82,8 +81,8 @@ public class Configuration implements Serializable {
 	public static DatasetDescriptor selectedDataset = null;
 	public static String dataset = null;
 	public static int planDim = -1;
-	public static int numAgents = -1;
-	public static int numPlans = -1;
+	public static int numAgents = 100;
+	public static int numPlans = 16;
 	public static Map<Integer, Integer> mapping = null;
 
 	public static RankPriority priority = RankPriority.HIGH_RANK;
@@ -92,8 +91,8 @@ public class Configuration implements Serializable {
 	public static BalanceType balance = BalanceType.WEIGHT_BALANCED;
 
 	public static int numSimulations = 1;
-	public static int numIterations = -1;
-	public static int numChildren = -1;
+	public static int numIterations = 40;
+	public static int numChildren = 2;
 
 	public static double numberOfWeights = 0;
 	public static String[] weights;
@@ -112,6 +111,7 @@ public class Configuration implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// LiveConf:
+	public static boolean isLiveRun = false;
 	// EPOSRequester
 	public static String EPOSRequesterIP = "127.0.0.1";
 	public static int EPOSRequesterPort = 54321;
@@ -367,7 +367,9 @@ public class Configuration implements Serializable {
 		});
 	}
 
-	public static void setUpEposBasicParams(Properties argMap, Configuration config) {
+	public static void setUpEposBasicParams(Properties argMap, Configuration config, boolean liveRunFlag) {
+
+		isLiveRun = liveRunFlag;
 
 		if (argMap.get("numSimulations") != null) {
 			Configuration.numSimulations = Helper.clearInt(((String) argMap.get("numSimulations")));
@@ -417,11 +419,12 @@ public class Configuration implements Serializable {
 		}
 	}
 
-	public static Configuration fromFile(String path, boolean prepareDataset) {
+	public static Configuration fromFile(String path, boolean prepareDataset, boolean liveRunFlag) {
 
 		Configuration config = new Configuration();
 
 		Properties argMap = new Properties();
+
 		try (InputStream input = new FileInputStream(new File(path))) {
 			argMap.load(input);
 		} catch (IOException e1) {
@@ -430,10 +433,8 @@ public class Configuration implements Serializable {
 		}
 
 		propertyCleanUp(argMap);
-		setUpEposBasicParams(argMap, config);
-		if (prepareDataset) {
-			prepareDataset(argMap);
-		}
+		setUpEposBasicParams(argMap, config, liveRunFlag);
+		if (prepareDataset) { prepareDataset(argMap); }
 		else {prepareDatasetPath(argMap);}
 		prepareReorganization(argMap, config);
 		prepareCostFunctions(argMap, config);
@@ -628,8 +629,10 @@ public class Configuration implements Serializable {
 			// Configuration.outputDirectory = "output";
 
 			Configuration.logDirectory = Configuration.outputDirectory;
-//			makeDirectory(Configuration.logDirectory);
-//			makeDirectory(Configuration.outputDirectory);
+			if (!isLiveRun){
+				makeDirectory(Configuration.logDirectory);
+				makeDirectory(Configuration.outputDirectory);
+			}
 
 			String datasetPath = Configuration.selectedDataset.getPath();
 			AtomicInteger maxPlans = new AtomicInteger();
@@ -669,7 +672,7 @@ public class Configuration implements Serializable {
 								+ ". There is a chance your agent files are not named or indexed appropriately, "
 								+ "please check them to avoid possible exceptions. Possible causes, files not named in the \"agent_{index}.plans format, missing"
 								+ "indeces or wrong path.\"");
-//				Configuration.numAgents = totalFound;
+				if (!isLiveRun){Configuration.numAgents = totalFound;}
 			}
 
 			if (Configuration.numPlans > maxPlans.get()) {
