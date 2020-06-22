@@ -39,10 +39,10 @@ import java.util.logging.Logger;
 public class IEPOSExperiment {
 
 	public static void runSimulation(int numChildren, // number of children for each middle node
-                                     int numIterations, // total number of iterations to run for
-                                     int numAgents, // total number of nodes in the network
-                                     Function<Integer, Agent> createAgent, // lambda expression that creates an agent
-                                     Configuration config) {
+			int numIterations, // total number of iterations to run for
+			int numAgents, // total number of nodes in the network
+			Function<Integer, Agent> createAgent, // lambda expression that creates an agent
+			Configuration config) {
 
 		SimulatedExperiment experiment = new SimulatedExperiment() {
 		};

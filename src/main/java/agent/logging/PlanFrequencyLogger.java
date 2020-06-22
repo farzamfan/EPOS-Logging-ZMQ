@@ -59,7 +59,7 @@ public class PlanFrequencyLogger<V extends DataType<V>> extends AgentLogger<Agen
 
     @Override
     public void log(MeasurementLog log, int epoch, Agent<V> agent) {
-        if (agent.getIteration() == agent.getNumIterations()-1) {
+        if (agent.getIteration() == agent.getNumIterations() - 1) {
             int idx = agent.getPossiblePlans().indexOf(agent.getSelectedPlan());
             Token token = new Token(idx, agent.getSelectedPlan().getScore(), agent.getPeer().getIndexNumber(), this.run);
             log.log(epoch, PlanFrequencyLogger.class.getName(), token, 1.0);

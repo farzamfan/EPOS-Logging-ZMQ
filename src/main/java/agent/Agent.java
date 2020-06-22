@@ -52,8 +52,8 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     transient Logger 									logger 				= 		Logger.getLogger(Agent.class.getName());
 
     // timings
-    protected final int						bootstrapPeriod		=	1000;	//ms
-    protected final int						activeStatePeriod	=	200;	//ms
+    protected final int						bootstrapPeriod		=	2000;	//ms
+    protected final int						activeStatePeriod	=	1000;	//ms
 
     protected final int						readyPeriod		=	1000;	//ms
     public boolean                          plansAreSet = new Boolean(false);
