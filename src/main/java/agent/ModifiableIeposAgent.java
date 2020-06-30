@@ -65,6 +65,7 @@ public class ModifiableIeposAgent<V extends DataType<V>> extends MultiObjectiveI
 		this.initStrategy();
 	}
 
+	// constructor for the live implementation
 	public ModifiableIeposAgent(Configuration config,
 								AgentLoggingProvider<? extends MultiObjectiveIEPOSAgent<V>> loggingProvider
 	) {

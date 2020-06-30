@@ -56,6 +56,8 @@ public class ModifiableTreeArchitecture implements Cloneable {
             										 balance,  
             										 new Random(this.config.reorganizationSeed)));
         }
+
+        // depending on the live vs sim operation, the address for the bootstrap differs (in live run, it is an IP read from the config)
         if (config.isLiveRun){ bootstrap = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP,MainConfiguration.getSingleton().peerZeroPort);}
         else {bootstrap = Experiment.getSingleton().getAddressToBindTo(0);}
 

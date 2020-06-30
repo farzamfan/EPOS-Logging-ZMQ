@@ -54,7 +54,7 @@ public class LiveRun extends ZMQExperiment {
             String[] args = new String[2];
             args[0] = String.valueOf(index);
             args[1]= String.valueOf(port);
-            liveConf.readConfiguration(args);		// will also parse conf/dias.conf, as well as any arguments passed in the command-line in form key=value
+            liveConf.readConfiguration(args);
 
             // set arguments
             liveConf.myIndex = index;
@@ -69,11 +69,6 @@ public class LiveRun extends ZMQExperiment {
 
             protopeer.MainConfiguration			protopeer_conf = protopeer.MainConfiguration.getSingleton();
 
-
-//         dataset
-//        Random random = new Random(0);
-//        Dataset<Vector> dataset = new GaussianDataset(16, 100, 0, 1, random);
-            //Dataset<Vector> dataset = new FileVectorDataset("/Users/farzamf/Projects/EPOS-master/datasets/bicycle");
 
             LoggingProvider<MultiObjectiveIEPOSAgent<Vector>> loggingProvider = new LoggingProvider<>();
 
@@ -90,10 +85,7 @@ public class LiveRun extends ZMQExperiment {
 
             Function<Integer, Agent> createAgent = agentIdx -> {
 
-//                List<Plan<Vector>> possiblePlans = dataset.getPlans(index);
-//                List<Plan<Vector>> possiblePlans =config.getDataset(Configuration.dataset).getPlans(Configuration.mapping.get(agentIdx));
                 AgentLoggingProvider<ModifiableIeposAgent<Vector>> agentLP = loggingProvider.getAgentLoggingProvider(agentIdx, 1);
-//                ModifiableIeposAgent<Vector> newAgent = new ModifiableIeposAgent<Vector>(config, possiblePlans, agentLP);
                 ModifiableIeposAgent<Vector> newAgent = new ModifiableIeposAgent<Vector>(config, agentLP);
                 newAgent.setUnfairnessWeight(Double.parseDouble(config.weights[0]));
                 newAgent.setLocalCostWeight(Double.parseDouble(config.weights[1]));

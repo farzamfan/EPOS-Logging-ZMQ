@@ -25,6 +25,19 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
+/*
+The GatewayServer class acts as the gateway (e.g. manager) of the system, and takes care of the following tasks: simulation
+1) initiates n = numAgents EPOS peers
+    - first the boostrap peer is initialized, after it reaches the running state, the rest of the peers are initialized as well
+    - gateway checks to see if all peers are running, and have their treeView set
+2) receives user register messages from users, assignes each user to an EPOS peer, and informs the user of the address
+    - the gateway also checks to see if all peers have their plans set
+3) if treeView and plans are set, sends the readyToRun message to all peers. The leafs will start the EPOS iterations
+4) if there are new users joining/or leaving, informs the bootstrap peer to create a new treeView
+5) keeps track of the status of each peer during the runs and simulations
+** the user class is initialized by the EPOSRequester, at the beginning of each
+ */
+
 public class GatewayServer {
     private ZMQNetworkInterface zmqNetworkInterface;
     transient PersistenceClient persistenceClient;
@@ -134,7 +147,7 @@ public class GatewayServer {
 //                System.out.println("message received from: "+message.getSourceAddress()+" of type: "+message.getClass());
                     if (message instanceof EPOSRequestMessage) {
                     /*
-                    - The epos request message arrives once (todo make it more recurring, such as changing goal function, ...)
+                    - The epos request message arrives once
                      */
                         EPOSRequestMessage eposRequestMessage = (EPOSRequestMessage) message;
                         EPOSRequesterAddress = (ZMQAddress) eposRequestMessage.getSourceAddress();

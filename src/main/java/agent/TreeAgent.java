@@ -108,13 +108,16 @@ public abstract class TreeAgent<V extends DataType<V>> extends Agent<V> implemen
 
     @Override
     public void setTreeView(Finger parent, List<Finger> children) {
-        if(Configuration.isLiveRun) { resetTreeView();}
+        if(Configuration.isLiveRun) {
+            // in case of a new run, the tree structure might change. Hence the treeView is reset
+            resetTreeView();
+        }
         this.setParent(parent);
         this.setChildren(children);
         if(!Configuration.isLiveRun) {treeViewIsSet();}
-//        System.out.println("treeViewIsSet for:"+this.getPeer().getNetworkAddress());
         treeViewIsSet = true;
         if(Configuration.isLiveRun) {
+            // informing the gateway that the peer has its treeView set
             ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, Configuration.GateWayPort);
             getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "treeViewSet", isLeaf()));
         }

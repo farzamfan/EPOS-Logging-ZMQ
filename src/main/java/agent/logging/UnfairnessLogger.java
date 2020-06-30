@@ -37,6 +37,7 @@ public class UnfairnessLogger<V extends DataType<V>> extends AgentLogger<Agent<V
 	@Override
 	public void init(Agent<V> agent) {
 		if (config.Configuration.isLiveRun) {
+			// given that the current run is live, creates the sql template for this logger)
 			sql_insert_template_custom = "INSERT INTO UnfairnessLogger(sim,run, peer,iteration,unfairness) VALUES({sim},{run}, {peer}, {iteration}, {unfairness});";
 			agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("UnfairnessLogger", sql_insert_template_custom));
 		}
@@ -60,7 +61,10 @@ public class UnfairnessLogger<V extends DataType<V>> extends AgentLogger<Agent<V
 			Token token = new Token(unfairness, agent.getIteration(), this.run);            
             log.log(epoch, UnfairnessLogger.class.getName(), token, 1.0);  
 			log.log(epoch, UnfairnessLogger.class.getName()+"raw", moieposagent.getIteration(), unfairness);
-			if (config.Configuration.isLiveRun) { DBLog(agent, unfairness); }
+			if (config.Configuration.isLiveRun) {
+				// logging to the db if the system is live
+				DBLog(agent, unfairness);
+			}
 		}		
 	}
 
@@ -73,6 +77,7 @@ public class UnfairnessLogger<V extends DataType<V>> extends AgentLogger<Agent<V
 			record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 			record.put("iteration", String.valueOf(agent.getIteration()));
 			record.put("unfairness", String.valueOf(unfairness));
+			// fills the sql template (refer to the init function for the template
 			agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("UnfairnessLogger", record));
 		}
 	}

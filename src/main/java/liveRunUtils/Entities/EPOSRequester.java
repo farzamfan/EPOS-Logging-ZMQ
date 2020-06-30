@@ -20,6 +20,15 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
+/*
+EPOS requester is the main entity starting the live operations.
+It does the following tasks:
+1) initialize the gateway (system gateway and manager)
+2) initialize the user (representing system users such as IoT devices)
+3) request certain number of runs (config.maxRuns) and simulations (config.maxSims) from the gateway
+4) tracking current run and simulation as well as the status of the system
+5) in case of config changes, announcing the to the gateway and changing the config file
+ */
 public class EPOSRequester {
 
     ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory;
@@ -52,6 +61,7 @@ public class EPOSRequester {
     }
 
     public void readConfig(){
+        // reading the configuration. note that this entity does not need to load any datasets
         config = Configuration.fromFile(confPath,false,true);
 
         EPOSRequesterIP = config.EPOSRequesterIP;
@@ -71,6 +81,7 @@ public class EPOSRequester {
     public void startSimulation() {
 
         try {
+            // initializing gateway and user
             Runtime.getRuntime().exec("screen -S GateWay -d -m java -Xmx1024m -jar GateWay.jar");
             Runtime.getRuntime().exec("screen -S Users -d -m java -Xmx2048m -jar IEPOSUsers.jar "+currentSim);
         } catch (IOException e) {
@@ -78,11 +89,13 @@ public class EPOSRequester {
         }
     }
 
+    // creating the EPOS request message, to be send to gateway
     public EPOSRequestMessage createMessage(Configuration conf, int numNodes) throws UnknownHostException {
         EPOSRequestMessage eposRequestMessage = new EPOSRequestMessage(1,numNodes,"EPOSRunRequested", maxNumRuns, currentSim);
         return eposRequestMessage;
     }
 
+    // bringing up, and binding the gateway to a network address and port (based on config)
     public void bringUp(){
         RealClock clock=new RealClock();
         MeasurementLogger measurementLogger=new MeasurementLogger(clock);
@@ -94,6 +107,7 @@ public class EPOSRequester {
         zmqNetworkInterface=(ZMQNetworkInterface)zmqNetworkInterfaceFactory.createNewNetworkInterface(measurementLogger, EPOSRequesterAddress);
     }
 
+    // listening to the messages from network
     public void listen(){
         zmqNetworkInterface.addNetworkListener(new NetworkListener()
         {
@@ -107,10 +121,10 @@ public class EPOSRequester {
             }
 
             public void messageReceived(NetworkInterface networkInterface, NetworkAddress sourceAddress, Message message) {
-//                System.out.println("Message received from: + " +message.getSourceAddress() + " message: "+ message + " messageSize: " + message.getMessageSize());
                 if (message instanceof EPOSRequestMessage){
                     EPOSRequestMessage eposRequestMessage = (EPOSRequestMessage) message;
                     if (eposRequestMessage.status.equals("usersRegistered")){
+                        // informed by gateway that all users are registered
                         System.out.println("EPOS users registered! Run: "+eposRequestMessage.run+" simulation: "+currentSim);
                         try {
                             EventLog.logEvent("EPOSRequester", "messageReceived", "usersRegistered" , eposRequestMessage.run+"-"+currentSim);
@@ -120,15 +134,18 @@ public class EPOSRequester {
                         }
                     }
                     if (eposRequestMessage.status.equals("finished")){
+                        // informed by gateway that an EPOS run is finished
                         System.out.println("EPOS finished successfully! Run: "+eposRequestMessage.run+" simulation: "+currentSim);
                         EventLog.logEvent("EPOSRequester", "messageReceived", "EPOSFinished" , eposRequestMessage.run+"-"+currentSim);
                     }
                     if (eposRequestMessage.status.equals("maxRunReached")){
+                        // informed by gateway that all runs in a simulation is over
                         System.out.println("---");
                         System.out.println("SIMULATION: "+currentSim+" Over");
                         System.out.println("---");
 
                         if (currentSim == maxSimulations){
+                            // if all simulations are done, terminate the system
                             EventLog.logEvent("EPOSRequester", "messageReceived", "ALL SIMULATIONS Done" , eposRequestMessage.run+"-"+currentSim);
                             try {
                                 terminate();
@@ -143,6 +160,7 @@ public class EPOSRequester {
                         currentSim++;
                         try {
                             terminate();
+                            // checking for config change, between runs and simulations
                             checkConfigChanges();
                             TimeUnit.SECONDS.sleep(sleepSecondBetweenRuns);
                             startSimulation();
@@ -166,12 +184,13 @@ public class EPOSRequester {
         zmqNetworkInterface.bringUp();
     }
 
+    // requesting EPOS service
     public void requestEPOS(EPOSRequestMessage ERM){
         ZMQAddress destination = new ZMQAddress(GateWayIP,GateWayPort);
-//        System.out.println( "destination : " + destination );
         zmqNetworkInterface.sendMessage(destination, ERM);
     }
 
+    // this is a template of changing configs depending on the simulation
     public void checkConfigChanges() throws IOException {
         if (currentSim%3 == 0) {
             config.changeConfig(confPath,"globalCostFunction","RMSE");
@@ -206,6 +225,7 @@ public class EPOSRequester {
         }
     }
 
+    // setting up the local event logger
     public void setUpEventLogger(){
         EventLog.setPeristenceClient(persistenceClient);
         EventLog.setPeerId(EPOSRequesterPeerID);

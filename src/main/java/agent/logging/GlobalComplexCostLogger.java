@@ -40,6 +40,7 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
 	@Override
 	public void init(Agent<V> agent) {
 		if (config.Configuration.isLiveRun) {
+			// given that the current run is live, creates the sql template for this logger
 			sql_insert_template_custom = "INSERT INTO globalComplexCostLogger(sim,run, peer,iteration,cost) VALUES({sim}, {run}, {peer}, {iteration}, {cost});";
 			agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("globalComplexCostLogger", sql_insert_template_custom));
 		}
@@ -69,7 +70,9 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
             log.log(epoch, GlobalComplexCostLogger.class.getName(), token, 1.0);
             log.log(epoch, GlobalComplexCostLogger.class.getName()+"raw", agent.getIteration(), cost);
 
-            if (config.Configuration.isLiveRun){ DBlog(agent);}
+            if (config.Configuration.isLiveRun){
+            	// logging to the db if the system is live
+            	DBlog(agent);}
         }
 	}
 
@@ -87,6 +90,7 @@ public class GlobalComplexCostLogger<V extends DataType<V>> extends AgentLogger<
 			parameters.put(OptimizationFactor.NUM_AGENTS, (double) Configuration.numAgents);
 			double cost = Configuration.planOptimizationFunction.apply(parameters);
 
+			// fills the sql template (refer to the init function for the template
 			record.put("sim", String.valueOf(agent.activeSim));
 			record.put("run", String.valueOf(agent.activeRun));
 			record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));

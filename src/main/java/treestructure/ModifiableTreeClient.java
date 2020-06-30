@@ -102,7 +102,6 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
         super.start();
         this.createFingerDescriptor();
         if (!config.Configuration.isLiveRun){this.requestNewTreeView();}
-//        this.requestNewTreeView();
     }
     
     /**
@@ -121,6 +120,9 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
      */
     public void requestNewTreeView() {
         if (config.Configuration.isLiveRun) {
+            /*
+            called by runEPOSLive class:    ((ModifiableTreeClient) thisPeer.getPeerletOfType(ModifiableTreeClient.class)).requestNewTreeView();
+             */
             ExtendedTreeViewRequest requestMsg = new ExtendedTreeViewRequest();
             requestMsg.sourceDescriptor = this.localDescriptor;
             requestMsg.peerID = getPeer().getIndexNumber();
@@ -146,7 +148,7 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
     private void sendTreeViewRequestExtended(ExtendedTreeViewRequest requestMsg) {
     	this.getPeer().sendMessage(this.bootstrapServerAddress, requestMsg);
     	this.state=ClientState.WAITING;
-        System.out.println("BootstrapHello sent to: "+this.bootstrapServerAddress+" by: "+this.getPeer().getNetworkAddress());
+//        System.out.println("BootstrapHello sent to: "+this.bootstrapServerAddress+" by: "+this.getPeer().getNetworkAddress());
     }
     
     //																							ACTIVE STATE
@@ -159,33 +161,38 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
      */
     public void handleIncomingMessage(Message message) {
         if (message instanceof TreeViewReply) {
-//            System.out.println("treeViewReply received by: "+getPeer().getNetworkAddress());
             this.runPassiveState((TreeViewReply) message);
         }
         if (message instanceof PlanSetMessage){
+            // messages regarding peer plans, received from the corresponding user
             PlanSetMessage planSetMessage = (PlanSetMessage) message;
-//            System.out.println("Message received from: "+planSetMessage.getSourceAddress()+ " message: "+ planSetMessage + " messageSize: " + planSetMessage.status);
             if (planSetMessage.status.equals("setPlans")) {
+                // setting plans sent by the user. This is called at iteration 0 of each run
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans(((PlanSetMessage) message).possiblePlans);
+                // setting the user address for further communications
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).userAddress = message.getSourceAddress();
+                // informing the user that the plans are set
                 getPeer().sendMessage(message.getSourceAddress(), new PlanSetMessage("plansSet"));
             }
             if (planSetMessage.status.equals("hasNewPlans")) {
+                // user informing the peer that it has new plans. After the current run is finished, the peer waits for teh new plans
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).plansAreSet = false;
-                System.out.println("peer: "+this.getPeer().getIndexNumber()+" has new plans, next run: "+((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun);
             }
             if (planSetMessage.status.equals("changePlans")) {
+                // new plans sent by the user
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).addPlans(((PlanSetMessage) message).possiblePlans);
-                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "changePlans" ,
-                        this.getPeer().getIndexNumber()+"-"+((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun);
+//                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "changePlans" ,
+//                        this.getPeer().getIndexNumber()+"-"+((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun);
             }
             if (planSetMessage.status.equals("noUserChanges")) {
+                // user has not changed its plans for the user
                 ((TreeAgent) this.getPeer().getPeerletOfType(TreeAgent.class)).treeViewIsSet = true;
             }
         }
         if (message instanceof WeightSetMessage){
             WeightSetMessage weightSetMessage = (WeightSetMessage) message;
             if (weightSetMessage.status.equals("hasNewWeights")){
+                // user informing the peer that it has new weights. After the current run is finished, the peer waits for teh new weights
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).weightsAreSet = false;
             }
             if (weightSetMessage.status.equals("setNewWeights")){
@@ -198,10 +205,12 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
 
             }
             if (weightSetMessage.status.equals("noNewWeights")){
+                // user has not changed its weights for the user
                 ((Agent) this.getPeer().getPeerletOfType(Agent.class)).weightsAreSet = true;
             }
         }
         if (message instanceof ReadyToRunMessage){
+            // ready to run message sent by the gateway (check iterativeTreeAgent to see what happens next)
             ReadyToRunMessage readyToRunMessage = (ReadyToRunMessage) message;
             System.out.println("ready to run message received for: "+getPeer().getNetworkAddress()+" run:"+readyToRunMessage.run);
             ((Agent) this.getPeer().getPeerletOfType(Agent.class)).setReadyToRun();
@@ -210,16 +219,19 @@ public class ModifiableTreeClient extends BasePeerlet implements TreeMiddlewareI
             System.out.println("new tree view requested for: " + getPeer().getNetworkAddress());
             TreeViewChangeMessage treeViewChangeMessage = (TreeViewChangeMessage) message;
             if (treeViewChangeMessage.status.equals("deactivate")) {
+                // informed by the boostrap that the peer is leaving the network
                 EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "deactivate" ,
                         this.getPeer().getIndexNumber()+"-"+((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun);
                 System.exit(0);
             }
             if (treeViewChangeMessage.status.equals("requestNewTreeView")) {
+                // informed by the boostrap that the peer needs to check for a new treeView
                 this.requestNewTreeView();
 //                EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "requestNewTreeView" , String.valueOf(((Agent) this.getPeer().getPeerletOfType(Agent.class)).activeRun));
             }
         }
         if (message instanceof ChangeGFCMessage){
+            // Global cost function change, as system-wide decision, announced by the gateway
             ChangeGFCMessage changeGFCMessage = (ChangeGFCMessage) message;
             System.out.println("change GFC message received for: " + getPeer().getNetworkAddress()+" new func: "+changeGFCMessage.status);
             EventLog.logEvent("ModifiableTreeClient", "handleIncomingMessage", "ChangeGFCMessage" ,

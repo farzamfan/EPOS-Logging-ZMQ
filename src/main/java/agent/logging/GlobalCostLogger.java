@@ -82,8 +82,9 @@ public class GlobalCostLogger<V extends DataType<V>> extends AgentLogger<Agent<V
             costFunction = agent.getGlobalCostFunction();
         }
         if (config.Configuration.isLiveRun) {
-        sql_insert_template_custom  = "INSERT INTO GlobalCostLogger(sim,run,peer,iteration,cost) VALUES({sim}, {run}, {peer}, {iteration}, {cost});";
-        agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "GlobalCostLogger", sql_insert_template_custom ) );}
+            // given that the current run is live, creates the sql template for this logger
+            sql_insert_template_custom  = "INSERT INTO GlobalCostLogger(sim,run,peer,iteration,cost) VALUES({sim}, {run}, {peer}, {iteration}, {cost});";
+            agent.getPersistenceClient().sendSqlInsertTemplate( new SqlInsertTemplate( "GlobalCostLogger", sql_insert_template_custom ) );}
 
     }
 
@@ -97,7 +98,10 @@ public class GlobalCostLogger<V extends DataType<V>> extends AgentLogger<Agent<V
             Token token = new Token(cost, agent.getIteration(), this.run);            
             log.log(epoch, GlobalCostLogger.class.getName(), token, 1.0);            
             log.log(epoch, GlobalCostLogger.class.getName() + "raw", agent.getIteration(), cost);
-            if (config.Configuration.isLiveRun) { DBlog(agent,costFunction.calcCost(agent.getGlobalResponse()));}
+            if (config.Configuration.isLiveRun) {
+                // logging to the db if the system is live
+                DBlog(agent,costFunction.calcCost(agent.getGlobalResponse()));
+            }
         }
     }
 
@@ -109,7 +113,7 @@ public class GlobalCostLogger<V extends DataType<V>> extends AgentLogger<Agent<V
             record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
             record.put("iteration", String.valueOf(agent.getIteration()));
             record.put("cost", String.valueOf(cost));
-            System.out.println(record);
+            // fills the sql template (refer to the init function for the template
             agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("GlobalCostLogger", record));
         }
 

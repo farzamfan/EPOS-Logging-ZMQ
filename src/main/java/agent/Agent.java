@@ -84,16 +84,6 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     protected boolean                       alreadyCleanedResponses = new Boolean(false);
     transient ZMQAddress                    GatewayAddress = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, Configuration.GateWayPort);
 
-    // this is for live implementation
-    public Agent(CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends Agent> loggingProvider) {
-//        this.possiblePlans.addAll(possiblePlans);
-//        if(localCostFunc != null) {
-//            this.possiblePlans.sort((plan1, plan2) -> (int)Math.signum(localCostFunc.calcCost(plan1) - localCostFunc.calcCost(plan2)));
-//        }
-        this.globalCostFunc = globalCostFunc;
-        this.localCostFunc = localCostFunc;
-        this.loggingProvider = loggingProvider;
-    }
 
     /**
      * Initializes the agent with the given combinatorial optimization problem
@@ -114,13 +104,6 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
         this.loggingProvider = loggingProvider;
     }
 
-    // this is for live implementation
-    public Agent(CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends Agent> loggingProvider, long seed) {
-        this(globalCostFunc, localCostFunc, loggingProvider);
-        random.setSeed(seed);
-
-    }
-
     /**
      * Initializes the agent with the given combinatorial optimization problem
      * definition
@@ -136,6 +119,24 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
         random.setSeed(seed);
     }
 
+    // this is for live implementation
+    public Agent(CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends Agent> loggingProvider) {
+        this.globalCostFunc = globalCostFunc;
+        this.localCostFunc = localCostFunc;
+        this.loggingProvider = loggingProvider;
+    }
+
+    /**
+     * this is for live implementation
+     * the main difference is the possiblePlans argument.
+     * in the live implementation, each agent is sent its plans by the corresponding user, using network-level messaging
+      */
+    public Agent(CostFunction<V> globalCostFunc, PlanCostFunction<V> localCostFunc, AgentLoggingProvider<? extends Agent> loggingProvider, long seed) {
+        this(globalCostFunc, localCostFunc, loggingProvider);
+        random.setSeed(seed);
+
+    }
+
     V createValue() {
         return possiblePlans.get(0).getValue().cloneNew();
     }
@@ -147,10 +148,17 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     @Override
     public void start() {
         if(config.Configuration.isLiveRun) {
+            /**
+             * if the system is live, it needs to initiate the loggers, creating the SQL templates for various loggers
+              */
             loggingProvider.init(Agent.this);
+            // sets up the event logger
             setUpEventLogger();
 
             if (MainConfiguration.getSingleton().peerIndex == 0) {
+                /**
+                 * if this peer is the bootstrap (tree gateway), it informs the gateway that is is running and listening for new peers
+                 */
                 getPeer().sendMessage(GatewayAddress, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "bootsrapPeerInitiated", false));
             }
         }
@@ -165,6 +173,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public void addPersistenceClient( PersistenceClient	persistenceClient )
     {
 //        if( persistenceClient == null ) {return;}
+        // each peers has a persistent client which takes care of sending the logging messages to the logging gateway (database)
         this.persistenceClient = persistenceClient;
         System.out.println("persistenceClient set");
     }
@@ -175,13 +184,16 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     public void setActiveSim (int initSim){ activeSim = initSim; }
 
     public void addPlans(List<Plan<V>> possiblePlans){
+        // the plans for each peer is sent via the corresponding user via messaging
         this.possiblePlans.clear();
         this.possiblePlans.addAll(possiblePlans);
         plansAreSet = true;
+        // informing the gateway that the plans are set
         getPeer().sendMessage(GatewayAddress, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "plansSet", true));
     }
 
     public void setReadyToRun(){
+        // ready to run (start iterations), as told by the gateway
         this.readyToRun = true;
     }
 
@@ -206,6 +218,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     }
 
     public void changeGlobalCostFunc(String func){
+        // changing the global cost function, as instructed by the gateway
         if (func.equals("VAR")){
             this.globalCostFunc = (CostFunction<V>) new VarCostFunction();
             ((HasGoal) globalCostFunc).populateGoalSignal();
@@ -276,6 +289,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
 
     public PersistenceClient getPersistenceClient() {return persistenceClient; }
 
+    // has over ride methods in extended classes
     void runBootstrap() {
         Timer loadAgentTimer = getPeer().getClock().createNewTimer();
         loadAgentTimer.addTimerListener(new TimerListener() {
@@ -287,6 +301,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     }
 
     void runActiveState() {
+        // has over ride methods in extended classes
         if(!config.Configuration.isLiveRun) {
             Timer loadAgentTimer = getPeer().getClock().createNewTimer();
             loadAgentTimer.addTimerListener((Timer timer) -> {
@@ -298,7 +313,10 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     }
 
     private void initPhase() {
-        if(!config.Configuration.isLiveRun) {loggingProvider.init(this);}
+        if(!config.Configuration.isLiveRun) {
+            // the logging provider init for non-live
+            loggingProvider.init(this);
+        }
         this.log(Level.FINER, "initPhase()");
         numTransmitted = 0;
         numComputed = 0;
@@ -338,6 +356,7 @@ public abstract class Agent<V extends DataType<V>> extends BasePeerlet  implemen
     	return 0;
     }
 
+    // testing the custom logger
     public void testCustomLog(){
 
         // -------------------

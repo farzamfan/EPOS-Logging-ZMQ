@@ -93,6 +93,12 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     @Override
     void runBootstrap() {
         if(config.Configuration.isLiveRun) {
+            /**
+             * if live, the following is done:
+             * check for the treeView (given by the bootstrap)
+             * check for the plans being set (sent by the user)
+             * sending ready to run to the gateway, and proceeding to readytoRunActiveState
+             */
             Timer loadAgentTimer = getPeer().getClock().createNewTimer();
             loadAgentTimer.addTimerListener(new TimerListener() {
                 public void timerExpired(Timer timer) {
@@ -115,21 +121,24 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
             loadAgentTimer.schedule(Time.inMilliseconds(this.bootstrapPeriod));
         }
         else{
+            // if not live
             super.runBootstrap();}
     }
 
     protected void readytoRunActiveState() {
         inBetweenRuns = new Boolean(false);
         if (!isLeaf()){
+            // if not the leaf, go to runActiveState and wait to receive a message from the childern
             runActiveState();
         }
         else {
             Timer loadAgentTimer = getPeer().getClock().createNewTimer();
             loadAgentTimer.addTimerListener((Timer timer) -> {
                 if (readyToRun){
-                System.out.println("waiting over, I am a leaf: "+isLeaf()+", moving to active state for: "+getPeer().getNetworkAddress());
-                listenForDownMessage = new Boolean(false);;;
-                runActiveState();}
+                    // if leaf and readyToRun, start the iterations by sending up message to the parent
+                    System.out.println("waiting over, I am a leaf: "+isLeaf()+", moving to active state for: "+getPeer().getNetworkAddress());
+                    listenForDownMessage = new Boolean(false);
+                    runActiveState();}
                 else {
                     readytoRunActiveState();
                 }
@@ -172,11 +181,14 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
 
     private void runIteration() {
         if(config.Configuration.isLiveRun) {
+            // synchronizing the iterations
             if (this.isIterationAfterReorganization() && alreadyCleanedResponses == false && !inBetweenRuns) {
+                // clearing previous responses
                 this.reset();
                 this.initIteration();
                 alreadyCleanedResponses = new Boolean(true);
                 if (!isLeaf()) {
+                    // if the peer is an inner node, it lets gateway know if is running (not used anymore)
                     ZMQAddress dest = new ZMQAddress(MainConfiguration.getSingleton().peerZeroIP, Configuration.GateWayPort);
                     getPeer().sendMessage(dest, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "innerRunning", isLeaf()));
                 }
@@ -216,6 +228,8 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     void doIfConditionToStartNewIterationIsMet() {
         if(config.Configuration.isLiveRun) {
             if (this.isLeaf()) {
+                // due to network partitions and delays, the peer needs to wait for the previous iteration to complete before moving to the next one
+                // the listenForDownMessage flag takes care of this
                 if (iteration == 0 && !listenForDownMessage) {
                     this.goUp();
                 } else if (iteration == latestDownMessage + 1 && iteration != numIterations && !listenForDownMessage) {
@@ -251,17 +265,15 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     public void handleIncomingMessage(Message message) {
         if (message instanceof UpMessage) {
 //            EventLog.logEvent("IterativeTreeAgent", "handleIncomingMessage", "upMessage received" ,String.valueOf(iteration));
-//            System.out.println("received an up message from: "+message.getSourceAddress()+" i am: "+this.getPeer().getNetworkAddress()+" at iteration: "+iteration);
             UP msg = (UP) message;
             messageBuffer.put(msg.child, msg);
             if (children.size() <= messageBuffer.size()) {
-//                if (!isRoot()){ System.out.println("going up, I am: "+getPeer().getNetworkAddress()+" "+getIteration()); }
                 goUp();
             }
         } else if (message instanceof DownMessage) {
 //            EventLog.logEvent("IterativeTreeAgent", "handleIncomingMessage", "downMessage received" ,String.valueOf(iteration));
-//            System.out.println("received a down message from: "+message.getSourceAddress()+" i am: "+this.getPeer().getNetworkAddress()+" at iteration: "+iteration);
             if (config.Configuration.isLiveRun) {
+                // checking if the last down message (iteration) is complete
                 latestDownMessage = this.iteration;
             }
             goDown((DOWN) message);
@@ -297,7 +309,10 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
      */
     private void goUp() {
 //        EventLog.logEvent("IterativeTreeAgent", "goUp", "goUp started" ,String.valueOf(iteration));
-        if(config.Configuration.isLiveRun){ listenForDownMessage = new Boolean(true);}
+        if(config.Configuration.isLiveRun){
+            // up message is being sent, get ready to receive the down message
+            listenForDownMessage = new Boolean(true);
+        }
 
             List<UP> orderedMsgs = new ArrayList<>();
             for (Finger child : children) {
@@ -432,6 +447,7 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     }
 
     public void newRun(){
+        // resetting parameters for a new run
         inBetweenRuns = new Boolean(true);
         readyToRun = new Boolean(false);
         iteration =0;
@@ -442,8 +458,11 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
 
         Timer loadAgentTimer = getPeer().getClock().createNewTimer();
         loadAgentTimer.addTimerListener((Timer timer) -> {
+            // check to see if the user is leaving
             checkForUserChanges();
+            // check for plan changes
             checkForNewPlans();
+            // check for new weights
             checkForNewWeights();
             System.out.println("----------");
             System.out.println("run "+this.activeRun +" started for: "+getPeer().getNetworkAddress());
@@ -454,15 +473,16 @@ public abstract class IterativeTreeAgent<V 		extends DataType<V>,
     }
 
     public void checkForUserChanges(){
-        System.out.println("checking for user changes for : "+getPeer().getNetworkAddress());
+//        System.out.println("checking for user changes for : "+getPeer().getNetworkAddress());
         getPeer().sendMessage(GatewayAddress, new InformGatewayMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkUserChanges", isLeaf()));
     }
 
     public void checkForNewPlans(){
         if (plansAreSet == false){
-        System.out.println("checking for new plans for: "+getPeer().getNetworkAddress());
+//        System.out.println("checking for new plans for: "+getPeer().getNetworkAddress());
         getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkNewPlans"));}
     }
 
+    // over ride method in multiObjectiveAgent
     abstract void checkForNewWeights();
 }

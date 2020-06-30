@@ -25,6 +25,18 @@ import java.util.*;
 
 import static org.apache.commons.math3.util.Precision.round;
 
+/*
+The user class acts on behalf of the users (e.g., IoT Devices), and takes care of the following tasks: simulation
+1) initiates n = numAgents users
+2) registers each user with the gateway, and in turn receives the address of the corresponding EPOS peer
+3) select the plans for each user from the dataset, and sends them to the peer over the network
+4) informs the peer if there are changes in the plans or the weights
+4) informs the peer if it is leaving the network at the end of the current run
+5) informs the gateway if there are new users joining the network at the end of the current run
+6) keeps track of the status of each peer during the runs and simulations
+** the user class is initialized by the EPOSRequester, at the beginning of each
+ */
+
 public class User {
 
     private ZMQNetworkInterfaceFactory zmqNetworkInterfaceFactory;
@@ -97,7 +109,7 @@ public class User {
         dataSetSize = config.dataSetSize;
         numberList = new ArrayList<>();
         for(int i=0; i<=dataSetSize; i++){ numberList.add(i); }
-        userDatasetIndices = new ArrayList<Integer>();
+        userDatasetIndices = new ArrayList<Integer>(); // mapping of the users to the agents in the dataset
 
         numUsersPerRun = new ArrayList<Integer>();
         numUsersPerRun = new ArrayList<Integer>(Collections.nCopies(maxNumRuns+2, 0));
@@ -109,9 +121,15 @@ public class User {
     public static void main(String[] args) {
         User user = new User();
         user.currentSim = Integer.parseInt(args[0]);
+        // setting up persistant client, for logging over the network
         user.setUpPersistantClient();
         user.setUpEventLogger();
         user.createInterface();
+        /*
+         select and initiate users and match them to an agent in the dataset
+         relevant if numAgents < datasetSize
+         also, if randomiseUsers = true, the users are assigned to an agent randomly
+         */
         user.selectUsers(user.numUsersPerRun.get(0), user.randomiseUsers);
         user.initiateUsers();
         user.registerUsers();
@@ -146,20 +164,24 @@ public class User {
                     if (message instanceof InformUserMessage) {
                         InformUserMessage informUserMessage = (InformUserMessage) message;
                         if (informUserMessage.status.equals("assignedPeerRunning")) {
+                            // user is registered, the assigned peer is running and ready to receive the plans
                             Users.get(informUserMessage.peerID).status = "assignedPeerRunning";
                             usersWithAssignedPeerRunning++;
                             if (usersWithAssignedPeerRunning == numUsersPerRun.get(currentRun)) {
+                                // all users have been assigned to peers, and the peers are running
                                 usersWithAssignedPeerRunning = 0;
                                 numUsersPerRun.set(currentRun + 1, numUsersPerRun.get(currentRun));
                                 System.out.println("all users have their assigned peers running for run: " + currentRun + " numPeers: " + numUsersPerRun.get(currentRun));
-
+                                // userChangeProcessed tracks of the ongoing changes during an iteration.
+                                // While the changes in the previous iteration are not completely processed, no new changes are allowed
                                 if (!userChangeProcessed && userChange) {
-                                    userChangeProcessed = new Boolean(true);;;
+                                    userChangeProcessed = new Boolean(true);
                                     usersJoiningOrLeaving();
                                 }
                             }
                         }
                         if (informUserMessage.status.equals("finished")) {
+                            // EPOS run finished
                             checkCorrectRun(informUserMessage);
                             if (finishedPeers == numUsersPerRun.get(currentRun)) {
                                 finishedPeers = 0;
@@ -173,22 +195,25 @@ public class User {
                             }
                         }
                         if (informUserMessage.status.equals("checkNewPlans")) {
-                            System.out.println("peer: "+informUserMessage.peerID+" checking for plans");
+                            // a peer checking if it has new plans. This happens at the end of each run
                             checkForNewPlans(informUserMessage);
                         }
                         if (informUserMessage.status.equals("checkNewWeights")) {
+                            // a peer checking if it has new weights. This happens at the end of each run
                             checkForNewWeights(informUserMessage);
                         }
                     } else if (message instanceof UserRegisterMessage) {
+                        // user registered by the gateway, and a peer is assigned (the address of the assigned peer is given
                         UserRegisterMessage userRegisterMessage = (UserRegisterMessage) message;
-//                    System.out.println("peer assigned for: "+userRegisterMessage.index+" at run: "+userRegisterMessage.currentRun);
                         Users.get(userRegisterMessage.index).status = "peerAssigned";
                         Users.get(userRegisterMessage.index).assignedPeerAddress = userRegisterMessage.assignedPeerAddress;
                         if (Users.get(userRegisterMessage.index).planStatus.equals("needPlans")){
+                            // if the peer has no plans set yet, or needs plans
                             sendPlans(userRegisterMessage.index, userRegisterMessage.assignedPeerAddress);
                         }
                         usersWithAssignedPeer++;
                         if (usersWithAssignedPeer == numUsersPerRun.get(currentRun)) {
+                            // peers have their treeView set
                             usersWithAssignedPeer = 0;
                             System.out.println("all peers are assigned treeView: " + currentRun + " numPeers: " + numUsersPerRun.get(currentRun));
                         }
@@ -200,7 +225,6 @@ public class User {
                 if (message instanceof PlanSetMessage){
                     PlanSetMessage planSetMessage = (PlanSetMessage) message;
                     System.out.println(planSetMessage.status+" for: "+message.getDestinationAddress());
-//                    System.out.println("Message sent: + " +destinationAddress + " message: "+ message + " messageClass: " + message.getClass());
                 }
             }
 
@@ -212,6 +236,7 @@ public class User {
         zmqNetworkInterface.bringUp();
     }
 
+    // initiating users
     public void initiateUsers(){
         Users = new ArrayList<UserStatus>(numUsersPerRun.get(currentRun));
         for (int i=0;i<numUsersPerRun.get(currentRun);i++){
@@ -220,6 +245,7 @@ public class User {
         }
     }
 
+    // selecting agents from the dataset, and assigning their plans to the users
     public void selectUsers(int size, boolean randomise){
         List<Integer> defaultMapping = new ArrayList<Integer>(size);
         for(int j=0; j<size; j++){
@@ -229,6 +255,7 @@ public class User {
         userDatasetIndices.addAll(defaultMapping);
     }
 
+    // register users with the gateway
     public void registerUsers(){
         for (UserStatus user: Users) {
             zmqNetworkInterface.sendMessage(gateWayAddress, new UserRegisterMessage(user.index, currentRun,user.status,user.userAddress));
@@ -257,17 +284,15 @@ public class User {
 
     public void sendPlansMessage(PlanSetMessage planSetMessage, ZMQAddress destination){
         zmqNetworkInterface.sendMessage(destination, planSetMessage);
-//        System.exit(0);
     }
 
+    // read the agent plans from the dataset
     public List<Plan<Vector>> generatePlans(int peerIdx){
         List<Plan<Vector>> possiblePlans = config.getDataset(Configuration.dataset).getPlans(userDatasetIndices.get(peerIdx));
-//        Dataset gaussianDataset = new GaussianDataset(10,100,10,1,new Random(Double.doubleToLongBits(Math.random())));
-//        List<Plan<Vector>> possiblePlans = gaussianDataset.getPlans(peerIdx);
         return possiblePlans;
     }
 
-
+    // at the end of each run, with probability 1/(1+newPlanProb), it is given new plans
     public void usersHavingNewPlans(UserStatus user){
         SecureRandom random = new SecureRandom();
         if( (random.nextInt(newPlanProb) + 1) == 1 && user.leaveRun > (currentRun+1)){
@@ -278,6 +303,7 @@ public class User {
         }
     }
 
+    // if a user status is "hasNewPlans" it is sent new plans over the network by the user
     public void checkForNewPlans(InformUserMessage informUserMessage){
         if (Users.get(informUserMessage.peerID).planStatus.equals("hasNewPlans")){
             PlanSetMessage planSetMessage = new PlanSetMessage("changePlans");
@@ -306,6 +332,7 @@ public class User {
         }
     }
 
+    // if a user status is "hasNewWeights" it is sent new weights over the network by the user
     public void checkForNewWeights(InformUserMessage informUserMessage){
         if (Users.get(informUserMessage.peerID).weightStatus.equals("hasNewWeights")){
             boolean val = new SecureRandom().nextInt(2)==0;
@@ -342,6 +369,7 @@ public class User {
 //        else { zmqNetworkInterface.sendMessage(Users.get(informUserMessage.peerID).assignedPeerAddress, new WeightSetMessage("noNewWeights"));}
     }
 
+    // informing the gateway about new number of users
     public void addRemoveUsers(){
         SecureRandom random = new SecureRandom();
         if (random.nextInt(2) == 0 && numUsersPerRun.get(currentRun) < maxNumPeers){
@@ -386,6 +414,7 @@ public class User {
         }
     }
 
+    // at the end of each run, users join/leave with probability 1/(1+userChangeProb)
     public void usersJoiningOrLeaving(){
         boolean val = new SecureRandom().nextInt(userChangeProb)==0;
         if( val && currentRun>0){
@@ -410,6 +439,7 @@ public class User {
             finishedPeers++;
         }
         else {
+            // checking to see if all peers have correctly finished their current run
             EventLog.logEvent("User", "checkCorrectRun", "incorrectFinish" , informUserMessage.peerID+"-"+currentRun+"-"+currentSim);
             System.out.println("incorrect finish message received from peer"+informUserMessage.peerID+
                     " reported run: "+informUserMessage.run+" numPeers for incorrect run: "+numUsersPerRun.get(informUserMessage.run));

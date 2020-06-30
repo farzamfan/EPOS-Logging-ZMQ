@@ -86,7 +86,10 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         this.planSelector = new MultiObjectiveIeposPlanSelector<>();
     }
 
-    // constructor for the live implementation, main difference is again the possible plans
+    /**
+     * constructor for the live implementation, main difference is again the possible plans
+     * for the live implementation, the plans are sent by the user over the network
+      */
     public MultiObjectiveIEPOSAgent(int numIterations,
                                     CostFunction<V> globalCostFunc,
                                     PlanCostFunction<V> localCostFunc,
@@ -356,6 +359,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         this.approveOrRejectChanges(parentMsg);
         this.processDownMessageMore(parentMsg);
 
+        // logging for the live implementation
         if (config.Configuration.isLiveRun) {
             new GlobalCostLogger().DBlog(this, globalCostFunc.calcCost(globalResponse));
             new GlobalComplexCostLogger<>().DBlog((Agent) this);
@@ -363,6 +367,7 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
             new LocalCostMultiObjectiveLogger<>().DBLog((Agent) this, PlanSelectionOptimizationFunctionCollection.localCost(getGlobalDiscomfortSum(), numAgents));
             new SelectedPlanLogger<>().DBLog((MultiObjectiveIEPOSAgent) this);
             if (globalResponse == prevAggregatedResponse) {
+                // the run has terminated, logging
                 new TerminationLogger<>().DBLog((Agent) this, iteration);
             }
             if (iteration > 0) {
@@ -700,10 +705,11 @@ public class MultiObjectiveIEPOSAgent<V extends DataType<V>> extends IterativeTr
         }
     }
 
+    // checking for weight changes
     @Override
     public void checkForNewWeights(){
         if (weightsAreSet == false){
-        System.out.println("checking for new weights for: "+getPeer().getNetworkAddress());
+//        System.out.println("checking for new weights for: "+getPeer().getNetworkAddress());
         getPeer().sendMessage(userAddress, new InformUserMessage(MainConfiguration.getSingleton().peerIndex, this.activeRun, "checkNewWeights",this.getUnfairnessWeight(),this.getLocalCostWeight()));
         }
     }

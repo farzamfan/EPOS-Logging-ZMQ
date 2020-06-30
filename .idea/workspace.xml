@@ -136,8 +136,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IEPOSExperiment_obsolete" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="experiment.IEPOSExperiment_obsolete" />
+    <configuration name="IEPOSExperiment_liveRun" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="experiment.IEPOSExperiment_liveRun" />
       <module name="EPOS-Logging-ZMQ" />
       <extension name="coverage">
         <pattern>
@@ -200,7 +200,7 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.IEPOSExperiment_obsolete" />
+      <item itemvalue="Application.IEPOSExperiment_liveRun" />
       <item itemvalue="Application.IEPOSExperiment" />
       <item itemvalue="Application.LiveRun" />
       <item itemvalue="Application.User" />
@@ -211,7 +211,7 @@
       <list>
         <item itemvalue="Application.IEPOSExperiment" />
         <item itemvalue="Application.EPOSRequester" />
-        <item itemvalue="Application.IEPOSExperiment_obsolete" />
+        <item itemvalue="Application.IEPOSExperiment_liveRun" />
         <item itemvalue="Application.User" />
         <item itemvalue="Application.GatewayServer" />
       </list>
@@ -337,7 +337,9 @@
       <workItem from="1592579911376" duration="6169000" />
       <workItem from="1592649184148" duration="231000" />
       <workItem from="1592656844235" duration="12952000" />
-      <workItem from="1592813564820" duration="4707000" />
+      <workItem from="1592813564820" duration="17193000" />
+      <workItem from="1592985446880" duration="2788000" />
+      <workItem from="1593003380940" duration="3542000" />
     </task>
     <servers />
   </component>

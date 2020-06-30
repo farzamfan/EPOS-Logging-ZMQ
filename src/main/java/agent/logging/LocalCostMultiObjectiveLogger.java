@@ -80,6 +80,7 @@ public class LocalCostMultiObjectiveLogger<V extends DataType<V>> extends AgentL
         }
 
         if (config.Configuration.isLiveRun) {
+            // given that the current run is live, creates the sql template for this logger
             sql_insert_template_custom = "INSERT INTO LocalCostMultiObjectiveLogger(sim,run,peer,iteration,cost) VALUES({sim},{run}, {peer}, {iteration}, {cost});";
             agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("LocalCostMultiObjectiveLogger", sql_insert_template_custom));
         }
@@ -96,7 +97,10 @@ public class LocalCostMultiObjectiveLogger<V extends DataType<V>> extends AgentL
             log.log(epoch, LocalCostMultiObjectiveLogger.class.getName(), token, 1.0);            
             log.log(epoch, LocalCostMultiObjectiveLogger.class.getName() + "raw", agent.getIteration(), cost);
 
-            if (config.Configuration.isLiveRun) { DBLog(agent, cost);}
+            if (config.Configuration.isLiveRun) {
+                // logging to the db if the system is live
+                DBLog(agent, cost);
+            }
         }
     }
 
@@ -109,6 +113,7 @@ public class LocalCostMultiObjectiveLogger<V extends DataType<V>> extends AgentL
             record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
             record.put("iteration", String.valueOf(agent.getIteration()));
             record.put("cost", String.valueOf(cost));
+            // fills the sql template (refer to the init function for the template
             agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("LocalCostMultiObjectiveLogger", record));
         }
     }

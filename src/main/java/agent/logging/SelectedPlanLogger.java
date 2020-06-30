@@ -51,6 +51,7 @@ public class SelectedPlanLogger<V extends DataType<V>> extends AgentLogger<Agent
 	@Override
 	public void init(Agent<V> agent) {
     	if (config.Configuration.isLiveRun) {
+			// given that the current run is live, creates the sql template for this logger)
 			sql_insert_template_custom = "INSERT INTO SelectedPlanLogger(sim,run,peer,iteration,planID,unfairnessWeight,localcostWeight)" +
 					" VALUES({sim},{run}, {peer}, {iteration}, {planID},{unfairnessWeight},{localcostWeight});";
 			agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("SelectedPlanLogger", sql_insert_template_custom));
@@ -73,8 +74,10 @@ public class SelectedPlanLogger<V extends DataType<V>> extends AgentLogger<Agent
 		record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 		record.put("iteration", String.valueOf(agent.getIteration()));
 		record.put("planID", String.valueOf(agent.getSelectedPlanID()) );
+		// this also logs the alpha and beta weights
 		record.put("unfairnessWeight", String.valueOf(agent.getUnfairnessWeight()) );
 		record.put("localcostWeight", String.valueOf(agent.getLocalCostWeight()) );
+		// fills the sql template (refer to the init function for the template)
 		agent.getPersistenceClient().sendSqlDataItem( new SqlDataItem( "SelectedPlanLogger", record ) );
 	}
 

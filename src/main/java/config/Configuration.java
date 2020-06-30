@@ -369,6 +369,7 @@ public class Configuration implements Serializable {
 
 	public static void setUpEposBasicParams(Properties argMap, Configuration config, boolean liveRunFlag) {
 
+		// main flag for specifying the live vs sim run. User throughout the project and system
 		isLiveRun = liveRunFlag;
 
 		if (argMap.get("numSimulations") != null) {
@@ -419,6 +420,14 @@ public class Configuration implements Serializable {
 		}
 	}
 
+	// preparing the config from a file
+	/**
+	 *
+	 * @param path path to the config file
+	 * @param prepareDataset loading the dataset in memory. for entities such as gateway or epos requester, it is not necessary
+	 * @param liveRunFlag loading live config, or setting the liveRunFlag
+	 * @return
+	 */
 	public static Configuration fromFile(String path, boolean prepareDataset, boolean liveRunFlag) {
 
 		Configuration config = new Configuration();
@@ -435,7 +444,11 @@ public class Configuration implements Serializable {
 		propertyCleanUp(argMap);
 		setUpEposBasicParams(argMap, config, liveRunFlag);
 		if (prepareDataset) { prepareDataset(argMap); }
-		else {prepareDatasetPath(argMap);}
+		else {
+			// the whole dataset doesnt need to be loaded
+			// so only the planDim, numPlans, and numAgents need to be loaded
+			prepareDatasetPath(argMap);
+		}
 		prepareReorganization(argMap, config);
 		prepareCostFunctions(argMap, config);
 		prepareLiveConfig(argMap, config);
@@ -444,6 +457,7 @@ public class Configuration implements Serializable {
 		return config;
 	}
 
+	// preparing live config
 	public static void prepareLiveConfig(Properties argMap, Configuration config){
 		// EPOS Requester
 		if (argMap.get("EPOSRequesterIP") != null) {
@@ -541,6 +555,10 @@ public class Configuration implements Serializable {
 		}
 	}
 
+	/*
+	 called if between the simulations, sum configuration of the system changes
+	 reads the new config received from gateway and user, stores and overwrites the previous config
+	 */
 	public static void changeConfig(String path, String key, String val) throws IOException {
 
 		Properties argMap = new Properties();
@@ -630,6 +648,7 @@ public class Configuration implements Serializable {
 
 			Configuration.logDirectory = Configuration.outputDirectory;
 			if (!isLiveRun){
+				// no need to make any directories if the logging is on the database
 				makeDirectory(Configuration.logDirectory);
 				makeDirectory(Configuration.outputDirectory);
 			}

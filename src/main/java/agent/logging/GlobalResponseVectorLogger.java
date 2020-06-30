@@ -45,6 +45,7 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
 	@Override
 	public void init(Agent<V> agent) {
 		if (config.Configuration.isLiveRun) {
+			// given that the current run is live, creates the sql template for this logger)
 			sql_insert_template_custom = "INSERT INTO GlobalResponseVectorLogger(sim,run,peer,iteration,globalresponse) VALUES({sim},{run}, {peer}, {iteration}, {globalresponse});";
 			agent.getPersistenceClient().sendSqlInsertTemplate(new SqlInsertTemplate("GlobalResponseVectorLogger", sql_insert_template_custom));
 		}
@@ -58,6 +59,7 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
 			log.log(epoch, GlobalResponseVectorLogger.class.getName(), e, 0.0);
 
 			if (config.Configuration.isLiveRun) {
+				// logging to the db if the system is live
 				String gr = String.valueOf(e.globalResponse.toString()) + "'";
 				DBlog(agent, gr);
 			}
@@ -72,6 +74,7 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
 				record.put("peer", String.valueOf(agent.getPeer().getIndexNumber()));
 				record.put("iteration", String.valueOf(agent.getIteration()));
 				record.put("globalresponse", "'" + gr);
+				// fills the sql template (refer to the init function for the template
 				agent.getPersistenceClient().sendSqlDataItem(new SqlDataItem("GlobalResponseVectorLogger", record));
 			}
         }
