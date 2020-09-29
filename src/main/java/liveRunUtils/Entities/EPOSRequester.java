@@ -35,7 +35,7 @@ public class EPOSRequester {
     ZMQNetworkInterface zmqNetworkInterface;
     transient PersistenceClient persistenceClient;
     static String rootPath = System.getProperty("user.dir");
-    static String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
+    static String confPath = rootPath + File.separator + "conf" + File.separator + "eposLive.properties";
     static Configuration config;
     static String EPOSRequesterIP;
     static int EPOSRequesterPort;

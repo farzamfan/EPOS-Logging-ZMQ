@@ -2,26 +2,50 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="EPOS-Logging-ZMQ:jar" />
+      <artifact name="LivePeerNode:jar" />
     </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee422a33-45cd-4dc7-9195-4063a1a10a8a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/../Protopeer/Protopeer.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Protopeer/Protopeer1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/LivePeerNode_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LivePeerNode/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/experiment/LivePeerTestbedExperiment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/EPOSRequester_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/EPOSRequester_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/GateWay_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/GateWay_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/IEPOSNode_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/IEPOSNode_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/IEPOSUsers_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/IEPOSUsers_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Communication/GatewayServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/Experiment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLoggerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/measurement/MeasurementLoggerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/network/zmq/ZMQNetworkInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/network/zmq/ZMQNetworkInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/tests/LoggerMemoryLeak.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/tests/LoggerMemoryLeak.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Protopeer/src/protopeer/util/MeasurementLogTraverser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/src/protopeer/util/MeasurementLogTraverser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/MeasurementLogMerger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/MeasurementLogMerger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/MeasurementLoggerDebug.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/MeasurementLoggerDebug.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/RandomDataGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Protopeer/tests/protopeer/measurementlogger/test/RandomDataGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EPOSRequester.jar" beforeDir="false" afterPath="$PROJECT_DIR$/EPOSRequester.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GateWay.jar" beforeDir="false" afterPath="$PROJECT_DIR$/GateWay.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IEPOSNode.jar" beforeDir="false" afterPath="$PROJECT_DIR$/IEPOSNode.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IEPOSUsers.jar" beforeDir="false" afterPath="$PROJECT_DIR$/IEPOSUsers.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Live I-EPOS Architecture.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/epos.properties" beforeDir="false" afterPath="$PROJECT_DIR$/conf/epos.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/eposCopy.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/localhost/log/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/localhost/log/server.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/Manifests/EPOSRequrester/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/output/Manifests/EPOSRequrester/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/Manifests/GateWay/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/output/Manifests/GateWay/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/Manifests/IEPOSNode/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/output/Manifests/IEPOSNode/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/Manifests/IEPOSUsers/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/output/Manifests/IEPOSUsers/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalResponseVectorLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/agent/logging/GlobalResponseVectorLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/config/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/config/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/experiment/LiveRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/experiment/LiveRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/liveRunUtils/Entities/EPOSRequester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/liveRunUtils/Entities/EPOSRequester.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/liveRunUtils/Entities/GatewayServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/liveRunUtils/Entities/GatewayServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/liveRunUtils/Entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/liveRunUtils/Entities/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/EPOS-Logging-ZMQ.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/agent/logging/GlobalResponseVectorLogger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/agent/logging/GlobalResponseVectorLogger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/config/Configuration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/config/Configuration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/experiment/LiveRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/experiment/LiveRun.class" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,12 +55,7 @@
     <option name="done" value="true" />
   </component>
   <component name="ComposerSettings">
-    <execution>
-      <executable />
-    </execution>
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="EPOS-Logging-ZMQ" />
+    <execution />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -49,10 +68,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
     </option>
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
@@ -60,13 +79,17 @@
   </component>
   <component name="ProjectId" id="1R0p7lvnwTIwZzhcBulOhAS3dRE" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value="SerialisedMessage&#9;PSI&#9;JAVA://protopeer.network.zmq.SerialisedMessage&#10;serial&#9;FILE&#9;file:///Users/farzamf/Projects/ETHZ/Protopeer/src/protopeer/network/zmq/SerialisedMessage.java&#10;msgqueue&#9;FILE&#9;file:///Users/farzamf/Projects/ETHZ/Protopeer/src/protopeer/network/zmq/ZMQMsgQueueProcessor.java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../EPOS/src/main/java/agent/Agent.java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -80,18 +103,6 @@
       <recent name="experiment" />
       <recent name="config" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Application.IEPOSExperiment">
     <configuration name="EPOSRequester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -124,8 +135,7 @@
     </configuration>
     <configuration name="IEPOSExperiment" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="experiment.IEPOSExperiment" />
-      <module name="EPOS-Logging-ZMQ" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <module name="tutorial" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="experiment.*" />
@@ -217,6 +227,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -340,29 +351,70 @@
       <workItem from="1592813564820" duration="17193000" />
       <workItem from="1592985446880" duration="2788000" />
       <workItem from="1593003380940" duration="3542000" />
+      <workItem from="1594729289045" duration="757000" />
+      <workItem from="1598006117163" duration="811000" />
+      <workItem from="1598008513400" duration="2675000" />
+      <workItem from="1598603004266" duration="2118000" />
+      <workItem from="1598788270304" duration="683000" />
+      <workItem from="1598862403163" duration="1070000" />
+      <workItem from="1599122626002" duration="13444000" />
+      <workItem from="1600867833241" duration="5000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$/../Protopeer" />
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="698" y="397" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1599134951991">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="698" y="397" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1200/-1680.0.1680.1050@0.0.1920.1200" timestamp="1599134951991" />
+    <state width="1878" height="415" key="GridCell.Tab.0.bottom" timestamp="1599496638559">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="415" key="GridCell.Tab.0.bottom/0.0.1920.1200/-1680.0.1680.1050@0.0.1920.1200" timestamp="1599496638559" />
+    <state width="1878" height="415" key="GridCell.Tab.0.center" timestamp="1599496638557">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="415" key="GridCell.Tab.0.center/0.0.1920.1200/-1680.0.1680.1050@0.0.1920.1200" timestamp="1599496638557" />
+    <state width="1878" height="415" key="GridCell.Tab.0.left" timestamp="1599496638555">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="415" key="GridCell.Tab.0.left/0.0.1920.1200/-1680.0.1680.1050@0.0.1920.1200" timestamp="1599496638555" />
+    <state width="1878" height="415" key="GridCell.Tab.0.right" timestamp="1599496638558">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state width="1878" height="415" key="GridCell.Tab.0.right/0.0.1920.1200/-1680.0.1680.1050@0.0.1920.1200" timestamp="1599496638558" />
+    <state x="498" y="262" key="Maven.ArtifactSearchDialog" timestamp="1598006995266">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="498" y="262" key="Maven.ArtifactSearchDialog/0.0.1920.1200/-1680.0.1680.1050@0.0.1920.1200" timestamp="1598006995266" />
+    <state x="448" y="181" key="SettingsEditor" timestamp="1599135076174">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="448" y="181" key="SettingsEditor/0.0.1920.1200/-1680.0.1680.1050@0.0.1920.1200" timestamp="1599135076174" />
+    <state x="667" y="355" width="586" height="490" key="find.popup" timestamp="1599495244207">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="667" y="355" width="586" height="490" key="find.popup/0.0.1920.1200/-1680.0.1680.1050@0.0.1920.1200" timestamp="1599495244207" />
   </component>
 </project>

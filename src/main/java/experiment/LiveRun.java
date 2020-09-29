@@ -46,7 +46,7 @@ public class LiveRun extends ZMQExperiment {
             runEPOSLive EPOSapp = new runEPOSLive();
 
             String rootPath = System.getProperty("user.dir");
-            String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
+            String confPath = rootPath + File.separator + "conf" + File.separator + "eposLive.properties";
             Configuration config = Configuration.fromFile(confPath,false,true);
             config.printConfiguration();
 

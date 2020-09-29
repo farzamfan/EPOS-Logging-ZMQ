@@ -61,7 +61,7 @@ public class GlobalResponseVectorLogger<V extends DataType<V>> extends AgentLogg
 			if (config.Configuration.isLiveRun) {
 				// logging to the db if the system is live
 				String gr = String.valueOf(e.globalResponse.toString()) + "'";
-				DBlog(agent, gr);
+//				DBlog(agent, gr);
 			}
 		}
 	}

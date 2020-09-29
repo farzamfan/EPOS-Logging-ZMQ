@@ -134,17 +134,18 @@ public class Configuration implements Serializable {
 	public static Boolean userChange = false;
 	public static int joinLeaveRate = 9;
 	public static int userChangeProb = 9;
-	public static int maxNumPeers = 130;
-	public static int minNumPeers = 70;
-	// Dynamic User plan/weight change
+	public static int maxNumPeers = 5000;
+	public static int minNumPeers = 0;
+	// Dynamic User plan change
 	public static Boolean planChange = false;
 	public static int newPlanProb = 9;
+	// Dynamic User weight change
 	public static Boolean weightChange = false;
 	public static int newWeightProb = 9;
 	public static int GCFChangeProb=9;
 	// randomly selecting users from the dataset (if numPeers < dataSetSize)
-	public static int dataSetSize = 2778;
 	public static Boolean randomiseUsers = false;
+	public static int dataSetSize = 2778;
 
 
 	//Shared

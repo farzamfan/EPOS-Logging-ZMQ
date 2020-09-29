@@ -71,6 +71,10 @@ public class GatewayServer {
     private List<Integer> numUsersPerRun;
 
     private int bootstrapPort;
+    /*
+    - how many runs need to be done. A run equals performing numIterations EPOS
+    - a "run" in the live setting is the same concept as "simulation"
+     */
     private int maxNumRuns;
     private int currentSim=0;
 
@@ -87,7 +91,7 @@ public class GatewayServer {
         - creates the ZMQ interface
          */
         String rootPath = System.getProperty("user.dir");
-        String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
+        String confPath = rootPath + File.separator + "conf" + File.separator + "eposLive.properties";
         config = Configuration.fromFile(confPath,false,true);
 
         GateWayIP = config.GateWayIP;

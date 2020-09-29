@@ -82,7 +82,7 @@ public class User {
 
     public User(){
         String rootPath = System.getProperty("user.dir");
-        String confPath = rootPath + File.separator + "conf" + File.separator + "epos.properties";
+        String confPath = rootPath + File.separator + "conf" + File.separator + "eposLive.properties";
         config = Configuration.fromFile(confPath,true,true );
         numUsersPerRun = new ArrayList<Integer>();
 
